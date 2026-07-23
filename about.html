@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Fluffy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <span><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</span>
+        <span><i class="fas fa-envelope"></i> info@fluffypetshop.com</span>
+      </div>
+      <div class="top-bar-right">
+        <a href="#"><i class="fas fa-truck"></i> Track Order</a>
+        <a href="#"><i class="fas fa-store"></i> Store Locator</a>
+        <a href="#"><i class="fas fa-globe"></i> EN / USD</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Fluffy" class="logo-img">
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="shop.html" class="nav-link">Shop</a></li>
+          <li><a href="categories.html" class="nav-link">Categories</a></li>
+          <li><a href="about.html" class="nav-link active">About Us</a></li>
+          <li><a href="blog.html" class="nav-link">Blog</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-bar" id="searchBar">
+          <input type="text" placeholder="Search products..." class="search-input">
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <button class="header-icon-btn search-toggle" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="header-icon-btn" aria-label="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="cart.html" class="header-icon-btn" aria-label="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="login.html" class="btn btn-primary btn-sm login-btn">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav">
+    <div class="mobile-nav-header">
+          <a href="index.html"><img src="logo.png" alt="Fluffy" class="logo-img"> Fluffy</a>
+      <button class="mobile-close"><i class="fas fa-times"></i></button>
+    </div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <div class="mobile-nav-footer">
+      <a href="login.html"><i class="fas fa-user"></i> Login / Register</a>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <section class="page-header about-page-header">
+    <div class="container">
+      <h1>About Us</h1>
+      <p>Learn about our journey, our mission, and the team behind Fluffy</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>About Us</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="our-story">
+    <div class="container story-grid">
+      <div class="story-image">
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=450&fit=crop" alt="Happy dog and owner">
+        <div class="story-badge">
+          <span class="badge-number">15+</span>
+          <span class="badge-text">Years of Love</span>
+        </div>
+      </div>
+      <div class="story-content">
+        <span class="section-tag">Our Story</span>
+        <h2>A Journey Built on Love for Pets</h2>
+        <p>Fluffy was born in 2009 from a simple yet profound love for animals. What started as a small family-run pet supply store in downtown Portland has grown into one of the most trusted names in pet care across the Pacific Northwest.</p>
+        <p>Our founders, Sarah and Michael Chen, noticed that pet parents often struggled to find high-quality, nutritious products for their beloved companions. They envisioned a place where every pet could find exactly what they needed — from premium food and cozy beds to engaging toys and grooming essentials.</p>
+        <p>Today, we serve thousands of happy pet families, and our commitment remains the same: to provide exceptional products and personalized care for every furry, feathered, or scaled member of your family.</p>
+        <div class="story-stats">
+          <div class="stat">
+            <span class="stat-number">50K+</span>
+            <span class="stat-label">Happy Customers</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">10K+</span>
+            <span class="stat-label">Products</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">200+</span>
+            <span class="stat-label">Pet Brands</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Vision Values -->
+  <section class="mission-vision">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">What We Stand For</span>
+        <h2>Our Mission, Vision & Values</h2>
+        <p>We are driven by a deep commitment to improving the lives of pets and their owners through quality products and compassionate service.</p>
+      </div>
+      <div class="mv-grid">
+        <div class="mv-card">
+          <div class="mv-icon"><i class="fas fa-bullseye"></i></div>
+          <h3>Our Mission</h3>
+          <p>To provide pet parents with the highest quality products and expert guidance, ensuring every pet receives the love, nutrition, and care they deserve. We strive to make pet ownership a joyful and rewarding experience for every family.</p>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon"><i class="fas fa-eye"></i></div>
+          <h3>Our Vision</h3>
+          <p>To become the most trusted and beloved pet care destination worldwide, known for our unwavering commitment to animal welfare, sustainability, and building a community where every pet is cherished and every owner feels supported.</p>
+        </div>
+        <div class="mv-card">
+          <div class="mv-icon"><i class="fas fa-heart"></i></div>
+          <h3>Our Values</h3>
+          <p>Pet welfare comes first, always. We champion sustainability, practice transparency in everything we do, foster innovation in pet care, and nurture genuine relationships with our customers, partners, and the animals we serve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Meet The Team</span>
+        <h2>The People Behind Fluffy</h2>
+        <p>Our passionate team of pet lovers is dedicated to making your experience exceptional.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-img">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=350&fit=crop&crop=face" alt="Michael Chen">
+            <div class="team-social">
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4>Michael Chen</h4>
+          <span>Co-Founder & CEO</span>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=350&fit=crop&crop=face" alt="Sarah Chen">
+            <div class="team-social">
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4>Sarah Chen</h4>
+          <span>Co-Founder & Creative Director</span>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=350&fit=crop&crop=face" alt="David Rodriguez">
+            <div class="team-social">
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4>David Rodriguez</h4>
+          <span>Head of Operations</span>
+        </div>
+        <div class="team-card">
+          <div class="team-img">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=350&fit=crop&crop=face" alt="Emily Watson">
+            <div class="team-social">
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4>Emily Watson</h4>
+          <span>Lead Veterinarian</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container cta-inner">
+      <h2>Ready to Give Your Pet the Best?</h2>
+      <p>Join thousands of happy pet parents who trust Fluffy for all their pet care needs.</p>
+      <div class="cta-buttons">
+        <a href="shop.html" class="btn btn-primary">Shop Now</a>
+        <a href="contact.html" class="btn btn-outline-white">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+        <a href="index.html"><img src="logo.png" alt="Fluffy" class="logo-img"> Fluffy</a>
+        </div>
+        <p>Your trusted partner in pet care. We provide premium products and expert advice to keep your furry friends happy and healthy.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/share/191iM3Hgnh/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/fluffypets27" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Shop Categories</h4>
+        <ul>
+          <li><a href="shop.html">Dog Supplies</a></li>
+          <li><a href="shop.html">Cat Supplies</a></li>
+          <li><a href="shop.html">Bird Supplies</a></li>
+          <li><a href="shop.html">Fish & Aquatic</a></li>
+          <li><a href="shop.html">Small Animals</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Service</h4>
+        <ul>
+          <li><a href="#">My Account</a></li>
+          <li><a href="#">Order Tracking</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns & Refunds</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul class="contact-info">
+          <li><i class="fas fa-map-marker-alt"></i> 123 Pet Lane, Portland, OR 97201</li>
+          <li><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</li>
+          <li><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
+          <li><i class="fas fa-clock"></i> Mon - Sat: 9AM - 8PM</li>
+        </ul>
+        <div class="newsletter">
+          <h4>Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address">
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 Fluffy. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-apple-pay"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    try {
+      var adminData = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (adminData && adminData.settings) {
+        var s = adminData.settings;
+        if (s.siteLogo) {
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.src = s.siteLogo; });
+        }
+        var displayName = s.siteName || s.storeName || '';
+        if (displayName) {
+          document.title = document.title.replace(/Fluffy/, displayName);
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.alt = displayName; });
+        }
+      }
+    } catch (e) {}
+  })();
+  </script>
+  <script src="contact-utils.js"></script>
+  <script src="search-utils.js"></script>
+  <script src="badge-utils.js"></script>
+  <script src="nav-utils.js"></script>
+
+</body>
+</html>

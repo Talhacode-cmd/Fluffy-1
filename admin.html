@@ -1,0 +1,2361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Fluffy Pet Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ===== ADMIN LOGIN ===== -->
+  <div id="adminLoginOverlay" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1A1A1A 0%,#2a2a2a 50%,#1A1A1A 100%);display:flex;align-items:center;justify-content:center;">
+    <div style="background:var(--bg-content);border-radius:20px;padding:48px 40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;border:1px solid var(--border-light);">
+      <img src="logo.png" alt="Fluffy" style="width:80px;height:80px;border-radius:16px;object-fit:cover;margin:0 auto 24px;box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:4px;">Admin Panel</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">Fluffy Pet Shop — Login Required</p>
+      <div id="loginError" style="display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--radius-xs);padding:10px 14px;margin-bottom:16px;font-size:13px;color:#DC3545;text-align:left;">
+        <i class="fas fa-exclamation-circle" style="margin-right:6px;"></i><span id="loginErrorMsg">Invalid username or password</span>
+      </div>
+      <div style="text-align:left;margin-bottom:16px;">
+        <label style="display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;">Username</label>
+        <div style="position:relative;">
+          <i class="fas fa-user" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;"></i>
+          <input type="text" id="loginUser" placeholder="Enter username" style="width:100%;padding:12px 14px 12px 40px;border:2px solid var(--border);border-radius:var(--radius-xs);font-size:14px;font-family:var(--font);background:var(--white);transition:var(--transition);box-sizing:border-box;">
+        </div>
+      </div>
+      <div style="text-align:left;margin-bottom:24px;">
+        <label style="display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;">Password</label>
+        <div style="position:relative;">
+          <i class="fas fa-lock" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;"></i>
+          <input type="password" id="loginPass" placeholder="Enter password" style="width:100%;padding:12px 14px 12px 40px;border:2px solid var(--border);border-radius:var(--radius-xs);font-size:14px;font-family:var(--font);background:var(--white);transition:var(--transition);box-sizing:border-box;">
+        </div>
+      </div>
+      <button id="loginBtn" style="width:100%;padding:14px;background:var(--primary);color:var(--white);border:none;border-radius:var(--radius-xs);font-size:15px;font-weight:700;cursor:pointer;transition:var(--transition);font-family:var(--font);">
+        <i class="fas fa-sign-in-alt" style="margin-right:8px;"></i> Login
+      </button>
+      <p style="font-size:11px;color:var(--muted);margin-top:20px;"><i class="fas fa-shield-alt" style="margin-right:4px;"></i> Authorized personnel only</p>
+    </div>
+  </div>
+  <style>
+    #adminLoginOverlay input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,169,110,0.15); outline: none; }
+    #loginBtn:hover { background: var(--primary-light) !important; }
+  </style>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="logo.png" alt="Fluffy" style="width:42px;height:42px;border-radius:10px;object-fit:cover;">
+      <div>
+        <div class="brand-text">Fluffy Pet Shop</div>
+        <div class="brand-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">MANAGE</div>
+      <a href="#dashboard" class="sidebar-link active" data-section="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+      <a href="#orders" class="sidebar-link" data-section="orders"><i class="fas fa-shopping-bag"></i> Orders <span class="sidebar-badge" id="orderCount">0</span></a>
+      <a href="#products" class="sidebar-link" data-section="products"><i class="fas fa-box"></i> Products</a>
+      <a href="#customize-store" class="sidebar-link" data-section="customize-store"><i class="fas fa-paint-brush"></i> Customize Store</a>
+      <a href="#logo-branding" class="sidebar-link" data-section="logo-branding"><i class="fas fa-image"></i> Logo & Branding</a>
+      <a href="#customers" class="sidebar-link" data-section="customers"><i class="fas fa-users"></i> Customers</a>
+      <a href="#categories-mgmt" class="sidebar-link" data-section="categories-mgmt"><i class="fas fa-tags"></i> Categories</a>
+      <a href="#reviews" class="sidebar-link" data-section="reviews"><i class="fas fa-star"></i> Reviews</a>
+      <a href="#blogs" class="sidebar-link" data-section="blogs"><i class="fas fa-newspaper"></i> Blogs</a>
+
+      <div class="sidebar-section-label">COMMUNICATION</div>
+      <a href="#notifications" class="sidebar-link" data-section="notifications"><i class="fas fa-bell"></i> Notifications <span class="sidebar-badge" id="notifBadge">0</span></a>
+
+      <div class="sidebar-section-label">SETTINGS</div>
+      <a href="#contact-info" class="sidebar-link" data-section="contact-info"><i class="fas fa-address-card"></i> Contact Info</a>
+      <a href="#settings" class="sidebar-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="sidebar-link" target="_blank"><i class="fas fa-external-link-alt"></i> View Store</a>
+      <a href="login.html" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="admin-main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="topbar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+      <div class="topbar-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search orders, products, customers..." id="globalSearch">
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-icon" id="notifBtn" aria-label="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="badge" id="notifBadgeTop">0</span>
+        </button>
+        <!-- Notification Dropdown -->
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button id="clearNotifs">Clear All</button>
+          </div>
+          <div class="notif-list" id="notifList">
+            <div class="notif-empty">No notifications yet</div>
+          </div>
+        </div>
+        <div class="topbar-admin">
+          <img src="logo.png" alt="Admin" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">
+          <div class="topbar-admin-info">
+            <strong>Admin</strong>
+            <span>Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- CONTENT -->
+    <div class="admin-content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <section class="admin-section active" id="dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-info">
+              <h3 id="statOrders">0</h3>
+              <p>Total Orders</p>
+              <span class="stat-change up" id="ordersChange"><i class="fas fa-arrow-up"></i> 0% from last month</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div>
+            <div class="stat-info">
+              <h3 id="statRevenue">৳0</h3>
+              <p>Total Revenue</p>
+              <span class="stat-change up" id="revenueChange"><i class="fas fa-arrow-up"></i> 0% from last month</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber"><i class="fas fa-clock"></i></div>
+            <div class="stat-info">
+              <h3 id="statPending">0</h3>
+              <p>Pending Orders</p>
+              <span class="stat-link" onclick="document.querySelectorAll('.sidebar-link[data-section]')[1].click()">View pending orders</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-box"></i></div>
+            <div class="stat-info">
+              <h3 id="statProducts">0</h3>
+              <p>Total Products</p>
+              <span class="stat-link" onclick="document.querySelectorAll('.sidebar-link[data-section]')[2].click()">View all products</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="section-header">
+          <h2>Recent Orders</h2>
+          <button class="btn btn-outline" onclick="document.querySelectorAll('.sidebar-link[data-section]')[1].click()"><i class="fas fa-arrow-right"></i> View All</button>
+        </div>
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ORDERS ===== -->
+      <section class="admin-section" id="orders">
+        <div class="section-header">
+          <h2>All Orders</h2>
+          <div class="header-actions">
+            <button class="btn btn-outline" id="exportOrdersBtn"><i class="fas fa-download"></i> Export</button>
+          </div>
+        </div>
+        <div class="status-tabs" id="orderStatusTabs">
+          <button class="status-tab active" data-status="all">All (<span id="tabAll">0</span>)</button>
+          <button class="status-tab" data-status="pending">Pending (<span id="tabPending">0</span>)</button>
+          <button class="status-tab" data-status="processing">Processing (<span id="tabProcessing">0</span>)</button>
+          <button class="status-tab" data-status="shipped">Shipped (<span id="tabShipped">0</span>)</button>
+          <button class="status-tab" data-status="delivered">Delivered (<span id="tabDelivered">0</span>)</button>
+          <button class="status-tab" data-status="cancelled">Cancelled (<span id="tabCancelled">0</span>)</button>
+        </div>
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="ordersShowing">Showing 0 of 0 orders</span>
+            <div class="pagination" id="ordersPagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PRODUCTS ===== -->
+      <section class="admin-section" id="products">
+        <div class="section-header">
+          <h2>Products</h2>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Brand</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="productsShowing">Showing 0 of 0 products</span>
+            <div class="pagination" id="productsPagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CUSTOMIZE STORE ===== -->
+      <section class="admin-section" id="customize-store">
+        <div class="section-header">
+          <h2><i class="fas fa-paint-brush" style="color:var(--accent);margin-right:8px;"></i> Customize Store Products</h2>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addStoreProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+            <button class="btn btn-outline" id="resetCustomizeBtn"><i class="fas fa-trash"></i> Clear All Products</button>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Add, remove or edit product names and photos shown on your store (shop.html and homepage). Changes are reflected instantly on the storefront.</p>
+        <div id="customizeGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;"></div>
+      </section>
+
+      <!-- ===== LOGO & BRANDING ===== -->
+      <section class="admin-section" id="logo-branding">
+        <div class="section-header">
+          <h2><i class="fas fa-image" style="color:var(--accent);margin-right:8px;"></i> Logo & Branding</h2>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Change the website logo and store name. Changes are reflected across all pages instantly.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-camera" style="color:var(--accent);margin-right:8px;"></i> Website Logo</h3>
+            <div style="text-align:center;margin-bottom:20px;">
+              <div id="currentLogoPreview" style="display:inline-block;width:180px;height:80px;border:2px dashed var(--border);border-radius:12px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;">
+                <img id="currentLogoImg" src="logo.png" alt="Current Logo" style="max-width:100%;max-height:100%;object-fit:contain;display:none;">
+                <i class="fas fa-image" id="currentLogoPlaceholder" style="font-size:32px;color:var(--muted);"></i>
+              </div>
+              <p style="font-size:12px;color:var(--muted);margin-top:8px;">Current Logo</p>
+            </div>
+            <div class="form-group">
+              <label>Upload New Logo</label>
+              <input type="file" id="logoFileInput" accept="image/*" class="form-input" style="padding:8px;">
+            </div>
+            <div class="form-group">
+              <label>Or Enter Image URL</label>
+              <input type="url" id="logoUrlInput" class="form-input" placeholder="https://example.com/logo.png">
+            </div>
+            <div style="text-align:center;margin:16px 0;color:var(--muted);font-size:13px;">— OR —</div>
+            <div class="form-group">
+              <label>Keep Default Logo</label>
+              <button class="btn btn-outline" id="resetLogoBtn" style="width:100%;"><i class="fas fa-undo"></i> Reset to Default Logo</button>
+            </div>
+            <button class="btn btn-primary" id="saveLogoBtn" style="margin-top:8px;width:100%;"><i class="fas fa-save"></i> Save Logo</button>
+          </div>
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-tag" style="color:var(--accent);margin-right:8px;"></i> Store Name</h3>
+            <div class="form-group">
+              <label>Website Name</label>
+              <input type="text" class="form-input" id="settingSiteName" placeholder="Fluffy">
+            </div>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">This name appears in the browser tab title and throughout the website.</p>
+            <button class="btn btn-primary" id="saveSiteNameBtn" style="width:100%;"><i class="fas fa-save"></i> Save Name</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CUSTOMERS ===== -->
+      <section class="admin-section" id="customers">
+        <div class="section-header">
+          <h2>Customers</h2>
+        </div>
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Orders</th>
+                  <th>Spent</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span id="customersShowing">Showing 0 of 0 customers</span>
+            <div class="pagination" id="customersPagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CATEGORIES ===== -->
+      <section class="admin-section" id="categories-mgmt">
+        <div class="section-header">
+          <h2>Categories</h2>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="addCategoryBtn"><i class="fas fa-plus"></i> Add Category</button>
+          </div>
+        </div>
+        <div id="categoriesGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;"></div>
+      </section>
+
+      <!-- ===== REVIEWS ===== -->
+      <section class="admin-section" id="reviews">
+        <div class="section-header">
+          <h2>Reviews</h2>
+        </div>
+        <div id="reviewsList"></div>
+      </section>
+
+      <!-- ===== BLOGS ===== -->
+      <section class="admin-section" id="blogs">
+        <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;">
+          <h2><i class="fas fa-newspaper" style="color:var(--accent);margin-right:8px;"></i> Blog Posts</h2>
+          <button class="btn btn-primary" onclick="window.A.openBlogModal()"><i class="fas fa-plus"></i> Add New Post</button>
+        </div>
+        <div id="blogsList"></div>
+      </section>
+
+      <!-- ===== NOTIFICATIONS ===== -->
+      <section class="admin-section" id="notifications">
+        <div class="section-header">
+          <h2>Notifications</h2>
+        </div>
+        <div id="allNotifications"></div>
+      </section>
+
+      <!-- ===== CONTACT INFO ===== -->
+      <section class="admin-section" id="contact-info">
+        <div class="section-header">
+          <h2><i class="fas fa-address-card" style="color:var(--accent);margin-right:8px;"></i> Contact Info</h2>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Customize the contact information displayed on your public website (footer, contact page, etc.).</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-edit" style="color:var(--accent);margin-right:8px;"></i> Edit Contact Details</h3>
+            <div class="form-group">
+              <label><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:6px;"></i> Store Address</label>
+              <input type="text" class="form-input" id="ciAddress" placeholder="123 Pet Lane, Portland, OR 97201">
+            </div>
+            <div class="form-group">
+              <label style="display:flex;align-items:center;justify-content:space-between;">
+                <span><i class="fas fa-phone-alt" style="color:var(--accent);margin-right:6px;"></i> Phone Numbers</span>
+                <button type="button" id="ciAddPhoneBtn" style="padding:4px 12px;background:var(--accent);color:var(--white);border:none;border-radius:var(--radius-xs);font-size:11px;font-weight:600;cursor:pointer;"><i class="fas fa-plus"></i> Add</button>
+              </label>
+              <div id="ciPhoneList" style="display:flex;flex-direction:column;gap:8px;"></div>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-envelope" style="color:var(--accent);margin-right:6px;"></i> Email Address</label>
+              <input type="email" class="form-input" id="ciEmail" placeholder="info@fluffypetshop.com">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-clock" style="color:var(--accent);margin-right:6px;"></i> Business Hours</label>
+              <input type="text" class="form-input" id="ciHours" placeholder="Mon - Sat: 9AM - 8PM">
+            </div>
+            <button class="btn btn-primary" id="saveContactInfoBtn" style="margin-top:8px;width:100%;"><i class="fas fa-save"></i> Save Contact Info</button>
+          </div>
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-eye" style="color:var(--accent);margin-right:8px;"></i> Preview</h3>
+            <div id="ciPreview" style="border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:28px;background:var(--white);">
+              <div style="text-align:center;padding:16px 0 24px;border-bottom:1px solid var(--border-light);margin-bottom:20px;">
+                <div style="width:56px;height:56px;border-radius:50%;background:var(--bg-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><i class="fas fa-map-marker-alt" style="color:var(--accent);font-size:22px;"></i></div>
+                <h4 style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Address</h4>
+                <p id="ciPreviewAddress" style="font-size:14px;color:var(--text);">Not set</p>
+              </div>
+              <div style="text-align:center;padding:16px 0 24px;border-bottom:1px solid var(--border-light);margin-bottom:20px;">
+                <div style="width:56px;height:56px;border-radius:50%;background:var(--bg-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><i class="fas fa-phone-alt" style="color:var(--accent);font-size:22px;"></i></div>
+                <h4 style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Phone</h4>
+                <div id="ciPreviewPhone" style="font-size:14px;color:var(--text);">Not set</div>
+              </div>
+              <div style="text-align:center;padding:16px 0 24px;border-bottom:1px solid var(--border-light);margin-bottom:20px;">
+                <div style="width:56px;height:56px;border-radius:50%;background:var(--bg-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><i class="fas fa-envelope" style="color:var(--accent);font-size:22px;"></i></div>
+                <h4 style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Email</h4>
+                <p id="ciPreviewEmail" style="font-size:14px;color:var(--text);">Not set</p>
+              </div>
+              <div style="text-align:center;padding:16px 0;">
+                <div style="width:56px;height:56px;border-radius:50%;background:var(--bg-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><i class="fas fa-clock" style="color:var(--accent);font-size:22px;"></i></div>
+                <h4 style="font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Hours</h4>
+                <p id="ciPreviewHours" style="font-size:14px;color:var(--text);">Not set</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== SETTINGS ===== -->
+      <section class="admin-section" id="settings">
+        <div class="section-header"><h2>Settings</h2></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-store" style="color:var(--accent);margin-right:8px;"></i> Store Settings</h3>
+            <div class="form-group"><label>Store Name</label><input type="text" class="form-input" id="settingStoreName"></div>
+            <div class="form-group"><label>Store Description</label><textarea class="form-input" id="settingStoreDesc"></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Email</label><input type="email" class="form-input" id="settingStoreEmail"></div>
+              <div class="form-group"><label>Phone</label><input type="tel" class="form-input" id="settingStorePhone"></div>
+            </div>
+            <div class="form-group"><label>Address</label><input type="text" class="form-input" id="settingStoreAddress"></div>
+            <button class="btn btn-primary" id="saveStoreSettings" style="margin-top:8px;"><i class="fas fa-save"></i> Save Settings</button>
+          </div>
+          <div class="table-card" style="padding:24px;">
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-truck" style="color:var(--accent);margin-right:8px;"></i> Shipping Settings</h3>
+            <div class="form-row">
+              <div class="form-group"><label>Free Shipping Threshold (৳)</label><input type="number" class="form-input" id="settingFreeShipping"></div>
+              <div class="form-group"><label>Standard Shipping (৳)</label><input type="number" class="form-input" id="settingStandardShipping"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Express Shipping (৳)</label><input type="number" class="form-input" id="settingExpressShipping"></div>
+              <div class="form-group"><label>Delivery Days</label><input type="text" class="form-input" id="settingDeliveryDays"></div>
+            </div>
+            <button class="btn btn-primary" id="saveShippingSettings" style="margin-top:8px;"><i class="fas fa-save"></i> Save Shipping</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle"><i class="fas fa-plus"></i> Modal</h3>
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalSave"><i class="fas fa-save"></i> Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONFIRM ===== -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <p id="confirmMessage">This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-outline" id="confirmCancel">Cancel</button>
+        <button class="btn btn-primary" id="confirmOk" style="background:var(--danger);"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="order-utils.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    /* ===========================================
+       ADMIN AUTHENTICATION
+       =========================================== */
+    const AUTH_USER = 'Fluffy12';
+    const AUTH_PASS = 'fluffy#12';
+    const SESSION_KEY = 'fluffyAdminSession';
+
+    function isLoggedIn() {
+      return sessionStorage.getItem(SESSION_KEY) === 'authenticated';
+    }
+
+    function checkAuth() {
+      if (!isLoggedIn()) {
+        document.getElementById('adminLoginOverlay').style.display = 'flex';
+        document.querySelector('.admin-main').style.display = 'none';
+      } else {
+        document.getElementById('adminLoginOverlay').style.display = 'none';
+        document.querySelector('.admin-main').style.display = 'flex';
+      }
+    }
+
+    function doLogin() {
+      const user = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value;
+      if (user === AUTH_USER && pass === AUTH_PASS) {
+        sessionStorage.setItem(SESSION_KEY, 'authenticated');
+        document.getElementById('adminLoginOverlay').style.display = 'none';
+        document.querySelector('.admin-main').style.display = 'flex';
+        document.getElementById('loginError').style.display = 'none';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('loginErrorMsg').textContent = 'Invalid username or password';
+        document.getElementById('loginPass').value = '';
+        document.getElementById('loginPass').focus();
+      }
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+
+    // Logout
+    window.Alogout = function() {
+      sessionStorage.removeItem(SESSION_KEY);
+      location.reload();
+    };
+
+    // Update sidebar logout link
+    const logoutLink = document.querySelector('.sidebar-footer a[href="login.html"]');
+    if (logoutLink) {
+      logoutLink.removeAttribute('href');
+      logoutLink.addEventListener('click', e => { e.preventDefault(); window.Alogout(); });
+    }
+
+    checkAuth();
+
+    /* ===========================================
+       DATA STORE
+       =========================================== */
+    const DB_KEY = 'fluffyAdmin';
+
+    const defaultData = () => ({
+      products: [],
+      orders: [],
+      customers: [],
+      blogs: null,
+      categories: [
+        { id: 1, name: 'Dogs', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=400&fit=crop', productCount: 128 },
+        { id: 2, name: 'Cats', image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=400&fit=crop', productCount: 112 },
+        { id: 3, name: 'Rabbits', image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=400&fit=crop', productCount: 56 },
+        { id: 4, name: 'Birds', image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=600&h=400&fit=crop', productCount: 84 },
+        { id: 5, name: 'Fish & Aquariums', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=400&fit=crop', productCount: 97 },
+        { id: 6, name: 'Reptiles', image: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=600&h=400&fit=crop', productCount: 43 },
+        { id: 7, name: 'Small Pets', image: 'https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=600&h=400&fit=crop', productCount: 62 },
+        { id: 8, name: 'Food & Treats', image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=600&h=400&fit=crop', productCount: 215 },
+        { id: 9, name: 'Health & Wellness', image: 'https://images.unsplash.com/photo-1535294435445-d7249b8f7b2f?w=600&h=400&fit=crop', productCount: 89 },
+        { id: 10, name: 'Toys & Entertainment', image: 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&h=400&fit=crop', productCount: 174 },
+        { id: 11, name: 'Beds & Furniture', image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop', productCount: 93 },
+        { id: 12, name: 'Grooming', image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop', productCount: 76 }
+      ],
+      storeProducts: [],
+      coupons: [],
+      reviews: [],
+      activities: [],
+      customizations: {},
+      settings: {
+        storeName: '',
+        storeDesc: '',
+        storeEmail: '',
+        storePhone: '',
+        storeAddress: '',
+        storeHours: '',
+        freeShipping: 50,
+        standardShipping: 5.99,
+        expressShipping: 12.99,
+        deliveryDays: '3-5',
+        currency: 'USD',
+        siteLogo: '',
+        siteName: 'Fluffy'
+      }
+    });
+
+    function loadData() {
+      try { const s = localStorage.getItem(DB_KEY); if (s) return JSON.parse(s); } catch {}
+      return defaultData();
+    }
+    function saveData(d) { localStorage.setItem(DB_KEY, JSON.stringify(d)); }
+    let data = loadData();
+    if (!data.customizations) data.customizations = {};
+    if (!data.storeProducts) data.storeProducts = [];
+    if (!data.products) data.products = [];
+    if (!data.categories) data.categories = defaultData().categories;
+    if (!data.reviews) data.reviews = [];
+    if (!data.activities) data.activities = [];
+    if (!data.blogs) data.blogs = [];
+    if (!data.orders) data.orders = [];
+    if (!data.customers) data.customers = [];
+    if (!data.coupons) data.coupons = [];
+    if (!data.settings) data.settings = {};
+
+    function addActivity(type, message) {
+      data.activities = data.activities || [];
+      data.activities.unshift({ type, message, time: new Date().toISOString() });
+      if (data.activities.length > 50) data.activities = data.activities.slice(0, 50);
+      saveData(data);
+    }
+
+    function fmt(n) { return '৳' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+    /* ===========================================
+       TOAST
+       =========================================== */
+    function showToast(msg, type = 'success') {
+      const c = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = `toast toast-${type}`;
+      const icons = { success: 'check-circle', error: 'times-circle', info: 'info-circle', warning: 'exclamation-triangle' };
+      t.innerHTML = `<i class="fas fa-${icons[type] || 'check-circle'}"></i><span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(() => t.classList.add('show'), 10);
+      setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3000);
+    }
+
+    /* ===========================================
+       CONFIRM
+       =========================================== */
+    function showConfirm(title, message) {
+      return new Promise(resolve => {
+        const o = document.getElementById('confirmOverlay');
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        o.classList.add('active');
+        const ok = document.getElementById('confirmOk');
+        const cancel = document.getElementById('confirmCancel');
+        function close(r) { o.classList.remove('active'); ok.removeEventListener('click', onOk); cancel.removeEventListener('click', onCancel); resolve(r); }
+        function onOk() { close(true); }
+        function onCancel() { close(false); }
+        ok.addEventListener('click', onOk);
+        cancel.addEventListener('click', onCancel);
+      });
+    }
+
+    /* ===========================================
+       MODAL
+       =========================================== */
+    const modalOverlay = document.getElementById('modalOverlay');
+    let modalSaveCallback = null;
+    function openModal(title, icon, bodyHtml, onSave) {
+      document.getElementById('modalTitle').innerHTML = `<i class="fas fa-${icon}"></i> ${title}`;
+      document.getElementById('modalBody').innerHTML = bodyHtml;
+      modalSaveCallback = onSave;
+      document.getElementById('modalSave').style.display = onSave ? '' : 'none';
+      modalOverlay.classList.add('active');
+    }
+    function closeModal() { modalOverlay.classList.remove('active'); modalSaveCallback = null; }
+    document.getElementById('modalSave').addEventListener('click', () => { if (modalSaveCallback) modalSaveCallback(); });
+    document.getElementById('modalCancel').addEventListener('click', closeModal);
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+
+    /* ===========================================
+       NAVIGATION
+       =========================================== */
+    const sidebarLinks = document.querySelectorAll('.sidebar-link[data-section]');
+    const sections = document.querySelectorAll('.admin-section');
+    const titles = { dashboard: 'Dashboard', orders: 'Orders', products: 'Products', 'customize-store': 'Customize Store', customers: 'Customers', 'categories-mgmt': 'Categories', reviews: 'Reviews', blogs: 'Blog Posts', notifications: 'Notifications', 'contact-info': 'Contact Info', settings: 'Settings' };
+
+    function navigateTo(section) {
+      sidebarLinks.forEach(l => l.classList.toggle('active', l.dataset.section === section));
+      sections.forEach(s => s.classList.toggle('active', s.id === section));
+      document.getElementById('sidebar').classList.remove('active');
+    }
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', e => { e.preventDefault(); navigateTo(link.dataset.section); });
+    });
+
+    document.getElementById('sidebarToggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+
+    /* ===========================================
+       HELPER
+       =========================================== */
+    function emptyState(icon, title, sub) {
+      return `<div class="empty-state"><i class="fas fa-${icon}"></i><h3>${title}</h3><p>${sub}</p></div>`;
+    }
+
+    function renderStars(rating) {
+      let s = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) s += '<i class="fas fa-star" style="color:#F5A623;font-size:12px;"></i>';
+        else if (i - 0.5 <= rating) s += '<i class="fas fa-star-half-alt" style="color:#F5A623;font-size:12px;"></i>';
+        else s += '<i class="far fa-star" style="color:#F5A623;font-size:12px;"></i>';
+      }
+      return s;
+    }
+
+    /* ===========================================
+       DASHBOARD
+       =========================================== */
+    function renderDashboard() {
+      const totalOrders = data.orders.length;
+      const totalRevenue = data.orders.reduce((s, o) => s + o.total, 0);
+      const pendingOrders = data.orders.filter(o => o.status === 'pending').length;
+      const totalProducts = (data.storeProducts || []).length;
+
+      document.getElementById('statOrders').textContent = totalOrders;
+      document.getElementById('statRevenue').textContent = fmt(totalRevenue);
+      document.getElementById('statPending').textContent = pendingOrders;
+      document.getElementById('statProducts').textContent = totalProducts;
+      document.getElementById('orderCount').textContent = totalOrders;
+      document.getElementById('notifBadge').textContent = data.activities.length;
+      document.getElementById('notifBadgeTop').textContent = data.activities.length;
+
+      // Recent orders (last 5)
+      const recent = data.orders.slice(0, 5);
+      const tbody = document.getElementById('recentOrdersBody');
+      if (recent.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8">${emptyState('shopping-bag', 'No orders yet', 'Orders from customers will appear here')}</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = recent.map(o => renderOrderRow(o)).join('');
+    }
+
+    function renderOrderRow(o) {
+      const item = (o.itemDetails && o.itemDetails[0]) || {};
+      return `<tr>
+        <td><strong>#${o.id}</strong></td>
+        <td><div class="table-user"><div class="table-user-info"><strong>${o.customer}</strong><span>${o.phone || 'N/A'}</span></div></div></td>
+        <td><div class="table-product">${item.image ? `<img src="${item.image}" alt="">` : ''}<div><div class="table-product-name">${item.name || 'N/A'}</div><div class="table-product-variant">${item.variant || ''}</div></div></div></td>
+        <td>${o.items}</td>
+        <td><strong>${fmt(o.total)}</strong></td>
+        <td><span class="status-badge ${o.status}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span></td>
+        <td>${new Date(o.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}<br><span style="font-size:11px;color:var(--muted);">${new Date(o.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span></td>
+        <td><div class="action-btns">
+          <button class="action-btn view" title="View" onclick="window.A.viewOrder('${o.id}')"><i class="fas fa-eye"></i></button>
+          <button class="action-btn delete" title="Delete" onclick="window.A.deleteOrder('${o.id}')"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    }
+
+    /* ===========================================
+       ORDERS
+       =========================================== */
+    let orderPage = 1;
+    const orderPerPage = 8;
+    let orderStatusFilter = 'all';
+
+    function renderOrders() {
+      let filtered = data.orders;
+      if (orderStatusFilter !== 'all') filtered = filtered.filter(o => o.status === orderStatusFilter);
+
+      // Tab counts
+      document.getElementById('tabAll').textContent = data.orders.length;
+      document.getElementById('tabPending').textContent = data.orders.filter(o => o.status === 'pending').length;
+      document.getElementById('tabProcessing').textContent = data.orders.filter(o => o.status === 'processing').length;
+      document.getElementById('tabShipped').textContent = data.orders.filter(o => o.status === 'shipped').length;
+      document.getElementById('tabDelivered').textContent = data.orders.filter(o => o.status === 'delivered').length;
+      document.getElementById('tabCancelled').textContent = data.orders.filter(o => o.status === 'cancelled').length;
+
+      const totalPages = Math.ceil(filtered.length / orderPerPage);
+      if (orderPage > totalPages) orderPage = 1;
+      const start = (orderPage - 1) * orderPerPage;
+      const pageItems = filtered.slice(start, start + orderPerPage);
+
+      const tbody = document.getElementById('ordersTableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8">${emptyState('shopping-bag', 'No orders found', 'Orders will appear here once customers start shopping')}</td></tr>`;
+        document.getElementById('ordersShowing').textContent = 'Showing 0 of 0 orders';
+        document.getElementById('ordersPagination').innerHTML = '';
+        return;
+      }
+
+      tbody.innerHTML = pageItems.map(o => renderOrderRow(o)).join('');
+      document.getElementById('ordersShowing').textContent = `Showing ${start + 1}-${Math.min(start + orderPerPage, filtered.length)} of ${filtered.length} orders`;
+
+      // Pagination
+      const pag = document.getElementById('ordersPagination');
+      if (totalPages <= 1) { pag.innerHTML = ''; return; }
+      let html = '';
+      if (orderPage > 1) html += `<button onclick="window.A.orderPage(${orderPage - 1})"><i class="fas fa-chevron-left"></i></button>`;
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="${i === orderPage ? 'active' : ''}" onclick="window.A.orderPage(${i})">${i}</button>`;
+      }
+      if (orderPage < totalPages) html += `<button onclick="window.A.orderPage(${orderPage + 1})"><i class="fas fa-chevron-right"></i></button>`;
+      pag.innerHTML = html;
+    }
+
+    // Status tabs
+    document.getElementById('orderStatusTabs').addEventListener('click', e => {
+      const tab = e.target.closest('.status-tab');
+      if (!tab) return;
+      document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      orderStatusFilter = tab.dataset.status;
+      orderPage = 1;
+      renderOrders();
+    });
+
+    /* ===========================================
+       PRODUCTS
+       =========================================== */
+    let productPage = 1;
+    const productPerPage = 8;
+
+    function renderProducts() {
+      const start = (productPage - 1) * productPerPage;
+      const pageItems = (data.storeProducts || []).slice(start, start + productPerPage);
+      const tbody = document.getElementById('productsTableBody');
+
+      if (!data.storeProducts || data.storeProducts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6">${emptyState('box', 'No products yet', 'Add your first product to get started')}</td></tr>`;
+        document.getElementById('productsShowing').textContent = 'Showing 0 of 0 products';
+        return;
+      }
+
+      tbody.innerHTML = pageItems.map(p => `<tr>
+        <td><div class="table-product">${p.image ? `<img src="${p.image}" alt="">` : ''}<div><div class="table-product-name">${p.name}</div></div></div></td>
+        <td>${p.category || 'N/A'}</td>
+        <td><strong>${fmt(p.price)}</strong></td>
+        <td>${p.brand || 'General'}</td>
+        <td><span class="status-badge active">Active</span></td>
+        <td><div class="action-btns">
+          <button class="action-btn edit" title="Edit" onclick="window.A.editProduct(${p.id})"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete" title="Delete" onclick="window.A.deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+        </div></td>
+      </tr>`).join('');
+
+      document.getElementById('productsShowing').textContent = `Showing ${start + 1}-${Math.min(start + productPerPage, data.storeProducts.length)} of ${data.storeProducts.length} products`;
+    }
+
+    /* ===========================================
+       CUSTOMERS
+       =========================================== */
+    function renderCustomers() {
+      const tbody = document.getElementById('customersTableBody');
+      if (data.customers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7">${emptyState('users', 'No customers yet', 'Customer data will appear after orders are placed')}</td></tr>`;
+        document.getElementById('customersShowing').textContent = 'Showing 0 of 0 customers';
+        return;
+      }
+      tbody.innerHTML = data.customers.map(c => `<tr>
+        <td><div class="table-user"><img src="${c.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80'}" alt=""><div class="table-user-info"><strong>${c.name}</strong></div></div></td>
+        <td>${c.email || 'N/A'}</td>
+        <td>${c.phone || 'N/A'}</td>
+        <td>${c.orders || 0}</td>
+        <td><strong>${fmt(c.spent || 0)}</strong></td>
+        <td><span class="status-badge ${c.status || 'active'}">${(c.status || 'active').charAt(0).toUpperCase() + (c.status || 'active').slice(1)}</span></td>
+        <td><div class="action-btns">
+          <button class="action-btn view" title="View" onclick="window.A.viewCustomer(${c.id})"><i class="fas fa-eye"></i></button>
+        </div></td>
+      </tr>`).join('');
+      document.getElementById('customersShowing').textContent = `Showing 1-${data.customers.length} of ${data.customers.length} customers`;
+    }
+
+    /* ===========================================
+       CATEGORIES
+       =========================================== */
+    function renderCategories() {
+      const grid = document.getElementById('categoriesGrid');
+      const products = data.storeProducts || [];
+      if (data.categories.length === 0) {
+        grid.innerHTML = emptyState('tags', 'No categories yet', 'Create your first category');
+        return;
+      }
+      grid.innerHTML = data.categories.map(c => {
+        const catProducts = products.filter(p => p.category === c.name);
+        const count = catProducts.length;
+        return `
+        <div style="background:var(--bg-content);border:1px solid var(--border-light);border-radius:var(--radius);overflow:hidden;transition:var(--transition);">
+          <div style="aspect-ratio:16/10;overflow:hidden;background:var(--bg-light);position:relative;">
+            ${c.image ? '<img src="' + c.image + '" alt="' + c.name + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' : ''}
+            <div style="${c.image ? 'display:none;' : ''}width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:absolute;inset:0;">
+              <i class="fas fa-tag" style="color:var(--accent);font-size:36px;"></i>
+            </div>
+            <div style="position:absolute;top:8px;right:8px;background:var(--accent);color:var(--primary);padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;">${count} Products</div>
+          </div>
+          <div style="padding:16px;">
+            <h4 style="font-size:15px;font-weight:700;margin-bottom:8px;text-align:center;">${c.name}</h4>
+            ${count > 0 ? `
+              <div style="max-height:120px;overflow-y:auto;margin-bottom:12px;border:1px solid var(--border-light);border-radius:var(--radius-xs);padding:8px;">
+                ${catProducts.slice(0, 5).map(p => `
+                  <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-light);">
+                    ${p.image ? '<img src="' + p.image + '" style="width:28px;height:28px;border-radius:4px;object-fit:cover;">' : '<div style="width:28px;height:28px;border-radius:4px;background:var(--bg-light);display:flex;align-items:center;justify-content:center;"><i class="fas fa-image" style="font-size:10px;color:var(--muted);"></i></div>'}
+                    <div style="flex:1;min-width:0;">
+                      <div style="font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+                      <div style="font-size:11px;color:var(--muted);">${fmt(p.price)}</div>
+                    </div>
+                  </div>
+                `).join('')}
+                ${count > 5 ? '<div style="text-align:center;font-size:11px;color:var(--accent);padding-top:6px;font-weight:600;">+' + (count - 5) + ' more</div>' : ''}
+              </div>
+            ` : '<p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;">No products yet</p>'}
+            <div class="action-btns" style="justify-content:center;gap:8px;">
+              <button class="action-btn edit" onclick="window.A.viewCategoryProducts('${c.name.replace(/'/g, "\\'")}')" title="View Products"><i class="fas fa-eye"></i></button>
+              <button class="action-btn edit" onclick="window.A.editCategory(${c.id})" title="Edit"><i class="fas fa-edit"></i></button>
+              <button class="action-btn delete" onclick="window.A.deleteCategory(${c.id})" title="Delete"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        `;
+      }).join('');
+    }
+
+    window.A = window.A || {};
+
+    window.A.viewCategoryProducts = (catName) => {
+      const catProducts = (data.storeProducts || []).filter(p => p.category === catName);
+      openModal('Products in "' + catName + '"', 'box', `
+        <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:14px;color:var(--muted);">${catProducts.length} product(s) found</span>
+          <button class="btn btn-primary btn-sm" onclick="closeModal();window.A.addProductToCategory('${catName.replace(/'/g, "\\'")}');"><i class="fas fa-plus"></i> Add Product</button>
+        </div>
+        ${catProducts.length === 0 ? '<div style="text-align:center;padding:40px;color:var(--muted);"><i class="fas fa-box-open" style="font-size:48px;margin-bottom:12px;display:block;"></i><p>No products in this category yet.</p><p style="font-size:13px;">Add a product and select this category.</p></div>' : `
+        <div style="max-height:400px;overflow-y:auto;">
+          ${catProducts.map(p => `
+            <div style="display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border-light);border-radius:var(--radius-sm);margin-bottom:8px;">
+              ${p.image ? '<img src="' + p.image + '" style="width:50px;height:50px;border-radius:var(--radius-xs);object-fit:cover;">' : '<div style="width:50px;height:50px;border-radius:var(--radius-xs);background:var(--bg-light);display:flex;align-items:center;justify-content:center;"><i class="fas fa-image" style="color:var(--muted);"></i></div>'}
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:14px;font-weight:600;">${p.name}</div>
+                <div style="font-size:12px;color:var(--muted);">${p.brand || 'General'} • ${fmt(p.price)}</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="action-btn edit" onclick="closeModal();window.A.editProduct(${p.id})" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-btn delete" onclick="window.A.viewCategoryProducts('${catName.replace(/'/g, "\\'")}');window.A.deleteProduct(${p.id})" title="Delete"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        `}
+      `, null);
+    };
+
+    window.A.addProductToCategory = (catName) => {
+      const cats = (data.categories || []).map(c => c.name);
+      const catOptions = cats.map(c => '<option value="' + c + '"' + (c === catName ? ' selected' : '') + '>' + c + '</option>').join('');
+      openModal('Add Product to "' + catName + '"', 'plus', `
+        <div class="form-group"><label>Product Name</label><input class="form-input" id="pName" placeholder="Enter product name"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category</label><select class="form-input" id="pCat"><option value="">Select category</option>${catOptions}</select></div>
+          <div class="form-group"><label>Brand</label><input class="form-input" id="pBrand" placeholder="e.g. Royal Canin"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Price</label><input type="number" class="form-input" id="pPrice" step="0.01" min="0" placeholder="0.00"></div>
+          <div class="form-group"><label>Old Price (optional)</label><input type="number" class="form-input" id="pOldPrice" step="0.01" min="0" placeholder="0.00"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea class="form-input" id="pDesc" rows="2" placeholder="Product description..."></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Rating (0-5)</label><input type="number" class="form-input" id="pRating" value="4.0" step="0.1" min="0" max="5"></div>
+          <div class="form-group"><label>Reviews</label><input type="number" class="form-input" id="pReviews" value="0" min="0"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Badge</label><select class="form-input" id="pBadge"><option value="">None</option><option value="new">New</option><option value="offer">Sale</option></select></div>
+          <div class="form-group"><label>Mark as New?</label><select class="form-input" id="pIsNew"><option value="false">No</option><option value="true">Yes</option></select></div>
+        </div>
+        <div class="form-group">
+          <label>Upload Photo</label>
+          <label for="pCatFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="pCatFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="pImage" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('pName').value.trim();
+        const category = document.getElementById('pCat').value.trim();
+        const price = parseFloat(document.getElementById('pPrice').value) || 0;
+        if (!name) { showToast('Please enter a product name', 'error'); return; }
+        if (!category) { showToast('Please select a category', 'error'); return; }
+        if (!price) { showToast('Please enter a price', 'error'); return; }
+        if (!data.storeProducts) data.storeProducts = [];
+        data.storeProducts.push({
+          id: Date.now(),
+          name,
+          category,
+          brand: document.getElementById('pBrand').value.trim() || 'General',
+          price,
+          oldPrice: parseFloat(document.getElementById('pOldPrice').value) || null,
+          desc: document.getElementById('pDesc').value.trim(),
+          rating: parseFloat(document.getElementById('pRating').value) || 4.0,
+          reviews: parseInt(document.getElementById('pReviews').value) || 0,
+          badge: document.getElementById('pBadge').value || null,
+          isNew: document.getElementById('pIsNew').value === 'true',
+          image: document.getElementById('pImage').value.trim(),
+          health: [],
+          flavor: []
+        });
+        saveData(data);
+        closeModal();
+        renderCategories();
+        renderDashboard();
+        showToast('Product added to category');
+      });
+      setTimeout(() => {
+        const imgInput = document.getElementById('pImage');
+        const fileInput = document.getElementById('pCatFileUpload');
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 450;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                imgInput.value = canvas.toDataURL('image/jpeg', 0.85);
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    };
+
+    /* ===========================================
+       REVIEWS
+       =========================================== */
+    function renderReviews() {
+      const el = document.getElementById('reviewsList');
+      if (data.reviews.length === 0) {
+        el.innerHTML = emptyState('star', 'No reviews yet', 'Customer reviews will appear here');
+        return;
+      }
+      el.innerHTML = data.reviews.map(r => `
+        <div style="background:var(--bg-content);border:1px solid var(--border-light);border-radius:var(--radius);padding:20px;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <img src="${r.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80'}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+            <div><strong>${r.customer}</strong><div style="font-size:12px;color:var(--muted);">${r.product || ''}</div></div>
+            <div style="margin-left:auto;">${renderStars(r.rating)}</div>
+          </div>
+          <p style="font-size:13px;color:var(--gray-dark);line-height:1.6;">${r.comment}</p>
+        </div>
+      `).join('');
+    }
+
+    /* ===========================================
+       NOTIFICATIONS
+       =========================================== */
+    function renderAllNotifications() {
+      const el = document.getElementById('allNotifications');
+      const acts = data.activities || [];
+      if (acts.length === 0) {
+        el.innerHTML = emptyState('bell', 'No notifications', 'Activity notifications will appear here');
+        return;
+      }
+      el.innerHTML = acts.map(a => `
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border-light);">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-${a.type === 'order' ? 'shopping-bag' : a.type === 'customer' ? 'user' : 'info-circle'}" style="color:var(--accent);font-size:14px;"></i></div>
+          <div><p style="font-size:13px;line-height:1.5;">${a.message}</p><span style="font-size:11px;color:var(--muted);">${new Date(a.time).toLocaleString()}</span></div>
+        </div>
+      `).join('');
+    }
+
+    /* ===========================================
+       VIEW ORDER (full details)
+       =========================================== */
+    window.A.viewOrder = (id) => {
+      const o = data.orders.find(x => x.id === id);
+      if (!o) return;
+      const items = (o.itemDetails || []).map(i => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-light);">
+          ${i.image ? `<img src="${i.image}" style="width:44px;height:44px;border-radius:6px;object-fit:cover;">` : ''}
+          <div style="flex:1;"><strong style="font-size:13px;">${i.name}</strong>${i.variant ? `<br><span style="font-size:11px;color:var(--muted);">${i.variant}</span>` : ''}</div>
+          <div style="text-align:right;"><div>Qty: ${i.qty}</div><div style="font-weight:700;">৳${(i.price * i.qty).toFixed(2)}</div></div>
+        </div>
+      `).join('');
+
+      openModal('Order #' + o.id, 'eye', `
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group"><label>Order ID</label><div class="view-field">#${o.id}</div></div>
+          <div class="form-group"><label>Date</label><div class="view-field">${new Date(o.date).toLocaleString()}</div></div>
+        </div>
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group"><label>Customer</label><div class="view-field">${o.customer}</div></div>
+          <div class="form-group"><label>Phone</label><div class="view-field">${o.phone || 'N/A'}</div></div>
+        </div>
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group"><label>Email</label><div class="view-field">${o.email || 'N/A'}</div></div>
+          <div class="form-group"><label>Payment</label><div class="view-field" style="text-transform:capitalize;">${(o.paymentMethod || 'cod').replace('-',' ')}</div></div>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;"><label>Delivery Address</label><div class="view-field">${o.address || 'N/A'}${o.city ? ', ' + o.city : ''}</div></div>
+        <div class="form-group" style="margin-bottom:16px;"><label>Status</label>
+          <select class="form-input" id="oStatus">
+            <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+            <option value="processing" ${o.status==='processing'?'selected':''}>Processing</option>
+            <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+            <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+            <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;"><label>Items Ordered</label></div>
+        <div style="border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:16px;">${items}</div>
+        <div style="font-size:14px;">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;">Subtotal:<span>${fmt(o.subtotal || o.total)}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;">Tax:<span>${fmt(o.tax || 0)}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;">Shipping:<span>${o.shipping === 0 ? 'Free' : fmt(o.shipping || 0)}</span></div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-top:2px solid var(--dark);font-weight:700;font-size:16px;">Total:<span>${fmt(o.total)}</span></div>
+        </div>
+        ${o.notes ? `<div style="margin-top:12px;padding:12px;background:var(--bg-light);border-radius:var(--radius-xs);font-size:13px;"><strong>Notes:</strong> ${o.notes}</div>` : ''}
+      `, () => {
+        o.status = document.getElementById('oStatus').value;
+        saveData(data);
+        addActivity('status', `Order <strong>#${o.id}</strong> status updated to <strong>${o.status}</strong>`);
+        closeModal();
+        renderOrders();
+        renderDashboard();
+        showToast('Order status updated');
+      });
+    };
+
+    window.A.deleteOrder = async (id) => {
+      const o = data.orders.find(x => x.id === id);
+      if (!o) return;
+      const ok = await showConfirm('Delete Order?', `Are you sure you want to delete order #${o.id}?`);
+      if (!ok) return;
+      data.orders = data.orders.filter(x => x.id !== id);
+      saveData(data);
+      renderOrders();
+      renderDashboard();
+      showToast('Order deleted', 'warning');
+    };
+
+    window.A.orderPage = (p) => { orderPage = p; renderOrders(); };
+
+    /* ===========================================
+       PRODUCT CRUD
+       =========================================== */
+    window.A.editProduct = (id) => {
+      const p = (data.storeProducts || []).find(x => x.id === id);
+      if (!p) return;
+      const cats = (data.categories || []).map(c => c.name);
+      const catOptions = cats.map(c => '<option value="' + c + '"' + (c === p.category ? ' selected' : '') + '>' + c + '</option>').join('');
+      openModal('Edit Product', 'edit', `
+        <div class="form-group"><label>Product Name</label><input class="form-input" id="pName" value="${p.name}"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category</label><select class="form-input" id="pCat"><option value="">Select category</option>${catOptions}</select></div>
+          <div class="form-group"><label>Brand</label><input class="form-input" id="pBrand" value="${p.brand || ''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Price</label><input type="number" class="form-input" id="pPrice" value="${p.price || 0}" step="0.01" min="0"></div>
+          <div class="form-group"><label>Old Price</label><input type="number" class="form-input" id="pOldPrice" value="${p.oldPrice || ''}" step="0.01" min="0"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea class="form-input" id="pDesc" rows="2">${p.desc || ''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Rating (0-5)</label><input type="number" class="form-input" id="pRating" value="${p.rating || 4.0}" step="0.1" min="0" max="5"></div>
+          <div class="form-group"><label>Reviews</label><input type="number" class="form-input" id="pReviews" value="${p.reviews || 0}" min="0"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Badge</label><select class="form-input" id="pBadge"><option value=""${!p.badge ? ' selected' : ''}>None</option><option value="new"${p.badge === 'new' ? ' selected' : ''}>New</option><option value="offer"${p.badge === 'offer' ? ' selected' : ''}>Sale</option></select></div>
+          <div class="form-group"><label>Mark as New?</label><select class="form-input" id="pIsNew"><option value="false"${!p.isNew ? ' selected' : ''}>No</option><option value="true"${p.isNew ? ' selected' : ''}>Yes</option></select></div>
+        </div>
+        <div class="form-group">
+          <label>Upload Photo</label>
+          <label for="pFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="pFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="pImage" value="${p.image || ''}" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('pName').value.trim();
+        const category = document.getElementById('pCat').value.trim();
+        const price = parseFloat(document.getElementById('pPrice').value) || 0;
+        if (!name) { showToast('Please enter a product name', 'error'); return; }
+        if (!category) { showToast('Please select a category', 'error'); return; }
+        if (!price) { showToast('Please enter a price', 'error'); return; }
+        p.name = name;
+        p.category = category;
+        p.brand = document.getElementById('pBrand').value.trim() || 'General';
+        p.price = price;
+        p.oldPrice = parseFloat(document.getElementById('pOldPrice').value) || null;
+        p.desc = document.getElementById('pDesc').value.trim();
+        p.rating = parseFloat(document.getElementById('pRating').value) || 4.0;
+        p.reviews = parseInt(document.getElementById('pReviews').value) || 0;
+        p.badge = document.getElementById('pBadge').value || null;
+        p.isNew = document.getElementById('pIsNew').value === 'true';
+        p.image = document.getElementById('pImage').value.trim();
+        saveData(data);
+        closeModal();
+        renderProducts();
+        renderDashboard();
+        showToast('Product updated');
+      });
+
+      setTimeout(() => {
+        const imgInput = document.getElementById('pImage');
+        const fileInput = document.getElementById('pFileUpload');
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 450;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                imgInput.value = canvas.toDataURL('image/jpeg', 0.85);
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    };
+
+    window.A.deleteProduct = async (id) => {
+      const p = (data.storeProducts || []).find(x => x.id === id);
+      if (!p) return;
+      const ok = await showConfirm('Delete Product?', `Are you sure you want to delete "${p.name}"? This will also remove it from the website.`);
+      if (!ok) return;
+      data.storeProducts = (data.storeProducts || []).filter(x => x.id !== id);
+      if (data.customizations && data.customizations[id]) delete data.customizations[id];
+      saveData(data);
+      renderProducts();
+      renderDashboard();
+      showToast('Product deleted', 'warning');
+    };
+
+    document.getElementById('addProductBtn').addEventListener('click', () => {
+      const cats = (data.categories || []).map(c => c.name);
+      const catOptions = cats.map(c => '<option value="' + c + '">' + c + '</option>').join('');
+      openModal('Add Product', 'plus', `
+        <div class="form-group"><label>Product Name</label><input class="form-input" id="pName" placeholder="Enter product name"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Category</label><select class="form-input" id="pCat"><option value="">Select category</option>${catOptions}</select></div>
+          <div class="form-group"><label>Brand</label><input class="form-input" id="pBrand" placeholder="e.g. Royal Canin"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Price</label><input type="number" class="form-input" id="pPrice" step="0.01" min="0" placeholder="0.00"></div>
+          <div class="form-group"><label>Old Price (optional)</label><input type="number" class="form-input" id="pOldPrice" step="0.01" min="0" placeholder="0.00"></div>
+        </div>
+        <div class="form-group"><label>Description</label><textarea class="form-input" id="pDesc" rows="2" placeholder="Product description..."></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Rating (0-5)</label><input type="number" class="form-input" id="pRating" value="4.0" step="0.1" min="0" max="5"></div>
+          <div class="form-group"><label>Reviews</label><input type="number" class="form-input" id="pReviews" value="0" min="0"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Badge</label><select class="form-input" id="pBadge"><option value="">None</option><option value="new">New</option><option value="offer">Sale</option></select></div>
+          <div class="form-group"><label>Mark as New?</label><select class="form-input" id="pIsNew"><option value="false">No</option><option value="true">Yes</option></select></div>
+        </div>
+        <div class="form-group">
+          <label>Upload Photo</label>
+          <label for="pFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="pFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="pImage" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('pName').value.trim();
+        const category = document.getElementById('pCat').value.trim();
+        const price = parseFloat(document.getElementById('pPrice').value) || 0;
+        if (!name) { showToast('Please enter a product name', 'error'); return; }
+        if (!category) { showToast('Please select a category', 'error'); return; }
+        if (!price) { showToast('Please enter a price', 'error'); return; }
+        if (!data.storeProducts) data.storeProducts = [];
+        data.storeProducts.push({
+          id: Date.now(),
+          name,
+          category,
+          brand: document.getElementById('pBrand').value.trim() || 'General',
+          price,
+          oldPrice: parseFloat(document.getElementById('pOldPrice').value) || null,
+          desc: document.getElementById('pDesc').value.trim(),
+          rating: parseFloat(document.getElementById('pRating').value) || 4.0,
+          reviews: parseInt(document.getElementById('pReviews').value) || 0,
+          badge: document.getElementById('pBadge').value || null,
+          isNew: document.getElementById('pIsNew').value === 'true',
+          image: document.getElementById('pImage').value.trim(),
+          health: [],
+          flavor: []
+        });
+        saveData(data);
+        closeModal();
+        renderProducts();
+        renderDashboard();
+        showToast('Product added! It will now appear on the website.');
+      });
+
+      setTimeout(() => {
+        const imgInput = document.getElementById('pImage');
+        const fileInput = document.getElementById('pFileUpload');
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 450;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                imgInput.value = canvas.toDataURL('image/jpeg', 0.85);
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    });
+
+    /* ===========================================
+       CUSTOMER VIEW
+       =========================================== */
+    window.A.viewCustomer = (id) => {
+      const c = data.customers.find(x => x.id === id);
+      if (!c) return;
+      openModal('Customer Details', 'user', `
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group"><label>Name</label><div class="view-field">${c.name}</div></div>
+          <div class="form-group"><label>Phone</label><div class="view-field">${c.phone || 'N/A'}</div></div>
+        </div>
+        <div class="form-row" style="margin-bottom:16px;">
+          <div class="form-group"><label>Email</label><div class="view-field">${c.email || 'N/A'}</div></div>
+          <div class="form-group"><label>Address</label><div class="view-field">${c.address || 'N/A'}</div></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Total Orders</label><div class="view-field">${c.orders || 0}</div></div>
+          <div class="form-group"><label>Total Spent</label><div class="view-field">${fmt(c.spent || 0)}</div></div>
+        </div>
+      `, null);
+    };
+
+    /* ===========================================
+       CATEGORY CRUD
+       =========================================== */
+    document.getElementById('addCategoryBtn').addEventListener('click', () => {
+      openModal('Add Category', 'tag', `
+        <div style="text-align:center;margin-bottom:16px;">
+          <img id="catPreview" src="https://via.placeholder.com/400x250?text=No+Image" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border-light);">
+        </div>
+        <div class="form-group"><label>Category Name</label><input class="form-input" id="cName" placeholder="e.g. Dog Food"></div>
+        <div class="form-group">
+          <label>Upload Photo from Computer</label>
+          <label for="catFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="catFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="cImage" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('cName').value.trim();
+        if (!name) { showToast('Please enter a category name', 'error'); return; }
+        const image = document.getElementById('cImage').value.trim() || '';
+        data.categories.push({ id: Date.now(), name, image, productCount: 0 });
+        saveData(data);
+        closeModal();
+        renderCategories();
+        showToast('Category added');
+      });
+      setTimeout(() => {
+        const imgInput = document.getElementById('cImage');
+        const preview = document.getElementById('catPreview');
+        const fileInput = document.getElementById('catFileUpload');
+        if (imgInput && preview) {
+          imgInput.addEventListener('input', () => { preview.src = imgInput.value || 'https://via.placeholder.com/400x250?text=No+Image'; });
+        }
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 375;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                preview.src = dataUrl;
+                imgInput.value = dataUrl;
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    });
+
+    window.A.editCategory = (id) => {
+      const c = data.categories.find(x => x.id === id);
+      if (!c) return;
+      const currentImage = c.image || '';
+      openModal('Edit Category', 'tag', `
+        <div style="text-align:center;margin-bottom:16px;">
+          <img id="catEditPreview" src="${currentImage || 'https://via.placeholder.com/400x250?text=No+Image'}" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border-light);" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
+        </div>
+        <div class="form-group"><label>Category Name</label><input class="form-input" id="cName" value="${c.name}"></div>
+        <div class="form-group">
+          <label>Upload Photo from Computer</label>
+          <label for="catEditFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="catEditFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="cImage" value="${currentImage}" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('cName').value.trim();
+        if (!name) { showToast('Please enter a category name', 'error'); return; }
+        c.name = name;
+        c.image = document.getElementById('cImage').value.trim() || '';
+        saveData(data);
+        closeModal();
+        renderCategories();
+        showToast('Category updated');
+      });
+      setTimeout(() => {
+        const imgInput = document.getElementById('cImage');
+        const preview = document.getElementById('catEditPreview');
+        const fileInput = document.getElementById('catEditFileUpload');
+        if (imgInput && preview) {
+          imgInput.addEventListener('input', () => { preview.src = imgInput.value || 'https://via.placeholder.com/400x250?text=No+Image'; });
+        }
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 375;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                preview.src = dataUrl;
+                imgInput.value = dataUrl;
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    };
+
+    window.A.deleteCategory = async (id) => {
+      const ok = await showConfirm('Delete Category?', 'This category will be permanently removed.');
+      if (!ok) return;
+      data.categories = data.categories.filter(x => x.id !== id);
+      saveData(data);
+      renderCategories();
+      showToast('Category deleted', 'warning');
+    };
+
+    /* ===========================================
+       CONTACT INFO
+       =========================================== */
+    let ciPhones = [];
+
+    function renderPhoneList() {
+      const list = document.getElementById('ciPhoneList');
+      if (ciPhones.length === 0) {
+        list.innerHTML = '<div style="text-align:center;padding:12px;color:var(--muted);font-size:12px;border:1px dashed var(--border);border-radius:var(--radius-xs);">No phone numbers added yet</div>';
+        return;
+      }
+      list.innerHTML = ciPhones.map((phone, i) => `
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="tel" class="form-input ci-phone-input" data-index="${i}" value="${phone}" placeholder="e.g. +1 (555) 123-4567" style="flex:1;">
+          <button type="button" onclick="window.A.removePhone(${i})" style="width:36px;height:36px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--white);color:var(--danger);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:var(--transition);" onmouseover="this.style.background='#FEF2F2';this.style.borderColor='var(--danger)'" onmouseout="this.style.background='var(--white)';this.style.borderColor='var(--border)'"><i class="fas fa-times"></i></button>
+        </div>
+      `).join('');
+      list.querySelectorAll('.ci-phone-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          ciPhones[parseInt(e.target.dataset.index)] = e.target.value;
+          updateContactInfoPreview();
+        });
+      });
+    }
+
+    window.A = window.A || {};
+    window.A.removePhone = (index) => {
+      ciPhones.splice(index, 1);
+      renderPhoneList();
+      updateContactInfoPreview();
+    };
+
+    document.getElementById('ciAddPhoneBtn').addEventListener('click', () => {
+      ciPhones.push('');
+      renderPhoneList();
+      const inputs = document.querySelectorAll('.ci-phone-input');
+      if (inputs.length) inputs[inputs.length - 1].focus();
+    });
+
+    function loadContactInfo() {
+      const s = data.settings;
+      document.getElementById('ciAddress').value = s.storeAddress || '';
+      document.getElementById('ciEmail').value = s.storeEmail || '';
+      document.getElementById('ciHours').value = s.storeHours || '';
+      ciPhones = Array.isArray(s.storePhones) ? [...s.storePhones] : (s.storePhone ? [s.storePhone] : []);
+      renderPhoneList();
+      updateContactInfoPreview();
+    }
+
+    function updateContactInfoPreview() {
+      const addr = document.getElementById('ciAddress').value.trim();
+      const email = document.getElementById('ciEmail').value.trim();
+      const hours = document.getElementById('ciHours').value.trim();
+      const phones = ciPhones.filter(p => p.trim());
+      document.getElementById('ciPreviewAddress').textContent = addr || 'Not set';
+      document.getElementById('ciPreviewEmail').textContent = email || 'Not set';
+      document.getElementById('ciPreviewHours').textContent = hours || 'Not set';
+      document.getElementById('ciPreviewAddress').style.color = addr ? 'var(--text)' : 'var(--muted)';
+      document.getElementById('ciPreviewEmail').style.color = email ? 'var(--text)' : 'var(--muted)';
+      document.getElementById('ciPreviewHours').style.color = hours ? 'var(--text)' : 'var(--muted)';
+      const phoneEl = document.getElementById('ciPreviewPhone');
+      if (phones.length) {
+        phoneEl.innerHTML = phones.map(p => '<div>' + p + '</div>').join('');
+        phoneEl.style.color = 'var(--text)';
+      } else {
+        phoneEl.textContent = 'Not set';
+        phoneEl.style.color = 'var(--muted)';
+      }
+    }
+
+    ['ciAddress', 'ciEmail', 'ciHours'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateContactInfoPreview);
+    });
+
+    document.getElementById('saveContactInfoBtn').addEventListener('click', () => {
+      data.settings.storeAddress = document.getElementById('ciAddress').value.trim();
+      data.settings.storePhones = ciPhones.filter(p => p.trim());
+      data.settings.storePhone = data.settings.storePhones[0] || '';
+      data.settings.storeEmail = document.getElementById('ciEmail').value.trim();
+      data.settings.storeHours = document.getElementById('ciHours').value.trim();
+      saveData(data);
+      addActivity('contact', 'Contact information updated');
+      showToast('Contact info saved');
+    });
+
+    /* ===========================================
+       SETTINGS
+       =========================================== */
+    function loadSettings() {
+      const s = data.settings;
+      document.getElementById('settingStoreName').value = s.storeName || '';
+      document.getElementById('settingStoreDesc').value = s.storeDesc || '';
+      document.getElementById('settingStoreEmail').value = s.storeEmail || '';
+      document.getElementById('settingStorePhone').value = s.storePhone || '';
+      document.getElementById('settingStoreAddress').value = s.storeAddress || '';
+      document.getElementById('settingFreeShipping').value = s.freeShipping || 50;
+      document.getElementById('settingStandardShipping').value = s.standardShipping || 5.99;
+      document.getElementById('settingExpressShipping').value = s.expressShipping || 12.99;
+      document.getElementById('settingDeliveryDays').value = s.deliveryDays || '3-5';
+    }
+
+    document.getElementById('saveStoreSettings').addEventListener('click', () => {
+      data.settings.storeName = document.getElementById('settingStoreName').value;
+      data.settings.storeDesc = document.getElementById('settingStoreDesc').value;
+      data.settings.storeEmail = document.getElementById('settingStoreEmail').value;
+      data.settings.storePhone = document.getElementById('settingStorePhone').value;
+      data.settings.storeAddress = document.getElementById('settingStoreAddress').value;
+      saveData(data);
+      showToast('Store settings saved');
+    });
+
+    document.getElementById('saveShippingSettings').addEventListener('click', () => {
+      data.settings.freeShipping = parseFloat(document.getElementById('settingFreeShipping').value) || 50;
+      data.settings.standardShipping = parseFloat(document.getElementById('settingStandardShipping').value) || 5.99;
+      data.settings.expressShipping = parseFloat(document.getElementById('settingExpressShipping').value) || 12.99;
+      data.settings.deliveryDays = document.getElementById('settingDeliveryDays').value;
+      saveData(data);
+      showToast('Shipping settings saved');
+    });
+
+    /* ===========================================
+       EXPORT CSV
+       =========================================== */
+    document.getElementById('exportOrdersBtn').addEventListener('click', () => {
+      if (data.orders.length === 0) { showToast('No orders to export', 'warning'); return; }
+      let csv = 'Order ID,Customer,Phone,Email,Address,Items,Subtotal,Tax,Shipping,Total,Status,Date\n';
+      data.orders.forEach(o => {
+        csv += `"${o.id}","${o.customer}","${o.phone || ''}","${o.email || ''}","${o.address || ''}",${o.items},"${(o.subtotal||0).toFixed(2)}","${(o.tax||0).toFixed(2)}","${(o.shipping||0).toFixed(2)}","${o.total.toFixed(2)}","${o.status}","${o.date}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'orders-export.csv';
+      a.click();
+      showToast('Orders exported as CSV');
+    });
+
+    /* ===========================================
+       NOTIFICATION DROPDOWN
+       =========================================== */
+    let notifCount = 0;
+    let notifItems = [];
+
+    function addNotifItem(order) {
+      notifCount++;
+      notifItems.unshift({ id: order.id, customer: order.customer, total: order.total, time: new Date().toLocaleTimeString(), items: order.items });
+      if (notifItems.length > 20) notifItems = notifItems.slice(0, 20);
+      renderNotifDropdown();
+      showToast('New order received: #' + order.id + ' from ' + order.customer, 'success');
+      data = loadData();
+      renderDashboard();
+      renderOrders();
+      renderCustomers();
+    }
+
+    function renderNotifDropdown() {
+      document.getElementById('notifBadgeTop').textContent = notifCount || data.activities.length;
+      const list = document.getElementById('notifList');
+      if (notifItems.length === 0) { list.innerHTML = '<div class="notif-empty">No notifications yet</div>'; return; }
+      list.innerHTML = notifItems.map(n => `
+        <div class="notif-item" onclick="document.querySelectorAll('.sidebar-link[data-section]')[1].click();">
+          <div class="notif-icon"><i class="fas fa-shopping-bag"></i></div>
+          <div class="notif-content">
+            <strong>New Order #${n.id}</strong>
+            <span>${n.customer} — ${n.items} item(s)</span>
+            <span>${n.time}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('notifBtn').addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('notifDropdown').classList.toggle('active');
+      notifCount = 0;
+      document.getElementById('notifBadgeTop').textContent = '0';
+    });
+
+    document.addEventListener('click', e => {
+      if (!document.getElementById('notifDropdown').contains(e.target) && e.target.id !== 'notifBtn') {
+        document.getElementById('notifDropdown').classList.remove('active');
+      }
+    });
+
+    document.getElementById('clearNotifs').addEventListener('click', () => {
+      notifItems = [];
+      notifCount = 0;
+      renderNotifDropdown();
+    });
+
+    /* ===========================================
+       REAL-TIME SYNC
+       =========================================== */
+    if (typeof window.FluffyOrders !== 'undefined') {
+      window.FluffyOrders.onNew((order) => {
+        addNotifItem(order);
+      });
+    }
+
+    window.addEventListener('storage', e => {
+      if (e.key === DB_KEY && e.newValue) {
+        try {
+          const nd = JSON.parse(e.newValue);
+          if (nd.orders && nd.orders.length > data.orders.length) {
+            addNotifItem(nd.orders[0]);
+          }
+        } catch {}
+      }
+    });
+
+    let lastOrderCount = data.orders.length;
+    setInterval(() => {
+      const fresh = loadData();
+      if (fresh.orders.length > lastOrderCount) {
+        for (let i = 0; i < fresh.orders.length - lastOrderCount; i++) {
+          addNotifItem(fresh.orders[i]);
+        }
+        lastOrderCount = fresh.orders.length;
+      }
+    }, 3000);
+
+    /* ===========================================
+       GLOBAL SEARCH
+       =========================================== */
+    document.getElementById('globalSearch').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      if (!q) return;
+      if (data.orders.some(o => o.id.toLowerCase().includes(q) || o.customer.toLowerCase().includes(q))) {
+        navigateTo('orders');
+      } else if ((data.storeProducts || []).some(p => p.name.toLowerCase().includes(q))) {
+        navigateTo('products');
+      } else if (data.customers.some(c => c.name.toLowerCase().includes(q))) {
+        navigateTo('customers');
+      }
+    });
+
+    /* ===========================================
+       CUSTOMIZE STORE
+       =========================================== */
+    let shopProducts = data.storeProducts || [];
+
+    function getCustomizations() {
+      return data.customizations || {};
+    }
+
+    function renderCustomizeStore() {
+      shopProducts = data.storeProducts || [];
+      const grid = document.getElementById('customizeGrid');
+      const cust = getCustomizations();
+      if (shopProducts.length === 0) {
+        grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);grid-column:1/-1;"><i class="fas fa-box-open" style="font-size:48px;margin-bottom:12px;display:block;"></i><h3>No Store Products</h3><p>Click "Add Product" to add products to your storefront.</p></div>';
+        return;
+      }
+      grid.innerHTML = shopProducts.map(p => {
+        const override = cust[p.id] || {};
+        const displayName = override.name || p.name;
+        const displayImage = override.image || p.image;
+        const isCustomized = !!cust[p.id];
+        return `
+          <div style="background:var(--bg-content);border:1px solid var(--border-light);border-radius:var(--radius);overflow:hidden;transition:var(--transition);${isCustomized ? 'border-color:var(--accent);' : ''}">
+            <div style="position:relative;aspect-ratio:4/3;overflow:hidden;">
+              <img src="${displayImage}" alt="${displayName}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+              ${isCustomized ? '<span style="position:absolute;top:8px;right:8px;background:var(--accent);color:var(--primary);padding:3px 10px;border-radius:50px;font-size:10px;font-weight:700;">Customized</span>' : ''}
+            </div>
+            <div style="padding:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--secondary-dark);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">${p.category}</div>
+              <h4 style="font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.3;">${displayName}</h4>
+              <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;">৳${(p.price || 0).toFixed(2)}${p.oldPrice ? ' <span style="text-decoration:line-through;color:var(--muted);font-weight:400;font-size:11px;">৳' + p.oldPrice.toFixed(2) + '</span>' : ''}</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">${p.brand || 'General'} ${p.badge ? '| <span style="text-transform:capitalize;">' + p.badge + '</span>' : ''} ${p.isNew ? '| <span style="color:var(--accent);">New</span>' : ''}</div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="window.A.editStoreProduct(${p.id})" style="flex:1;padding:10px;background:var(--primary);color:var(--white);border:none;border-radius:var(--radius-xs);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition);">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button onclick="window.A.removeStoreProduct(${p.id})" style="padding:10px 14px;background:var(--white);color:#E53935;border:1px solid #E53935;border-radius:var(--radius-xs);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition);" onmouseover="this.style.background='#E53935';this.style.color='var(--white)'" onmouseout="this.style.background='var(--white)';this.style.color='#E53935'">
+                  <i class="fas fa-trash"></i> Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.A.editStoreProduct = (id) => {
+      const p = shopProducts.find(x => x.id === id);
+      if (!p) return;
+      const cust = getCustomizations();
+      const override = cust[id] || {};
+      const currentName = override.name || p.name;
+      const currentImage = override.image || p.image;
+      const cats = (data.categories || []).map(c => c.name);
+      const catOptions = cats.map(c => '<option value="' + c + '"' + (c === p.category ? ' selected' : '') + '>' + c + '</option>').join('');
+
+      openModal('Edit: ' + p.name, 'paint-brush', `
+        <div style="text-align:center;margin-bottom:16px;">
+          <img id="custPreview" src="${currentImage}" style="width:100%;max-height:200px;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border-light);" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group" style="grid-column:1/-1;"><label>Product Name *</label><input class="form-input" id="custName" value="${currentName}"></div>
+          <div class="form-group"><label>Category *</label><select class="form-input" id="custCategory"><option value="">Select category</option>${catOptions}</select></div>
+          <div class="form-group"><label>Brand</label><input class="form-input" id="custBrand" value="${p.brand || ''}"></div>
+          <div class="form-group"><label>Price *</label><input class="form-input" id="custPrice" type="number" step="0.01" min="0" value="${p.price || 0}"></div>
+          <div class="form-group"><label>Old Price</label><input class="form-input" id="custOldPrice" type="number" step="0.01" min="0" value="${p.oldPrice || ''}"></div>
+          <div class="form-group" style="grid-column:1/-1;"><label>Description</label><textarea class="form-input" id="custDesc" rows="2">${p.desc || ''}</textarea></div>
+          <div class="form-group"><label>Rating (0-5)</label><input class="form-input" id="custRating" type="number" step="0.1" min="0" max="5" value="${p.rating || 4.0}"></div>
+          <div class="form-group"><label>Reviews Count</label><input class="form-input" id="custReviews" type="number" min="0" value="${p.reviews || 0}"></div>
+          <div class="form-group"><label>Badge</label><select class="form-input" id="custBadge"><option value=""${!p.badge ? ' selected' : ''}>None</option><option value="new"${p.badge === 'new' ? ' selected' : ''}>New</option><option value="offer"${p.badge === 'offer' ? ' selected' : ''}>Sale</option></select></div>
+          <div class="form-group"><label>Mark as New?</label><select class="form-input" id="custIsNew"><option value="false"${!p.isNew ? ' selected' : ''}>No</option><option value="true"${p.isNew ? ' selected' : ''}>Yes</option></select></div>
+        </div>
+        <div class="form-group">
+          <label>Upload Photo from Computer</label>
+          <label for="custFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="custFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="custImage" value="${currentImage}" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const newName = document.getElementById('custName').value.trim();
+        const newCategory = document.getElementById('custCategory').value.trim();
+        const newBrand = document.getElementById('custBrand').value.trim() || 'General';
+        const newPrice = parseFloat(document.getElementById('custPrice').value) || 0;
+        const newOldPrice = parseFloat(document.getElementById('custOldPrice').value) || null;
+        const newDesc = document.getElementById('custDesc').value.trim();
+        const newRating = parseFloat(document.getElementById('custRating').value) || 4.0;
+        const newReviews = parseInt(document.getElementById('custReviews').value) || 0;
+        const newBadge = document.getElementById('custBadge').value || null;
+        const newIsNew = document.getElementById('custIsNew').value === 'true';
+        const newImage = document.getElementById('custImage').value.trim();
+        if (!newName) { showToast('Please enter a product name', 'error'); return; }
+        if (!newCategory) { showToast('Please select a category', 'error'); return; }
+        if (!newPrice) { showToast('Please enter a price', 'error'); return; }
+        // Update the product directly in storeProducts
+        const idx = data.storeProducts.findIndex(x => x.id === id);
+        if (idx !== -1) {
+          data.storeProducts[idx] = {
+            ...data.storeProducts[idx],
+            name: newName, category: newCategory, image: newImage,
+            price: newPrice, oldPrice: newOldPrice, desc: newDesc,
+            rating: newRating, reviews: newReviews, badge: newBadge,
+            brand: newBrand, isNew: newIsNew
+          };
+        }
+        // Remove customization override since we edit directly now
+        if (!data.customizations) data.customizations = {};
+        delete data.customizations[id];
+        saveData(data);
+        closeModal();
+        renderCustomizeStore();
+        addActivity('customize', `Product <strong>${newName}</strong> updated on storefront`);
+        showToast('Product updated! Changes are live on the website.');
+      });
+
+      // Live preview + file upload
+      setTimeout(() => {
+        const imgInput = document.getElementById('custImage');
+        const preview = document.getElementById('custPreview');
+        const fileInput = document.getElementById('custFileUpload');
+        if (imgInput && preview) {
+          imgInput.addEventListener('input', () => { preview.src = imgInput.value || 'https://via.placeholder.com/400x200?text=No+Image'; });
+        }
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 450;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                preview.src = dataUrl;
+                imgInput.value = dataUrl;
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    };
+
+    window.A.removeStoreProduct = async (id) => {
+      const p = (data.storeProducts || []).find(x => x.id === id);
+      if (!p) return;
+      const ok = await showConfirm('Remove Product?', `Are you sure you want to remove "${p.name}" from the storefront?`);
+      if (!ok) return;
+      data.storeProducts = (data.storeProducts || []).filter(x => x.id !== id);
+      if (data.customizations && data.customizations[id]) delete data.customizations[id];
+      saveData(data);
+      renderCustomizeStore();
+      addActivity('customize', `Product <strong>${p.name}</strong> removed from storefront`);
+      showToast('Product removed from storefront');
+    };
+
+    document.getElementById('addStoreProductBtn').addEventListener('click', () => {
+      const cats = (data.categories || []).map(c => c.name);
+      const catOptions = cats.map(c => '<option value="' + c + '">' + c + '</option>').join('');
+      openModal('Add Store Product', 'plus-circle', `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group" style="grid-column:1/-1;"><label>Product Name *</label><input class="form-input" id="newStoreName" placeholder="e.g. Premium Dog Leash"></div>
+          <div class="form-group"><label>Category *</label><select class="form-input" id="newStoreCategory"><option value="">Select category</option>${catOptions}</select></div>
+          <div class="form-group"><label>Brand</label><input class="form-input" id="newStoreBrand" placeholder="e.g. Royal Canin"></div>
+          <div class="form-group"><label>Price *</label><input class="form-input" id="newStorePrice" type="number" step="0.01" min="0" placeholder="0.00"></div>
+          <div class="form-group"><label>Old Price (optional)</label><input class="form-input" id="newStoreOldPrice" type="number" step="0.01" min="0" placeholder="0.00"></div>
+          <div class="form-group" style="grid-column:1/-1;"><label>Description</label><textarea class="form-input" id="newStoreDesc" rows="2" placeholder="Product description..."></textarea></div>
+          <div class="form-group"><label>Rating (0-5)</label><input class="form-input" id="newStoreRating" type="number" step="0.1" min="0" max="5" value="4.0"></div>
+          <div class="form-group"><label>Reviews Count</label><input class="form-input" id="newStoreReviews" type="number" min="0" value="0"></div>
+          <div class="form-group"><label>Badge</label><select class="form-input" id="newStoreBadge"><option value="">None</option><option value="new">New</option><option value="offer">Sale</option></select></div>
+          <div class="form-group"><label>Mark as New?</label><select class="form-input" id="newStoreIsNew"><option value="false">No</option><option value="true">Yes</option></select></div>
+        </div>
+        <div class="form-group">
+          <label>Upload Photo from Computer</label>
+          <label for="newStoreFileUpload" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:2px dashed var(--border);border-radius:var(--radius-xs);cursor:pointer;transition:var(--transition);background:var(--bg-light);font-size:13px;font-weight:600;color:var(--muted);">
+            <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i> Choose Image File
+          </label>
+          <input type="file" id="newStoreFileUpload" accept="image/*" style="display:none;">
+        </div>
+        <div class="form-group"><label>Or Paste Image URL</label><input class="form-input" id="newStoreImage" placeholder="https://example.com/photo.jpg"></div>
+      `, () => {
+        const name = document.getElementById('newStoreName').value.trim();
+        const category = document.getElementById('newStoreCategory').value.trim();
+        const brand = document.getElementById('newStoreBrand').value.trim() || 'General';
+        const price = parseFloat(document.getElementById('newStorePrice').value) || 0;
+        const oldPrice = parseFloat(document.getElementById('newStoreOldPrice').value) || null;
+        const desc = document.getElementById('newStoreDesc').value.trim();
+        const rating = parseFloat(document.getElementById('newStoreRating').value) || 4.0;
+        const reviews = parseInt(document.getElementById('newStoreReviews').value) || 0;
+        const badge = document.getElementById('newStoreBadge').value || null;
+        const isNew = document.getElementById('newStoreIsNew').value === 'true';
+        const image = document.getElementById('newStoreImage').value.trim();
+        if (!name) { showToast('Please enter a product name', 'error'); return; }
+        if (!category) { showToast('Please select a category', 'error'); return; }
+        if (!price) { showToast('Please enter a price', 'error'); return; }
+        const newId = Date.now();
+        if (!data.storeProducts) data.storeProducts = [];
+        data.storeProducts.push({ id: newId, name, category, image, price, oldPrice, desc, rating, reviews, badge, brand, isNew, health: [], flavor: [] });
+        saveData(data);
+        closeModal();
+        renderCustomizeStore();
+        addActivity('customize', `New product <strong>${name}</strong> added to storefront`);
+        showToast('Product added to storefront!');
+      });
+
+      setTimeout(() => {
+        const imgInput = document.getElementById('newStoreImage');
+        const fileInput = document.getElementById('newStoreFileUpload');
+        if (fileInput) {
+          fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) { showToast('Image too large. Max 2MB.', 'error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const img = new Image();
+              img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxW = 600, maxH = 450;
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = h * maxW / w; w = maxW; }
+                if (h > maxH) { w = w * maxH / h; h = maxH; }
+                canvas.width = w;
+                canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                imgInput.value = dataUrl;
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      }, 100);
+    });
+
+    document.getElementById('resetCustomizeBtn').addEventListener('click', async () => {
+      const cust = getCustomizations();
+      const count = Object.keys(cust).length;
+      const storeCount = (data.storeProducts || []).length;
+      if (count === 0 && storeCount === 0) { showToast('No products to reset', 'info'); return; }
+      const ok = await showConfirm('Clear All Products?', `This will remove all ${storeCount} product(s) from the storefront and clear all customizations.`);
+      if (!ok) return;
+      data.customizations = {};
+      data.storeProducts = [];
+      saveData(data);
+      renderCustomizeStore();
+      addActivity('customize', 'All store products and customizations cleared');
+      showToast('All store products cleared');
+    });
+
+    /* ===========================================
+       LOGO & BRANDING
+       =========================================== */
+    function loadLogoSettings() {
+      const logo = data.settings.siteLogo || '';
+      const name = data.settings.siteName || 'Fluffy';
+      const img = document.getElementById('currentLogoImg');
+      const placeholder = document.getElementById('currentLogoPlaceholder');
+      if (logo) {
+        img.src = logo;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        img.src = '';
+        img.style.display = 'none';
+        placeholder.style.display = 'block';
+      }
+      document.getElementById('settingSiteName').value = name;
+    }
+
+    // Live preview on file select
+    document.getElementById('logoFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) { showToast('Image must be under 2MB', 'warning'); return; }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = document.getElementById('currentLogoImg');
+        const placeholder = document.getElementById('currentLogoPlaceholder');
+        img.src = ev.target.result;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Live preview on URL input
+    document.getElementById('logoUrlInput').addEventListener('input', (e) => {
+      const url = e.target.value.trim();
+      const img = document.getElementById('currentLogoImg');
+      const placeholder = document.getElementById('currentLogoPlaceholder');
+      if (url) {
+        img.src = url;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        const logo = data.settings.siteLogo || 'logo.png';
+        img.src = logo;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+    });
+
+    document.getElementById('saveLogoBtn').addEventListener('click', () => {
+      const fileInput = document.getElementById('logoFileInput');
+      const urlInput = document.getElementById('logoUrlInput').value.trim();
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        if (file.size > 2 * 1024 * 1024) { showToast('Image must be under 2MB', 'warning'); return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          data.settings.siteLogo = ev.target.result;
+          saveData(data);
+          loadLogoSettings();
+          fileInput.value = '';
+          document.getElementById('logoUrlInput').value = '';
+          addActivity('customize', 'Website logo updated');
+          showToast('Logo saved successfully');
+        };
+        reader.readAsDataURL(file);
+      } else if (urlInput) {
+        data.settings.siteLogo = urlInput;
+        saveData(data);
+        loadLogoSettings();
+        document.getElementById('logoUrlInput').value = '';
+        addActivity('customize', 'Website logo updated');
+        showToast('Logo saved successfully');
+      } else {
+        showToast('Please upload an image or enter a URL', 'warning');
+      }
+    });
+
+    document.getElementById('resetLogoBtn').addEventListener('click', () => {
+      data.settings.siteLogo = '';
+      saveData(data);
+      const img = document.getElementById('currentLogoImg');
+      const placeholder = document.getElementById('currentLogoPlaceholder');
+      img.src = 'logo.png';
+      img.style.display = 'block';
+      placeholder.style.display = 'none';
+      document.getElementById('logoFileInput').value = '';
+      document.getElementById('logoUrlInput').value = '';
+      addActivity('customize', 'Website logo reset to default');
+      showToast('Logo reset to default');
+    });
+
+    document.getElementById('saveSiteNameBtn').addEventListener('click', () => {
+      const name = document.getElementById('settingSiteName').value.trim() || 'Fluffy';
+      data.settings.siteName = name;
+      saveData(data);
+      addActivity('customize', 'Store name changed to "' + name + '"');
+      showToast('Store name saved');
+    });
+
+    /* ===========================================
+       BLOGS
+       =========================================== */
+    if (data.blogs === undefined) data.blogs = null;
+
+    let blogEditingId = null;
+
+    function renderBlogs() {
+      const el = document.getElementById('blogsList');
+      if (!data.blogs || data.blogs.length === 0) {
+        el.innerHTML = emptyState('newspaper', 'No blog posts yet', 'Create your first blog post to engage with your customers');
+        return;
+      }
+      el.innerHTML = `
+        <div class="table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.blogs.map(b => `
+                <tr>
+                  <td><img src="${b.image || 'https://via.placeholder.com/100?text=Blog'}" alt="" style="width:80px;height:50px;object-fit:cover;border-radius:6px;"></td>
+                  <td><strong>${b.title}</strong><br><span style="font-size:12px;color:var(--muted);">${(b.excerpt || '').substring(0, 50)}...</span></td>
+                  <td><span class="status-badge" style="background:#E8F5E9;color:#2E7D32;">${b.category || 'General'}</span></td>
+                  <td>${b.author || 'Admin'}</td>
+                  <td>${new Date(b.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                  <td><span class="status-badge ${b.published ? 'delivered' : 'pending'}">${b.published ? 'Published' : 'Draft'}</span></td>
+                  <td>
+                    <div class="action-btns">
+                      <button class="action-btn view" title="Edit" onclick="window.A.editBlog('${b.id}')"><i class="fas fa-edit"></i></button>
+                      <button class="action-btn delete" title="Delete" onclick="window.A.deleteBlog('${b.id}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    window.A.openBlogModal = function(id) {
+      blogEditingId = id || null;
+      const blog = id ? data.blogs.find(b => b.id === id) : null;
+      const title = blog ? 'Edit Blog Post' : 'Add New Blog Post';
+
+      const html = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group" style="grid-column:1/3;">
+            <label>Title *</label>
+            <input type="text" class="form-input" id="blogTitle" value="${blog ? blog.title : ''}" placeholder="Enter blog title">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" class="form-input" id="blogCategory" value="${blog ? blog.category : ''}" placeholder="e.g. Dogs, Cats, Nutrition">
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" class="form-input" id="blogAuthor" value="${blog ? blog.author : ''}" placeholder="Author name">
+          </div>
+          <div class="form-group">
+            <label>Author Image</label>
+            <div style="position:relative;">
+              <input type="file" id="blogAuthorFile" accept="image/*" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;">
+              <label for="blogAuthorFile" id="blogAuthorLabel" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;border:2px dashed var(--border);border-radius:10px;cursor:pointer;transition:all 0.2s;background:var(--bg-light);font-size:13px;color:var(--gray);">
+                <i class="fas fa-camera"></i>
+                <span>${blog && blog.authorAvatar ? 'Change Author Image' : 'Upload Author Image'}</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group" style="grid-column:1/3;">
+            <label>Excerpt</label>
+            <input type="text" class="form-input" id="blogExcerpt" value="${blog ? blog.excerpt : ''}" placeholder="Short description">
+          </div>
+          <div class="form-group" style="grid-column:1/3;">
+            <label>Content</label>
+            <textarea class="form-input" id="blogContent" rows="6" placeholder="Write your blog content here...">${blog ? blog.content : ''}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" class="form-input" id="blogImageUrl" value="${blog ? blog.image : ''}" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label>Or Upload Image</label>
+            <div style="position:relative;">
+              <input type="file" id="blogImageFile" accept="image/*" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;">
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px dashed var(--border);border-radius:var(--radius-xs);background:var(--bg-light);cursor:pointer;transition:var(--transition);">
+                <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--accent);"></i>
+                <span style="font-size:13px;color:var(--muted);" id="blogFileLabel">Choose file or drag here</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="blogPublished" ${blog ? (blog.published !== false ? 'checked' : '') : 'checked'}> Published
+            </label>
+          </div>
+        </div>
+      `;
+      openModal(title, 'newspaper', html, () => saveBlog());
+      setTimeout(() => {
+        const fileInput = document.getElementById('blogImageFile');
+        const label = document.getElementById('blogFileLabel');
+        if (fileInput && label) {
+          fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+              label.textContent = this.files[0].name;
+              label.style.color = 'var(--text)';
+            }
+          });
+        }
+        const authorInput = document.getElementById('blogAuthorFile');
+        const authorLabel = document.getElementById('blogAuthorLabel');
+        if (authorInput && authorLabel) {
+          authorInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+              authorLabel.innerHTML = '<i class="fas fa-check"></i> <span>' + this.files[0].name + '</span>';
+              authorLabel.style.color = 'var(--text)';
+            }
+          });
+        }
+      }, 100);
+    };
+
+    function saveBlog() {
+      const title = document.getElementById('blogTitle').value.trim();
+      if (!title) { showToast('Title is required', 'warning'); return; }
+
+      const imageFile = document.getElementById('blogImageFile').files[0];
+      const imageUrl = document.getElementById('blogImageUrl').value.trim();
+      const authorFile = document.getElementById('blogAuthorFile').files[0];
+
+      const blogData = {
+        title: title,
+        category: document.getElementById('blogCategory').value.trim() || 'General',
+        author: document.getElementById('blogAuthor').value.trim() || 'Admin',
+        authorAvatar: blogEditingId && data.blogs.find(b => b.id === blogEditingId) ? data.blogs.find(b => b.id === blogEditingId).authorAvatar : '',
+        excerpt: document.getElementById('blogExcerpt').value.trim(),
+        content: document.getElementById('blogContent').value.trim(),
+        image: imageUrl,
+        published: document.getElementById('blogPublished').checked !== false,
+        date: new Date().toISOString()
+      };
+
+      if (imageFile) {
+        if (imageFile.size > 5 * 1024 * 1024) { showToast('Image must be under 5MB', 'warning'); return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          blogData.image = ev.target.result;
+          if (authorFile) {
+            if (authorFile.size > 2 * 1024 * 1024) { showToast('Author image must be under 2MB', 'warning'); return; }
+            const reader2 = new FileReader();
+            reader2.onload = (ev2) => {
+              blogData.authorAvatar = ev2.target.result;
+              finishSaveBlog(blogData);
+            };
+            reader2.readAsDataURL(authorFile);
+          } else {
+            finishSaveBlog(blogData);
+          }
+        };
+        reader.readAsDataURL(imageFile);
+      } else if (authorFile) {
+        if (authorFile.size > 2 * 1024 * 1024) { showToast('Author image must be under 2MB', 'warning'); return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          blogData.authorAvatar = ev.target.result;
+          finishSaveBlog(blogData);
+        };
+        reader.readAsDataURL(authorFile);
+      } else {
+        finishSaveBlog(blogData);
+      }
+    }
+
+    function finishSaveBlog(blogData) {
+      if (!data.blogs) data.blogs = [];
+      if (blogEditingId) {
+        const idx = data.blogs.findIndex(b => b.id === blogEditingId);
+        if (idx !== -1) {
+          blogData.id = blogEditingId;
+          blogData.date = data.blogs[idx].date;
+          data.blogs[idx] = blogData;
+        }
+        addActivity('blog', `Blog post "<strong>${blogData.title}</strong>" updated`);
+        showToast('Blog post updated');
+      } else {
+        blogData.id = 'blog-' + Date.now();
+        data.blogs.unshift(blogData);
+        addActivity('blog', `New blog post "<strong>${blogData.title}</strong>" created`);
+        showToast('Blog post created');
+      }
+      saveData(data);
+      renderBlogs();
+      closeModal();
+    }
+
+    window.A.editBlog = function(id) {
+      window.A.openBlogModal(id);
+    };
+
+    window.A.deleteBlog = function(id) {
+      console.log('Deleting blog:', id);
+      const blog = data.blogs.find(b => b.id === id);
+      if (!blog) { console.log('Blog not found'); return; }
+      if (!confirm('Delete "' + blog.title + '"?')) return;
+      data.blogs = data.blogs.filter(b => b.id !== id);
+      if (data.blogs.length === 0) data.blogs = [];
+      saveData(data);
+      renderBlogs();
+      addActivity('blog', `Blog post "<strong>${blog.title}</strong>" deleted`);
+      showToast('Blog post deleted');
+    };
+
+    /* ===========================================
+       INIT
+       =========================================== */
+    function init() {
+      const safe = (fn, label) => { try { fn(); } catch(e) { console.error('Init error [' + label + ']:', e); } };
+      safe(loadSettings, 'loadSettings');
+      safe(loadLogoSettings, 'loadLogoSettings');
+      safe(loadContactInfo, 'loadContactInfo');
+      safe(renderDashboard, 'renderDashboard');
+      safe(renderOrders, 'renderOrders');
+      safe(renderProducts, 'renderProducts');
+      safe(renderCustomers, 'renderCustomers');
+      safe(renderCategories, 'renderCategories');
+      safe(renderReviews, 'renderReviews');
+      safe(renderBlogs, 'renderBlogs');
+      safe(renderAllNotifications, 'renderAllNotifications');
+      safe(renderNotifDropdown, 'renderNotifDropdown');
+      safe(renderCustomizeStore, 'renderCustomizeStore');
+    }
+
+    init();
+
+    window.A.resetData = () => { localStorage.removeItem(DB_KEY); location.reload(); };
+
+  })();
+  </script>
+
+</body>
+</html>

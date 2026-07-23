@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Fluffy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --accent: #1A1A1A;
+      --accent-hover: #333333;
+      --bg-page: #FCEBD5;
+      --bg-white: #FFFFFF;
+      --text-dark: #1A1A1A;
+      --text-muted: #6B6B6B;
+      --text-light: #999999;
+      --border: #E0CDB5;
+      --border-light: #F0DFC8;
+      --green: #4CAF50;
+      --red: #E53935;
+    }
+
+    body { background: var(--bg-page); font-family: 'Poppins', sans-serif; color: var(--text-dark); margin: 0; }
+
+    /* Progress Steps */
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 0 10px;
+      gap: 0;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+    .progress-step.active { color: var(--text-dark); font-weight: 700; }
+    .progress-step .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      display: inline-block;
+    }
+    .progress-step.active .step-dot { background: var(--accent); }
+    .progress-line {
+      width: 60px;
+      height: 2px;
+      background: var(--border);
+      margin: 0 12px;
+    }
+
+    /* Page Title */
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 10px 0 24px;
+    }
+
+    /* Cart Grid */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Cart Items Card */
+    .cart-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .cart-card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .cart-card-header span { color: var(--text-muted); font-weight: 400; }
+
+    /* Cart Item Row */
+    .cart-item-row {
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 20px;
+    }
+    .cart-item-row:last-child { border-bottom: none; }
+    .cart-item-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid var(--border-light);
+    }
+    .cart-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .cart-item-details { flex: 1; min-width: 0; }
+    .cart-item-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: var(--text-dark);
+    }
+    .cart-item-cat {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .cart-item-variant {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .cart-item-variant strong { color: var(--text-muted); font-weight: 600; }
+    .cart-item-pricing {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .cart-item-price-old {
+      font-size: 13px;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+    .cart-item-price-new {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .cart-item-discount {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      background: #E8F5E9;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Quantity Control */
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .qty-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: var(--white);
+      color: var(--text-dark);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover { background: var(--border-light); }
+    .qty-input {
+      width: 40px;
+      height: 36px;
+      border: none;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .qty-input::-webkit-inner-spin-button,
+    .qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+    /* Remove Link */
+    .remove-link {
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 4px 0;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .remove-link:hover { color: var(--red); }
+
+    /* Right Sidebar */
+    .cart-sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Coupons Card */
+    .coupons-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .coupons-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 14px;
+    }
+    .coupon-form {
+      display: flex;
+      gap: 8px;
+    }
+    .coupon-form input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .coupon-form input:focus { border-color: var(--accent); }
+    .coupon-form button {
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .coupon-form button:hover { background: var(--accent-hover); }
+    .coupon-msg { font-size: 12px; margin-top: 8px; display: none; }
+
+    /* Order Summary Card */
+    .order-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .order-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 16px;
+    }
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .order-row.subtotal { font-weight: 600; }
+    .order-row .label { color: var(--text-muted); }
+    .order-divider { border: none; border-top: 1px dashed var(--border); margin: 6px 0; }
+
+    /* Delivery Options */
+    .delivery-section { margin: 10px 0; }
+    .delivery-section .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+    .delivery-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .delivery-option input[type="radio"] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .delivery-option .delivery-price { margin-left: auto; font-weight: 600; }
+
+    /* Tip Section */
+    .tip-section { margin: 10px 0; }
+    .tip-section .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .tip-options {
+      display: flex;
+      gap: 8px;
+    }
+    .tip-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .tip-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tip-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Total Row */
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0 0;
+      font-size: 17px;
+      font-weight: 700;
+      border-top: 2px solid var(--text-dark);
+      margin-top: 8px;
+    }
+
+    /* Checkout Button */
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 14px;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .checkout-btn:hover { background: var(--accent-hover); }
+
+    /* Feature Badges */
+    .feature-badges {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 40px 0;
+    }
+    .feature-badge {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .feature-badge i {
+      font-size: 28px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .feature-badge h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .feature-badge p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Empty Cart */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .empty-cart i {
+      font-size: 64px;
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+    .empty-cart h2 { margin-bottom: 8px; }
+    .empty-cart p { color: var(--text-muted); margin-bottom: 24px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .feature-badges { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .cart-item-row { flex-wrap: wrap; }
+      .cart-item-img { width: 70px; height: 70px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-inner">
+        <div class="top-bar-left">
+          <span><i class="fas fa-truck"></i> Free Shipping on Orders Over ৳50</span>
+          <span class="divider">|</span>
+          <span><i class="fas fa-phone"></i> Call Us: (555) 123-4567</span>
+        </div>
+        <div class="top-bar-right">
+          <a href="#"><i class="fas fa-store"></i> Track Order</a>
+          <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
+          <a href="#"><i class="fas fa-globe"></i> EN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Fluffy" class="logo-img">
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="shop.html" class="nav-link">Shop</a></li>
+          <li><a href="categories.html" class="nav-link">Categories</a></li>
+          <li><a href="about.html" class="nav-link">About Us</a></li>
+          <li><a href="blog.html" class="nav-link">Blog</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-bar" id="searchBar">
+          <input type="text" placeholder="Search products..." class="search-input">
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <button class="header-icon-btn search-toggle" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="header-icon-btn" aria-label="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="cart.html" class="header-icon-btn" aria-label="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="login.html" class="btn btn-primary btn-sm login-btn">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a></li>
+      <li><a href="categories.html"><i class="fas fa-th-large"></i> Categories</a></li>
+      <li><a href="blog.html"><i class="fas fa-tags"></i> Blog</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Breadcrumb -->
+  <section class="breadcrumb-section">
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="separator"><i class="fas fa-chevron-right"></i></li>
+        <li class="active">Cart</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Cart Section -->
+  <section class="cart-section">
+    <div class="container">
+
+      <!-- Progress Steps -->
+      <div class="progress-steps">
+        <div class="progress-step active">
+          <span class="step-dot"></span> Cart
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step">
+          <span class="step-dot"></span> Shipping
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step">
+          <span class="step-dot"></span> Payment
+        </div>
+      </div>
+
+      <!-- Page Title -->
+      <h1 class="page-title">My Cart</h1>
+
+      <!-- Empty Cart State -->
+      <div id="emptyCart" class="empty-cart" style="display:none;">
+        <i class="fas fa-shopping-cart"></i>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added any products yet.</p>
+        <a href="shop.html" class="checkout-btn" style="display:inline-block;width:auto;padding:14px 32px;"><i class="fas fa-shopping-bag"></i> Start Shopping</a>
+      </div>
+
+      <!-- Cart Layout -->
+      <div class="cart-layout" id="cartGrid" style="display:none;">
+
+        <!-- Left: Cart Items -->
+        <div class="cart-card">
+          <div class="cart-card-header">
+            My Cart (<span id="summaryCount">0</span>)
+          </div>
+          <div id="cartItemsList"></div>
+        </div>
+
+        <!-- Right: Sidebar -->
+        <div class="cart-sidebar">
+
+          <!-- Coupons -->
+          <div class="coupons-card">
+            <h3>Coupons</h3>
+            <div class="coupon-form">
+              <input type="text" placeholder="Coupon code" id="couponInput">
+              <button id="applyCouponBtn">APPLY NOW</button>
+            </div>
+            <div class="coupon-msg" id="couponMessage"></div>
+          </div>
+
+          <!-- Your Order -->
+          <div class="order-card">
+            <h3>Your Order</h3>
+
+            <div class="order-row subtotal">
+              <span>Subtotal (<span id="orderItemCount">0</span> items)</span>
+              <span id="summarySubtotal">৳0.00</span>
+            </div>
+
+            <hr class="order-divider">
+
+            <!-- Delivery -->
+            <div class="delivery-section">
+              <div class="section-label">Delivery</div>
+              <label class="delivery-option">
+                <input type="radio" name="delivery" value="delivery" checked>
+                <span>Delivery</span>
+                <span class="delivery-price" id="deliveryPrice">৳5.99</span>
+              </label>
+              <label class="delivery-option">
+                <input type="radio" name="delivery" value="pickup">
+                <span>Pick Up</span>
+                <span class="delivery-price" style="color:var(--green);">Free</span>
+              </label>
+            </div>
+
+            <hr class="order-divider">
+
+            <!-- Tip -->
+            <div class="tip-section">
+              <div class="section-label">Tip</div>
+              <div class="tip-options">
+                <button class="tip-btn" data-tip="2">৳2.00</button>
+                <button class="tip-btn active" data-tip="4">৳4.00</button>
+                <button class="tip-btn" data-tip="7">৳7.00</button>
+              </div>
+            </div>
+
+            <hr class="order-divider">
+
+            <!-- Fees -->
+            <div class="order-row">
+              <span class="label">Service Fee</span>
+              <span id="serviceFee">৳1.50</span>
+            </div>
+            <div class="order-row">
+              <span class="label">Tax (8%)</span>
+              <span id="summaryTax">৳0.00</span>
+            </div>
+
+            <hr class="order-divider">
+
+            <!-- Total -->
+            <div class="order-total">
+              <span>Total Payable</span>
+              <span id="summaryTotal">৳0.00</span>
+            </div>
+
+            <a href="checkout.html" class="checkout-btn" id="checkoutBtn">
+              <i class="fas fa-lock"></i> PROCEED TO CHECKOUT
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Feature Badges -->
+      <div class="feature-badges">
+        <div class="feature-badge">
+          <i class="fas fa-gift"></i>
+          <h4>Gift Cards</h4>
+          <p>Premium quality products for your beloved pets with love and care.</p>
+        </div>
+        <div class="feature-badge">
+          <i class="fas fa-certificate"></i>
+          <h4>100% ORIGINAL</h4>
+          <p>Guaranteed authentic products from trusted brands and suppliers.</p>
+        </div>
+        <div class="feature-badge">
+          <i class="fas fa-undo"></i>
+          <h4>Easy Returns</h4>
+          <p>Hassle-free return policy within 30 days of purchase.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <a href="index.html"><img src="logo.png" alt="Fluffy" class="logo-img"></a>
+          </div>
+          <p class="footer-about">Your trusted destination for premium pet supplies. Quality products for your beloved furry friends.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/share/191iM3Hgnh/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/fluffypets27" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">Dogs</a></li>
+            <li><a href="shop.html">Cats</a></li>
+            <li><a href="shop.html">Birds</a></li>
+            <li><a href="shop.html">Fish</a></li>
+            <li><a href="shop.html">Small Pets</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Subscribe Now</h4>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Get the latest updates on new products and sales!</p>
+          <form class="newsletter-form" style="display:flex;gap:8px;">
+            <input type="email" placeholder="Enter Your email address" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;">
+            <button type="submit" style="width:40px;height:40px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+          </form>
+          <div class="social-links" style="margin-top:12px;">
+            <a href="https://www.facebook.com/share/191iM3Hgnh/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-google"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2026 Fluffy Pet Shop. All Rights Reserved.</p>
+          <div class="footer-payments">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-paypal"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="order-utils.js"></script>
+  <script>
+  (() => {
+    const cart = window.FluffyCart;
+    const TAX_RATE = 0.08;
+    const FREE_SHIPPING_THRESHOLD = 50;
+    const STANDARD_SHIPPING = 5.99;
+    const SERVICE_FEE = 1.50;
+    let couponDiscount = 0;
+    let selectedTip = 4;
+    let deliveryMethod = 'delivery';
+
+    function initCart() {
+      // Cart starts empty - products are added from the website
+    }
+
+    function renderCart() {
+      const items = cart.get();
+      const listEl = document.getElementById('cartItemsList');
+      const gridEl = document.getElementById('cartGrid');
+      const emptyEl = document.getElementById('emptyCart');
+
+      if (items.length === 0) {
+        gridEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      gridEl.style.display = 'grid';
+      emptyEl.style.display = 'none';
+
+      const totalQty = items.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('summaryCount').textContent = totalQty;
+      document.getElementById('orderItemCount').textContent = totalQty;
+
+      listEl.innerHTML = items.map(item => {
+        const hasDiscount = item.oldPrice && item.oldPrice > item.price;
+        const discountPct = hasDiscount ? Math.round((1 - item.price / item.oldPrice) * 100) : 0;
+        return `
+          <div class="cart-item-row" data-id="${item.id}">
+            <div class="cart-item-img">
+              <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="cart-item-details">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-cat">${item.category}</div>
+              <div class="cart-item-variant">${item.variant ? item.variant.split('|').map(v => {
+                const parts = v.trim().split(':');
+                return '<strong>' + parts[0].trim() + ':</strong> ' + (parts[1] || '').trim();
+              }).join(' | ') : ''}</div>
+              <div class="cart-item-pricing">
+                ${hasDiscount ? '<span class="cart-item-price-old">৳' + item.oldPrice.toFixed(2) + '</span>' : ''}
+                <span class="cart-item-price-new">৳${item.price.toFixed(2)}</span>
+                ${hasDiscount ? '<span class="cart-item-discount">' + discountPct + '% OFF</span>' : ''}
+              </div>
+            </div>
+            <div class="qty-control">
+              <button class="qty-btn qty-decrease" data-id="${item.id}">-</button>
+              <input type="number" class="qty-input" value="${item.qty}" min="1" max="99" data-id="${item.id}">
+              <button class="qty-btn qty-increase" data-id="${item.id}">+</button>
+            </div>
+            <button class="remove-link qty-remove" data-id="${item.id}">x Remove</button>
+          </div>
+        `;
+      }).join('');
+
+      updateSummary(items);
+    }
+
+    function updateSummary(items) {
+      const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);
+      const shipping = deliveryMethod === 'pickup' ? 0 : (subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING);
+      const tax = subtotal * TAX_RATE;
+      const discount = couponDiscount > 0 ? subtotal * couponDiscount : 0;
+      const total = subtotal + tax + shipping + SERVICE_FEE + selectedTip - discount;
+
+      document.getElementById('summarySubtotal').textContent = '৳' + subtotal.toFixed(2);
+      document.getElementById('deliveryPrice').textContent = shipping === 0 ? 'Free' : '৳' + shipping.toFixed(2);
+      document.getElementById('summaryTax').textContent = '৳' + tax.toFixed(2);
+      document.getElementById('summaryTotal').textContent = '৳' + total.toFixed(2);
+
+      const badge = document.querySelector('.header-icon-btn[aria-label="Cart"] .badge');
+      const totalQty = items.reduce((s, i) => s + i.qty, 0);
+      if (badge) badge.textContent = totalQty;
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      checkoutBtn.style.pointerEvents = items.length === 0 ? 'none' : 'auto';
+      checkoutBtn.style.opacity = items.length === 0 ? '0.5' : '1';
+    }
+
+    // Event delegation for all cart item controls
+    document.getElementById('cartItemsList').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-id]');
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+
+      if (btn.classList.contains('qty-decrease')) {
+        const items = cart.get();
+        const item = items.find(i => i.id === id);
+        if (item && item.qty > 1) { item.qty--; cart.save(items); renderCart(); }
+      }
+
+      if (btn.classList.contains('qty-increase')) {
+        const items = cart.get();
+        const item = items.find(i => i.id === id);
+        if (item && item.qty < 99) { item.qty++; cart.save(items); renderCart(); }
+      }
+
+      if (btn.classList.contains('qty-remove')) {
+        cart.remove(id);
+        couponDiscount = 0;
+        renderCart();
+      }
+    });
+
+    document.getElementById('cartItemsList').addEventListener('change', (e) => {
+      if (e.target.classList.contains('qty-input')) {
+        const id = Number(e.target.dataset.id);
+        const qty = Math.max(1, Math.min(99, parseInt(e.target.value) || 1));
+        cart.updateQty(id, qty);
+        renderCart();
+      }
+    });
+
+    // Tip buttons
+    document.querySelectorAll('.tip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTip = parseFloat(btn.dataset.tip) || 0;
+        updateSummary(cart.get());
+      });
+    });
+
+    // Delivery radio
+    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        deliveryMethod = radio.value;
+        updateSummary(cart.get());
+      });
+    });
+
+    // Coupon
+    document.getElementById('applyCouponBtn').addEventListener('click', () => {
+      const code = document.getElementById('couponInput').value.trim().toUpperCase();
+      const msgEl = document.getElementById('couponMessage');
+      const coupons = { 'FLUFFY10': 0.10, 'PET20': 0.20, 'SAVE15': 0.15 };
+      if (coupons[code]) {
+        couponDiscount = coupons[code];
+        msgEl.textContent = 'Coupon applied! ' + (couponDiscount * 100) + '% discount';
+        msgEl.style.color = '#4CAF50';
+        msgEl.style.display = 'block';
+      } else if (code === '') {
+        couponDiscount = 0;
+        msgEl.style.display = 'none';
+      } else {
+        couponDiscount = 0;
+        msgEl.textContent = 'Invalid coupon code';
+        msgEl.style.color = '#E53935';
+        msgEl.style.display = 'block';
+      }
+      renderCart();
+    });
+
+    initCart();
+    renderCart();
+
+    /* Apply Logo & Site Name */
+    try {
+      var adminData = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (adminData && adminData.settings) {
+        var s = adminData.settings;
+        if (s.siteLogo) {
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.src = s.siteLogo; });
+        }
+        var displayName = s.siteName || s.storeName || '';
+        if (displayName) {
+          document.title = document.title.replace(/Fluffy/, displayName);
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.alt = displayName; });
+        }
+      }
+    } catch (e) {}
+  })();
+  </script>
+  <script src="contact-utils.js"></script>
+  <script src="search-utils.js"></script>
+  <script src="badge-utils.js"></script>
+  <script src="nav-utils.js"></script>
+
+</body>
+</html>

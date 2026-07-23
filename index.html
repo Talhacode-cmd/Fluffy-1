@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluffy — Everything Your Pet Needs</title>
+  <meta name="description" content="Premium pet food, toys, accessories and healthcare products for dogs, cats, birds, rabbits and fish.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <span><i class="fas fa-truck"></i> Free shipping on orders over ৳50</span>
+        <span class="top-divider">|</span>
+        <span><i class="fas fa-headset"></i> 24/7 Customer Support</span>
+      </div>
+      <div class="top-bar-right">
+        <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
+        <a href="#"><i class="fas fa-store"></i> Track Order</a>
+        <a href="login.html"><i class="fas fa-user"></i> My Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Fluffy" class="logo-img">
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="shop.html" class="nav-link">Shop</a></li>
+          <li><a href="categories.html" class="nav-link">Categories</a></li>
+          <li><a href="about.html" class="nav-link">About Us</a></li>
+          <li><a href="blog.html" class="nav-link">Blog</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-bar" id="searchBar">
+          <input type="text" placeholder="Search products..." class="search-input">
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <button class="header-icon-btn search-toggle" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="header-icon-btn" aria-label="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="cart.html" class="header-icon-btn" aria-label="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="login.html" class="btn btn-primary btn-sm login-btn">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Fluffy" class="logo-img">
+      </a>
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html">Login / Register</a></li>
+    </ul>
+  </div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1920&q=80" alt="Happy dog" class="hero-bg-img">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container hero-content">
+      <span class="hero-badge"><i class="fas fa-paw"></i> Welcome to Fluffy</span>
+      <h1 class="hero-title">Everything Your Pet Needs<br>in One Place</h1>
+      <p class="hero-subtitle">Premium Food, Toys, Accessories &amp; Healthcare Products for Dogs, Cats, Birds, Rabbits &amp; Fish</p>
+      <div class="hero-buttons">
+        <a href="shop.html" class="btn btn-primary btn-lg"><i class="fas fa-shopping-bag"></i> Shop Now</a>
+        <a href="about.html" class="btn btn-outline-light btn-lg"><i class="fas fa-play-circle"></i> Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-number">50K+</span>
+          <span class="hero-stat-label">Happy Pets</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">10K+</span>
+          <span class="hero-stat-label">Products</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">4.9</span>
+          <span class="hero-stat-label">Rating</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BRAND MARQUEE ===== -->
+  <section class="brand-marquee">
+    <div class="container">
+      <div class="marquee-track">
+        <div class="marquee-item"><i class="fas fa-dog"></i> Royal Canin</div>
+        <div class="marquee-item"><i class="fas fa-cat"></i> Whiskas</div>
+        <div class="marquee-item"><i class="fas fa-fish"></i> Tetra</div>
+        <div class="marquee-item"><i class="fas fa-dove"></i> Kaytee</div>
+        <div class="marquee-item"><i class="fas fa-paw"></i> Pedigree</div>
+        <div class="marquee-item"><i class="fas fa-cat"></i> Purina</div>
+        <div class="marquee-item"><i class="fas fa-dog"></i> Blue Buffalo</div>
+        <div class="marquee-item"><i class="fas fa-fish"></i> Fluval</div>
+        <div class="marquee-item"><i class="fas fa-paw"></i> Hill's Science</div>
+        <div class="marquee-item"><i class="fas fa-dove"></i> Zoo Med</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES SECTION ===== -->
+  <section class="section categories-section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-th-large"></i> Browse Categories</span>
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-desc">Find everything your furry, feathered, or finned friend needs</p>
+      </div>
+      <div class="categories-grid" id="homeCategories"></div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="section products-section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-star"></i> Featured Products</span>
+        <h2 class="section-title">Our Premium Collection</h2>
+        <p class="section-desc">Handpicked products loved by pets and their owners</p>
+      </div>
+      <div class="products-grid" id="homeProductsGrid"><div style="text-align:center;padding:40px;color:var(--gray);grid-column:1/-1;"><i class="fas fa-box-open" style="font-size:36px;margin-bottom:12px;display:block;"></i><p>No products yet. Add products from the Admin Panel!</p></div></div>
+      <div class="section-cta">
+        <a href="shop.html" class="btn btn-primary btn-lg">View All Products <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPECIAL OFFERS BANNER ===== -->
+  <section class="section offers-banner-section">
+    <div class="container">
+      <div class="offers-grid">
+        <div class="offer-card offer-main">
+          <div class="offer-content">
+            <span class="offer-badge">Limited Time</span>
+            <h2 class="offer-title">Up to <span>50% OFF</span></h2>
+            <p class="offer-desc">On premium pet food and accessories. Don't miss out on these incredible deals!</p>
+            <a href="shop.html" class="btn btn-primary btn-lg">Shop the Sale <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="offer-image">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&q=80" alt="Sale Offer">
+          </div>
+        </div>
+        <div class="offer-card offer-feature">
+          <div class="offer-feature-icon"><i class="fas fa-truck"></i></div>
+          <h3>Free Shipping</h3>
+          <p>On orders over ৳50</p>
+        </div>
+        <div class="offer-card offer-feature">
+          <div class="offer-feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Secure Payment</h3>
+          <p>100% secure checkout</p>
+        </div>
+        <div class="offer-card offer-feature">
+          <div class="offer-feature-icon"><i class="fas fa-undo"></i></div>
+          <h3>Easy Returns</h3>
+          <p>30-day return policy</p>
+        </div>
+        <div class="offer-card offer-feature">
+          <div class="offer-feature-icon"><i class="fas fa-headset"></i></div>
+          <h3>24/7 Support</h3>
+          <p>Always here to help</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BEST SELLERS ===== -->
+  <section class="section bestsellers-section" id="bestsellers">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-fire"></i> Most Popular</span>
+        <h2 class="section-title">Best Sellers</h2>
+        <p class="section-desc">Our customers' all-time favorites</p>
+      </div>
+      <div class="products-grid" id="homeBestSellersGrid">
+        <div style="text-align:center;padding:40px;color:var(--gray);grid-column:1/-1;"><i class="fas fa-fire" style="font-size:36px;margin-bottom:12px;display:block;"></i><p>No best sellers yet. Add products from the Admin Panel!</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY CHOOSE US ===== -->
+  <section class="section why-section" id="why">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-award"></i> Our Promise</span>
+        <h2 class="section-title">Why Choose Fluffy</h2>
+        <p class="section-desc">We go above and beyond to keep your pets happy and healthy</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-gem"></i></div>
+          <h3 class="why-title">Premium Quality Products</h3>
+          <p class="why-desc">Every product we carry is carefully vetted for safety, quality, and effectiveness. We only stock brands we trust for our own pets.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shipping-fast"></i></div>
+          <h3 class="why-title">Fast Delivery</h3>
+          <p class="why-desc">Same-day dispatch on orders placed before 2 PM. Free express shipping on orders over ৳50 — straight to your doorstep.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-users"></i></div>
+          <h3 class="why-title">Trusted by Thousands</h3>
+          <p class="why-desc">Over 50,000 happy pet parents shop with us. Our 4.9-star rating speaks for itself — your pets deserve the best.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lock"></i></div>
+          <h3 class="why-title">Secure Payments</h3>
+          <p class="why-desc">Shop with confidence. We use 256-bit SSL encryption and support all major payment methods for a safe checkout experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-quote-left"></i> Testimonials</span>
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-desc">Real reviews from real pet parents</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+          <p class="testimonial-text">"Fluffy has been a game changer for us! The premium dog food transformed our golden retriever's coat. Fast shipping and amazing customer service. Highly recommend!"</p>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Sarah Johnson" class="testimonial-avatar">
+            <div>
+              <h4 class="testimonial-name">Sarah Johnson</h4>
+              <span class="testimonial-role">Pet Mom of 2 Dogs</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+          <p class="testimonial-text">"I've been shopping here for over a year now. The cat scratching tree I bought is still in perfect condition. My cats absolutely love it. Best pet store online, period."</p>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Michael Chen" class="testimonial-avatar">
+            <div>
+              <h4 class="testimonial-name">Michael Chen</h4>
+              <span class="testimonial-role">Cat Dad of 3</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+          <p class="testimonial-text">"From bird cages to fish tanks, Fluffy has everything. The quality is outstanding and the prices are very competitive. My parrot and fish are thriving!"</p>
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt="Emily Rodriguez" class="testimonial-avatar">
+            <div>
+              <h4 class="testimonial-name">Emily Rodriguez</h4>
+              <span class="testimonial-role">Multi-Pet Household</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PET CARE BLOG ===== -->
+  <section class="section blog-section" id="blog">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag"><i class="fas fa-newspaper"></i> Pet Care Tips</span>
+        <h2 class="section-title">From Our Blog</h2>
+        <p class="section-desc">Expert advice to keep your pets happy and healthy</p>
+      </div>
+
+      <div id="homeBlogContainer">
+        <div style="text-align:center;padding:40px;"><i class="fas fa-spinner fa-spin" style="font-size:24px;color:var(--gray);"></i></div>
+      </div>
+
+      <div class="section-cta">
+        <a href="blog.html" class="btn btn-outline btn-lg">View all posts <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="section newsletter-section">
+    <div class="newsletter-bg">
+      <img src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1920&q=80" alt="Pets" class="newsletter-bg-img">
+      <div class="newsletter-overlay"></div>
+    </div>
+    <div class="container newsletter-content">
+      <div class="newsletter-icon"><i class="fas fa-envelope-open-text"></i></div>
+      <h2 class="newsletter-title">Join Our Pet Family</h2>
+      <p class="newsletter-desc">Subscribe for exclusive deals, pet care tips, and 10% off your first order!</p>
+      <form class="newsletter-form">
+        <div class="newsletter-input-group">
+          <input type="email" placeholder="Enter your email address" class="newsletter-input" required>
+          <button type="submit" class="btn btn-primary btn-lg">Subscribe <i class="fas fa-paper-plane"></i></button>
+        </div>
+        <p class="newsletter-privacy"><i class="fas fa-lock"></i> We respect your privacy. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container footer-grid">
+        <div class="footer-col footer-about">
+          <a href="index.html" class="logo footer-logo">
+            <img src="logo.png" alt="Fluffy" class="logo-img">
+          </a>
+          <p class="footer-about-text">Your trusted destination for premium pet products. We bring together the best food, toys, accessories, and healthcare items for all your beloved pets.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/share/191iM3Hgnh/" target="_blank" rel="noopener" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/fluffypets27" target="_blank" rel="noopener" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Shop Categories</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html">Dog Food &amp; Treats</a></li>
+            <li><a href="shop.html">Cat Food &amp; Litter</a></li>
+            <li><a href="shop.html">Bird Supplies</a></li>
+            <li><a href="shop.html">Fish &amp; Aquarium</a></li>
+            <li><a href="shop.html">Pet Toys</a></li>
+            <li><a href="shop.html">Grooming &amp; Health</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Customer Service</h4>
+          <ul class="footer-links">
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Order Tracking</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns &amp; Exchanges</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Pet Street, Animalville, CA 90210</li>
+            <li><i class="fas fa-phone-alt"></i> +1 (800) 555-FLUFF</li>
+            <li><i class="fas fa-envelope"></i> hello@fluffy.com</li>
+            <li><i class="fas fa-clock"></i> Mon-Sun: 8AM - 10PM</li>
+          </ul>
+          <div class="footer-newsletter">
+            <h4 class="footer-heading">Newsletter</h4>
+            <form class="footer-newsletter-form">
+              <input type="email" placeholder="Your email" class="footer-newsletter-input">
+              <button type="submit" class="footer-newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 Fluffy. All rights reserved.</p>
+        <div class="footer-payments">
+          <span>We Accept:</span>
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-apple-pay"></i>
+          <i class="fab fa-cc-stripe"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  <script>
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+    var defaultCategories = [
+      { id: 1, name: 'Dogs', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&q=80' },
+      { id: 2, name: 'Cats', image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&q=80' },
+      { id: 3, name: 'Rabbits', image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=300&q=80' },
+      { id: 4, name: 'Birds', image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=300&q=80' },
+      { id: 5, name: 'Fish & Aquariums', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=300&q=80' },
+      { id: 6, name: 'Reptiles', image: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=300&q=80' },
+      { id: 7, name: 'Small Pets', image: 'https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=300&q=80' },
+      { id: 8, name: 'Food & Treats', image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=300&q=80' },
+      { id: 9, name: 'Health & Wellness', image: 'https://images.unsplash.com/photo-1535294435445-d724b8f7b2f?w=300&q=80' },
+      { id: 10, name: 'Toys & Entertainment', image: 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=300&q=80' },
+      { id: 11, name: 'Beds & Furniture', image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=300&q=80' },
+      { id: 12, name: 'Grooming', image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=300&q=80' }
+    ];
+
+    function getAdminData() {
+      try {
+        var raw = localStorage.getItem(DB_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    var adminData = getAdminData();
+    var cats = (adminData && adminData.categories && adminData.categories.length > 0) ? adminData.categories : defaultCategories;
+    var products = (adminData && adminData.storeProducts) || [];
+    var grid = document.getElementById('homeCategories');
+    if (grid) {
+      grid.innerHTML = cats.map(function(c) {
+        var img = c.image || 'https://via.placeholder.com/300?text=' + encodeURIComponent(c.name);
+        var count = products.filter(function(p) { return p.category === c.name; }).length;
+        return '<a href="shop.html?category=' + encodeURIComponent(c.name) + '" class="category-card">' +
+          '<div class="category-icon"><img src="' + img + '" alt="' + c.name + '"></div>' +
+          '<h3 class="category-name">' + c.name + '</h3>' +
+          '<span class="category-count">' + count + ' Products</span>' +
+        '</a>';
+      }).join('');
+    }
+  })();
+  </script>
+  <script>
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+    var container = document.getElementById('homeBlogContainer');
+    if (!container) return;
+    try {
+      var raw = localStorage.getItem(DB_KEY);
+      var blogs = [];
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.blogs && Array.isArray(data.blogs)) {
+          blogs = data.blogs.filter(function(b) { return b.published !== false; });
+        }
+      }
+      if (blogs.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray);"><i class="fas fa-newspaper" style="font-size:36px;margin-bottom:12px;display:block;"></i><p>No blog posts yet. Check back soon!</p></div>';
+        return;
+      }
+      var featured = blogs[0];
+      var recent = blogs.slice(1, 4);
+      var html = '';
+      html += '<a href="blog.html" class="blog-featured" style="cursor:pointer;">';
+      html += '<div class="blog-featured-image"><img src="' + (featured.image || 'https://via.placeholder.com/1200x400?text=Blog') + '" alt="' + featured.title + '"></div>';
+      html += '<div class="blog-featured-content">';
+      html += '<span class="blog-featured-badge"><i class="fas fa-star"></i> Featured</span>';
+      html += '<h2 class="blog-featured-title">' + featured.title + '</h2>';
+      html += '<p class="blog-featured-desc">' + (featured.excerpt || '') + '</p>';
+      html += '<div class="blog-featured-author">';
+      html += '<img src="' + (featured.authorAvatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80') + '" alt="" class="blog-author-avatar">';
+      html += '<div><span class="blog-author-name">' + (featured.author || 'Admin') + '</span>';
+      html += '<span class="blog-author-date"><i class="far fa-calendar-alt"></i> ' + new Date(featured.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + '</span></div>';
+      html += '</div><span class="blog-featured-arrow"><i class="fas fa-arrow-right"></i></span>';
+      html += '</div></a>';
+      if (recent.length > 0) {
+        html += '<h3 class="blog-recent-title">Recent blog posts</h3>';
+        html += '<div class="blog-grid">';
+        recent.forEach(function(b) {
+          html += '<article class="blog-card">';
+          html += '<a href="blog.html" class="blog-card-image"><img src="' + (b.image || 'https://via.placeholder.com/600x200?text=Blog') + '" alt="' + b.title + '" loading="lazy"></a>';
+          html += '<div class="blog-card-content">';
+          html += '<h3 class="blog-card-title"><a href="blog.html">' + b.title + '</a></h3>';
+          html += '<p class="blog-card-excerpt">' + (b.excerpt || '') + '</p>';
+          html += '<div class="blog-card-author">';
+          html += '<img src="' + (b.authorAvatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80') + '" alt="" class="blog-card-avatar">';
+          html += '<span>' + (b.author || 'Admin') + ' <i class="far fa-calendar-alt"></i> ' + new Date(b.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + '</span>';
+          html += '</div></div></article>';
+        });
+        html += '</div>';
+      }
+      container.innerHTML = html;
+    } catch (e) {
+      container.innerHTML = '';
+    }
+  })();
+  </script>
+  <script>
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+    var grid = document.getElementById('homeProductsGrid');
+    if (!grid) return;
+    var products = [];
+    try {
+      var raw = localStorage.getItem(DB_KEY);
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.storeProducts && data.storeProducts.length) {
+          products = data.storeProducts.slice(0, 10);
+          if (data.customizations) {
+            var cust = data.customizations;
+            products.forEach(function(p) {
+              if (cust[p.id]) {
+                if (cust[p.id].name) p.name = cust[p.id].name;
+                if (cust[p.id].image) p.image = cust[p.id].image;
+              }
+            });
+          }
+        }
+      }
+    } catch (e) {}
+    if (!products.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray);grid-column:1/-1;"><i class="fas fa-box-open" style="font-size:36px;margin-bottom:12px;display:block;"></i><p>No products yet. Add products from the Admin Panel!</p></div>';
+      return;
+    }
+    var html = products.map(function(p) {
+      var badgeHtml = '';
+      if (p.badge === 'offer' && p.oldPrice) badgeHtml = '<span class="product-badge sale">Sale</span>';
+      else if (p.badge === 'new' || p.isNew) badgeHtml = '<span class="product-badge new">New</span>';
+      var stars = '';
+      var r = Math.round(p.rating || 4);
+      for (var i = 0; i < 5; i++) stars += i < r ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+      var priceHtml = '<span class="price-current">৳' + (p.price || 0).toFixed(2) + '</span>';
+      if (p.oldPrice) priceHtml += ' <span class="price-original">৳' + p.oldPrice.toFixed(2) + '</span>';
+      return '<div class="product-card" data-product-id="' + p.id + '">' +
+        '<div class="product-image">' + badgeHtml +
+        '<button class="product-wishlist" aria-label="Add to wishlist"><i class="fas fa-heart"></i></button>' +
+        '<a href="product.html?id=' + p.id + '"><img src="' + (p.image || 'https://via.placeholder.com/500?text=Product') + '" alt="' + (p.name || '') + '"></a>' +
+        '<div class="product-actions"><a href="product.html?id=' + p.id + '" class="product-action-btn" aria-label="Quick view"><i class="fas fa-eye"></i></a></div>' +
+        '</div><div class="product-info">' +
+        '<span class="product-category">' + (p.category || '') + '</span>' +
+        '<h3 class="product-name"><a href="product.html?id=' + p.id + '" style="color:inherit;text-decoration:none;">' + (p.name || '') + '</a></h3>' +
+        '<div class="product-rating">' + stars + '<span>(' + (p.reviews || 0) + ')</span></div>' +
+        '<div class="product-price">' + priceHtml + '</div>' +
+        '<button class="btn btn-primary btn-sm btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</button>' +
+        '</div></div>';
+    }).join('');
+    grid.innerHTML = html;
+  })();
+  </script>
+  <script>
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+    var grid = document.getElementById('homeBestSellersGrid');
+    if (!grid) return;
+    var products = [];
+    try {
+      var raw = localStorage.getItem(DB_KEY);
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.storeProducts && data.storeProducts.length) {
+          products = data.storeProducts.slice(0, 4);
+          if (data.customizations) {
+            var cust = data.customizations;
+            products.forEach(function(p) {
+              if (cust[p.id]) {
+                if (cust[p.id].name) p.name = cust[p.id].name;
+                if (cust[p.id].image) p.image = cust[p.id].image;
+              }
+            });
+          }
+        }
+      }
+    } catch (e) {}
+    if (!products.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:40px;color:var(--gray);grid-column:1/-1;"><i class="fas fa-fire" style="font-size:36px;margin-bottom:12px;display:block;"></i><p>No best sellers yet. Add products from the Admin Panel!</p></div>';
+      return;
+    }
+    var html = products.map(function(p) {
+      var stars = '';
+      var r = Math.round(p.rating || 4);
+      for (var i = 0; i < 5; i++) stars += i < r ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+      var priceHtml = '<span class="price-current">৳' + (p.price || 0).toFixed(2) + '</span>';
+      if (p.oldPrice) priceHtml += ' <span class="price-original">৳' + p.oldPrice.toFixed(2) + '</span>';
+      return '<div class="product-card" data-product-id="' + p.id + '">' +
+        '<div class="product-image">' +
+        '<span class="product-badge bestseller">Best Seller</span>' +
+        '<button class="product-wishlist" aria-label="Add to wishlist"><i class="fas fa-heart"></i></button>' +
+        '<a href="product.html?id=' + p.id + '"><img src="' + (p.image || 'https://via.placeholder.com/500?text=Product') + '" alt="' + (p.name || '') + '"></a>' +
+        '<div class="product-actions"><a href="product.html?id=' + p.id + '" class="product-action-btn" aria-label="Quick view"><i class="fas fa-eye"></i></a></div>' +
+        '</div><div class="product-info">' +
+        '<span class="product-category">' + (p.category || '') + '</span>' +
+        '<h3 class="product-name"><a href="product.html?id=' + p.id + '" style="color:inherit;text-decoration:none;">' + (p.name || '') + '</a></h3>' +
+        '<div class="product-rating">' + stars + '<span>(' + (p.reviews || 0) + ')</span></div>' +
+        '<div class="product-price">' + priceHtml + '</div>' +
+        '<button class="btn btn-primary btn-sm btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</button>' +
+        '</div></div>';
+    }).join('');
+    grid.innerHTML = html;
+  })();
+  </script>
+  <!-- ===== APPLY STORE CUSTOMIZATIONS ===== -->
+  <script>
+  (function() {
+    try {
+      var adminData = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (adminData && adminData.settings) {
+        var s = adminData.settings;
+        if (s.siteLogo) {
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.src = s.siteLogo; });
+        }
+        var displayName = s.siteName || s.storeName || '';
+        if (displayName) {
+          document.title = document.title.replace(/Fluffy/, displayName);
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.alt = displayName; });
+        }
+      }
+    } catch (e) {}
+  })();
+  </script>
+  <script src="contact-utils.js"></script>
+  <script src="search-utils.js"></script>
+  <script src="badge-utils.js"></script>
+  <script src="nav-utils.js"></script>
+
+  <script src="order-utils.js"></script>
+  <script>
+  (() => {
+    const cart = window.FluffyCart;
+    const WISHLIST_KEY = 'fluffyWishlist';
+
+    function getWishlist() {
+      try { return JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []; }
+      catch { return []; }
+    }
+    function saveWishlist(arr) {
+      localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr));
+    }
+
+    // Build productMap from admin storeProducts
+    var productMap = {};
+    try {
+      var raw = localStorage.getItem('fluffyAdmin');
+      if (raw) {
+        var d = JSON.parse(raw);
+        if (d.storeProducts && d.storeProducts.length) {
+          d.storeProducts.forEach(function(p) {
+            productMap[p.id] = { id: p.id, name: p.name, price: p.price || 0, image: p.image, category: p.category };
+          });
+        }
+      }
+    } catch (e) {}
+    if (!Object.keys(productMap).length) {
+      productMap = {};
+    }
+
+    function updateBadges() {
+      var cartCount = cart.count();
+      var wishCount = getWishlist().length;
+      var cartBadge = document.querySelector('.header-actions .header-icon-btn[aria-label="Cart"] .badge');
+      var wishBadge = document.querySelector('.header-actions .header-icon-btn[aria-label="Wishlist"] .badge');
+      if (cartBadge) cartBadge.textContent = cartCount;
+      if (wishBadge) wishBadge.textContent = wishCount;
+    }
+
+    function syncWishlistButtons() {
+      var wish = getWishlist();
+      document.querySelectorAll('.product-card[data-product-id]').forEach(function(card) {
+        var id = Number(card.getAttribute('data-product-id'));
+        var btn = card.querySelector('.product-wishlist');
+        if (!btn) return;
+        if (wish.indexOf(id) !== -1) {
+          btn.classList.add('active');
+          btn.style.color = '#E53935';
+        } else {
+          btn.classList.remove('active');
+          btn.style.color = '';
+        }
+      });
+    }
+
+    function showToast(msg) {
+      var existing = document.querySelector('.fluffy-toast');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.className = 'fluffy-toast';
+      toast.innerHTML = '<i class="fas fa-check-circle"></i> ' + msg;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.classList.add('show'); }, 10);
+      setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 2500);
+    }
+
+    document.addEventListener('click', function(e) {
+      var addBtn = e.target.closest('.product-card .btn-primary.btn-block');
+      if (addBtn) {
+        var card = addBtn.closest('.product-card');
+        if (!card) return;
+        var id = Number(card.getAttribute('data-product-id'));
+        var p = productMap[id];
+        if (!p) return;
+        cart.add({ id: p.id, name: p.name, price: p.price, image: p.image, category: p.category, variant: p.category });
+        updateBadges();
+        showToast(p.name + ' added to cart!');
+        var icon = addBtn.querySelector('i');
+        if (icon) { var orig = icon.className; icon.className = 'fas fa-check'; addBtn.style.background = '#4CAF50'; }
+        setTimeout(function() { if (icon) icon.className = orig; addBtn.style.background = ''; }, 1500);
+      }
+
+      var wishBtn = e.target.closest('.product-wishlist');
+      if (wishBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var card = wishBtn.closest('.product-card');
+        if (!card) return;
+        var id = Number(card.getAttribute('data-product-id'));
+        var wish = getWishlist();
+        var idx = wish.indexOf(id);
+        if (idx === -1) {
+          wish.push(id);
+          showToast('Added to wishlist!');
+        } else {
+          wish.splice(idx, 1);
+          showToast('Removed from wishlist');
+        }
+        saveWishlist(wish);
+        syncWishlistButtons();
+        updateBadges();
+      }
+    });
+
+    syncWishlistButtons();
+    updateBadges();
+    window.addEventListener('fluffy-cart-updated', function() { updateBadges(); });
+  })();
+  </script>
+
+  <style>
+  .fluffy-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1A1A1A;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fluffy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .fluffy-toast i { color: #4CAF50; }
+  .product-wishlist.active { color: #E53935 !important; }
+  </style>
+
+</body>
+</html>

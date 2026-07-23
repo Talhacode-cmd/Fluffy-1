@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories - Fluffy</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <span><i class="fas fa-truck"></i> Free shipping on orders over ৳50</span>
+        <span><i class="fas fa-headset"></i> 24/7 Support: +1 800 123 4567</span>
+        <span><i class="fas fa-store"></i> <a href="#">Store Locator</a></span>
+        <span><i class="fas fa-shipping-fast"></i> <a href="#">Track Order</a></span>
+      </div>
+      <div class="top-bar-right">
+        <a href="#"><i class="fas fa-user-circle"></i> My Account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Fluffy" class="logo-img">
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="shop.html" class="nav-link">Shop</a></li>
+          <li><a href="categories.html" class="nav-link active">Categories</a></li>
+          <li><a href="about.html" class="nav-link">About Us</a></li>
+          <li><a href="blog.html" class="nav-link">Blog</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-bar" id="searchBar">
+          <input type="text" placeholder="Search products..." class="search-input">
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <button class="header-icon-btn search-toggle" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="header-icon-btn" aria-label="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="cart.html" class="header-icon-btn" aria-label="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge">0</span>
+        </a>
+        <a href="login.html" class="btn btn-primary btn-sm login-btn">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="logo"><img src="logo.png" alt="Fluffy" class="logo-img"> Fluffy</a>
+      <button class="mobile-close"><i class="fas fa-times"></i></button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="categories.html" class="active">Categories</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-footer">
+      <a href="login.html" class="btn-login"><i class="fas fa-user"></i> Login</a>
+    </div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <section class="breadcrumb-section">
+    <div class="container">
+      <h1>Product Categories</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>Categories</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Grid -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-col">
+          <a href="index.html" class="footer-logo">
+            <img src="logo.png" alt="Fluffy" class="logo-img">
+          </a>
+          <p>Your trusted partner for all pet needs. We offer premium quality products for your beloved companions.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/share/191iM3Hgnh/" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/fluffypets27" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop Categories</h4>
+          <ul id="footerCategories">
+            <li><a href="shop.html">Dogs</a></li>
+            <li><a href="shop.html">Cats</a></li>
+            <li><a href="shop.html">Birds</a></li>
+            <li><a href="shop.html">Fish &amp; Aquariums</a></li>
+            <li><a href="shop.html">Rabbits</a></li>
+            <li><a href="shop.html">Reptiles</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Order Tracking</a></li>
+            <li><a href="#">Wishlist</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns &amp; Refunds</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+          <div class="newsletter">
+            <h4>Newsletter</h4>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Your email address">
+              <button type="submit"><i class="fas fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 Fluffy. All Rights Reserved.</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-apple-pay"></i>
+          <i class="fab fa-cc-stripe"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+
+    var defaultCategories = [
+      { id: 1, name: 'Dogs', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=400&fit=crop' },
+      { id: 2, name: 'Cats', image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=400&fit=crop' },
+      { id: 3, name: 'Rabbits', image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=400&fit=crop' },
+      { id: 4, name: 'Birds', image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=600&h=400&fit=crop' },
+      { id: 5, name: 'Fish & Aquariums', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=400&fit=crop' },
+      { id: 6, name: 'Reptiles', image: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=600&h=400&fit=crop' },
+      { id: 7, name: 'Small Pets', image: 'https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=600&h=400&fit=crop' },
+      { id: 8, name: 'Food & Treats', image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=600&h=400&fit=crop' },
+      { id: 9, name: 'Health & Wellness', image: 'https://images.unsplash.com/photo-1535294435445-d7249b8f7b2f?w=600&h=400&fit=crop' },
+      { id: 10, name: 'Toys & Entertainment', image: 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&h=400&fit=crop' },
+      { id: 11, name: 'Beds & Furniture', image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop' },
+      { id: 12, name: 'Grooming', image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop' }
+    ];
+
+    function getAdminData() {
+      try {
+        var raw = localStorage.getItem(DB_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    function renderCategories() {
+      var adminData = getAdminData();
+      var cats = (adminData && adminData.categories && adminData.categories.length > 0) ? adminData.categories : defaultCategories;
+      var products = (adminData && adminData.storeProducts) || [];
+      var grid = document.getElementById('categoriesGrid');
+      grid.innerHTML = cats.map(function(c) {
+        var img = c.image || 'https://via.placeholder.com/600x400?text=' + encodeURIComponent(c.name);
+        var count = products.filter(function(p) { return p.category === c.name; }).length;
+        return '<a href="shop.html?category=' + encodeURIComponent(c.name) + '" class="category-card">' +
+          '<div class="category-img">' +
+            '<img src="' + img + '" alt="' + c.name + '">' +
+          '</div>' +
+          '<div class="category-info">' +
+            '<h3>' + c.name + '</h3>' +
+            '<p>' + count + ' Products</p>' +
+            '<span class="category-link">Shop Now <i class="fas fa-arrow-right"></i></span>' +
+          '</div>' +
+        '</a>';
+      }).join('');
+    }
+
+    renderCategories();
+
+    try {
+      var raw = localStorage.getItem(DB_KEY);
+      if (raw) {
+        var adminData = JSON.parse(raw);
+        var s = adminData.settings || {};
+        if (s.siteLogo) {
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.src = s.siteLogo; });
+        }
+        var displayName = s.siteName || s.storeName || '';
+        if (displayName) {
+          document.title = document.title.replace(/Fluffy/, displayName);
+          document.querySelectorAll('.logo-img').forEach(function(img) { img.alt = displayName; });
+        }
+      }
+    } catch (e) {}
+  })();
+  </script>
+  <script src="contact-utils.js"></script>
+  <script src="search-utils.js"></script>
+  <script src="badge-utils.js"></script>
+  <script src="nav-utils.js"></script>
+
+</body>
+</html>
