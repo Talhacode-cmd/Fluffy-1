@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css">
   <style>
     :root {
       --accent: #1A1A1A;
@@ -889,5 +890,58 @@
   <script src="badge-utils.js"></script>
   <script src="nav-utils.js"></script>
 
+  <!-- ===== MOBILE LAYOUT ===== -->
+  <div class="mobile-layout">
+    <div class="m-header">
+      <button class="m-hamburger" id="mHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <div class="m-greeting"><span class="m-hello">Review your items</span><h2>My Cart</h2></div>
+      <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
+    </div>
+    <div id="mCartContent" class="m-section" style="padding-bottom:20px;"></div>
+    <nav class="m-bottom-nav">
+      <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="categories.html" class="m-nav-item"><i class="fas fa-th-large"></i><span>Categories</span></a>
+      <a href="wishlist.html" class="m-nav-item"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+      <a href="cart.html" class="m-nav-item active"><i class="fas fa-shopping-cart"></i><span>Cart</span></a>
+      <a href="login.html" class="m-nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </nav>
+    <div class="m-drawer-overlay" id="mDrawerOverlay"></div>
+    <div class="m-drawer" id="mDrawer"><div class="m-drawer-header"><h3>Menu</h3><button class="m-drawer-close" id="mDrawerClose"><i class="fas fa-times"></i></button></div><div class="m-drawer-links"><a href="index.html"><i class="fas fa-home"></i> Home</a><a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a><a href="categories.html"><i class="fas fa-th-large"></i> Categories</a><a href="about.html"><i class="fas fa-info-circle"></i> About</a><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a><a href="cart.html" class="active"><i class="fas fa-shopping-cart"></i> Cart</a><a href="login.html"><i class="fas fa-user"></i> Login</a></div></div>
+    <div class="m-toast" id="mToast"><i class="fas fa-check-circle"></i><span id="mToastMsg"></span></div>
+  </div>
+  <script>
+  (function() {
+    function render() {
+      var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+      var el = document.getElementById('mCartContent');
+      if (!cart.length) { el.innerHTML = '<div style="text-align:center;padding:60px 20px;"><i class="fas fa-shopping-cart" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i><h3 style="margin-bottom:8px;">Cart is empty</h3><p style="color:#999;margin-bottom:20px;">Add some products first</p><a href="shop.html" style="display:inline-block;padding:12px 28px;background:#E8833A;color:#fff;border-radius:50px;text-decoration:none;font-weight:600;font-size:14px;">Browse Products</a></div>'; return; }
+      var total = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+      el.innerHTML = '<div class="m-section-header"><h3>Items (' + cart.reduce(function(s,i){return s+i.qty;},0) + ')</h3></div>' +
+        cart.map(function(item) {
+          return '<div style="display:flex;gap:14px;background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,0.05);border:1px solid #EDE5DB;">' +
+            '<img src="' + (item.image||'') + '" style="width:72px;height:72px;border-radius:12px;object-fit:cover;">' +
+            '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.name + '</div><div style="font-size:11px;color:#999;margin-bottom:6px;">' + (item.category||'') + '</div>' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;"><div style="font-size:15px;font-weight:700;">\u09F3' + (item.price*item.qty).toFixed(2) + '</div>' +
+            '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;font-weight:600;">x' + item.qty + '</span></div></div></div></div>';
+        }).join('') +
+        '<div style="background:#fff;border-radius:16px;padding:18px;margin-top:8px;box-shadow:0 2px 12px rgba(0,0,0,0.05);border:1px solid #EDE5DB;">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:14px;font-size:14px;"><span style="color:#999;">Subtotal</span><span style="font-weight:700;">\u09F3' + total.toFixed(2) + '</span></div>' +
+        '<a href="checkout.html" style="display:block;text-align:center;padding:14px;background:#E8833A;color:#fff;border-radius:14px;text-decoration:none;font-weight:700;font-size:15px;">Proceed to Checkout</a></div>';
+    }
+    var hamburger = document.getElementById('mHamburger');
+    var drawer = document.getElementById('mDrawer');
+    var overlay = document.getElementById('mDrawerOverlay');
+    var close = document.getElementById('mDrawerClose');
+    function openD() { drawer.classList.add('active'); overlay.classList.add('active'); }
+    function closeD() { drawer.classList.remove('active'); overlay.classList.remove('active'); }
+    if (hamburger) hamburger.addEventListener('click', openD);
+    if (close) close.addEventListener('click', closeD);
+    if (overlay) overlay.addEventListener('click', closeD);
+    var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+    var b = document.getElementById('mCartBadge');
+    if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+    render();
+  })();
+  </script>
 </body>
 </html>

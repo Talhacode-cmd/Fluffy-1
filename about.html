@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 
@@ -285,7 +286,7 @@
       <div class="footer-col">
         <h4>Contact Us</h4>
         <ul class="contact-info">
-          <li><i class="fas fa-map-marker-alt"></i> 123 Pet Lane, Portland, OR 97201</li>
+          <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
           <li><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</li>
           <li><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
           <li><i class="fas fa-clock"></i> Mon - Sat: 9AM - 8PM</li>
@@ -336,5 +337,60 @@
   <script src="badge-utils.js"></script>
   <script src="nav-utils.js"></script>
 
+  <!-- ===== MOBILE LAYOUT ===== -->
+  <div class="mobile-layout">
+    <div class="m-header">
+      <button class="m-hamburger" id="mHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <div class="m-greeting"><span class="m-hello">Learn about us</span><h2>About Fluffy</h2></div>
+      <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
+    </div>
+    <div class="m-section" id="mPageContent">
+      <div style="padding:24px 16px;">
+        <div style="background:var(--white);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">Our Story</h3>
+          <p style="font-size:14px;line-height:1.7;color:#555;margin-bottom:16px;">Fluffy was born in 2009 from a simple yet profound love for animals. What started as a small family-run pet supply store has grown into one of the most trusted names in pet care.</p>
+          <p style="font-size:14px;line-height:1.7;color:#555;">Today, we serve thousands of happy pet families, and our commitment remains the same: to provide exceptional products and personalized care for every furry member of your family.</p>
+        </div>
+        <div style="background:var(--white);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">Our Mission</h3>
+          <p style="font-size:14px;line-height:1.7;color:#555;">To provide pet parents with the highest quality products and expert guidance, ensuring every pet receives the love, nutrition, and care they deserve.</p>
+        </div>
+        <div style="background:var(--white);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">Meet the Team</h3>
+          <p style="font-size:14px;line-height:1.7;color:#555;margin-bottom:12px;">Our passionate team of pet lovers is dedicated to making your experience exceptional.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="text-align:center;"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face" alt="Michael" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:6px;"><div style="font-size:13px;font-weight:600;">Michael Chen</div><div style="font-size:11px;color:#888;">CEO</div></div>
+            <div style="text-align:center;"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=face" alt="Sarah" style="width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:6px;"><div style="font-size:13px;font-weight:600;">Sarah Chen</div><div style="font-size:11px;color:#888;">Creative Director</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="m-bottom-nav">
+      <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="categories.html" class="m-nav-item"><i class="fas fa-th-large"></i><span>Categories</span></a>
+      <a href="wishlist.html" class="m-nav-item"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+      <a href="shop.html" class="m-nav-item"><i class="fas fa-shopping-bag"></i><span>Shop</span></a>
+      <a href="login.html" class="m-nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </nav>
+    <div class="m-drawer-overlay" id="mDrawerOverlay"></div>
+    <div class="m-drawer" id="mDrawer"><div class="m-drawer-header"><h3>Menu</h3><button class="m-drawer-close" id="mDrawerClose"><i class="fas fa-times"></i></button></div><div class="m-drawer-links"><a href="index.html"><i class="fas fa-home"></i> Home</a><a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a><a href="categories.html"><i class="fas fa-th-large"></i> Categories</a><a href="about.html"><i class="fas fa-info-circle"></i> About</a><a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a><a href="login.html"><i class="fas fa-user"></i> Login</a></div></div>
+    <div class="m-toast" id="mToast"><i class="fas fa-check-circle"></i><span id="mToastMsg"></span></div>
+  </div>
+  <script>
+  (function() {
+    var hamburger = document.getElementById('mHamburger');
+    var drawer = document.getElementById('mDrawer');
+    var overlay = document.getElementById('mDrawerOverlay');
+    var close = document.getElementById('mDrawerClose');
+    function openD() { drawer.classList.add('active'); overlay.classList.add('active'); }
+    function closeD() { drawer.classList.remove('active'); overlay.classList.remove('active'); }
+    if (hamburger) hamburger.addEventListener('click', openD);
+    if (close) close.addEventListener('click', closeD);
+    if (overlay) overlay.addEventListener('click', closeD);
+    var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+    var b = document.getElementById('mCartBadge');
+    if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
 </body>
 </html>

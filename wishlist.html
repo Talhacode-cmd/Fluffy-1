@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css">
   <style>
     .wish-hero {
       background: var(--dark);
@@ -330,7 +331,7 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <ul class="contact-list">
-            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> 123 Pet Street, Pet City</li>
+            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
             <li id="contactPhone"><i class="fas fa-phone-alt"></i> (555) 123-4567</li>
             <li id="contactEmail"><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 8PM</li>
@@ -507,6 +508,50 @@
         }
       }
     } catch (e) {}
+  })();
+  </script>
+  <!-- ===== MOBILE LAYOUT ===== -->
+  <div class="mobile-layout">
+    <div class="m-header">
+      <button class="m-hamburger" id="mHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <div class="m-greeting"><span class="m-hello">Your saved items</span><h2>Wishlist</h2></div>
+      <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
+    </div>
+    <div class="m-section" id="mPageContent">
+      <div style="padding:24px 16px;text-align:center;">
+        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <i class="fas fa-heart" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
+          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Your Wishlist</h3>
+          <p style="font-size:14px;color:#888;margin-bottom:20px;">Save your favorite items here. Browse our shop to find products you love!</p>
+          <a href="shop.html" style="display:inline-block;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;"><i class="fas fa-shopping-bag"></i> Browse Products</a>
+        </div>
+      </div>
+    </div>
+    <nav class="m-bottom-nav">
+      <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="categories.html" class="m-nav-item"><i class="fas fa-th-large"></i><span>Categories</span></a>
+      <a href="wishlist.html" class="m-nav-item active"><i class="fas fa-heart"></i><span>Wishlist</span></a>
+      <a href="shop.html" class="m-nav-item"><i class="fas fa-shopping-bag"></i><span>Shop</span></a>
+      <a href="login.html" class="m-nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </nav>
+    <div class="m-drawer-overlay" id="mDrawerOverlay"></div>
+    <div class="m-drawer" id="mDrawer"><div class="m-drawer-header"><h3>Menu</h3><button class="m-drawer-close" id="mDrawerClose"><i class="fas fa-times"></i></button></div><div class="m-drawer-links"><a href="index.html"><i class="fas fa-home"></i> Home</a><a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a><a href="categories.html"><i class="fas fa-th-large"></i> Categories</a><a href="about.html"><i class="fas fa-info-circle"></i> About</a><a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a><a href="login.html"><i class="fas fa-user"></i> Login</a></div></div>
+    <div class="m-toast" id="mToast"><i class="fas fa-check-circle"></i><span id="mToastMsg"></span></div>
+  </div>
+  <script>
+  (function() {
+    var hamburger = document.getElementById('mHamburger');
+    var drawer = document.getElementById('mDrawer');
+    var overlay = document.getElementById('mDrawerOverlay');
+    var close = document.getElementById('mDrawerClose');
+    function openD() { drawer.classList.add('active'); overlay.classList.add('active'); }
+    function closeD() { drawer.classList.remove('active'); overlay.classList.remove('active'); }
+    if (hamburger) hamburger.addEventListener('click', openD);
+    if (close) close.addEventListener('click', closeD);
+    if (overlay) overlay.addEventListener('click', closeD);
+    var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+    var b = document.getElementById('mCartBadge');
+    if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
   })();
   </script>
 </body>

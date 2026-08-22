@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 
@@ -404,7 +405,7 @@
         <div class="footer-col">
           <h4 class="footer-heading">Contact Us</h4>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i> 123 Pet Street, Animalville, CA 90210</li>
+            <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
             <li><i class="fas fa-phone-alt"></i> +1 (800) 555-FLUFF</li>
             <li><i class="fas fa-envelope"></i> hello@fluffy.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sun: 8AM - 10PM</li>
@@ -800,6 +801,379 @@
   .fluffy-toast i { color: #4CAF50; }
   .product-wishlist.active { color: #E53935 !important; }
   </style>
+
+  <!-- ===== MOBILE LAYOUT ===== -->
+  <div class="mobile-layout">
+
+    <!-- Mobile Header -->
+    <div class="m-header">
+      <button class="m-hamburger" id="mHamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="m-greeting">
+        <span class="m-hello">Hello, Pet Lover! &#x1F44B;</span>
+        <h2>Discover Pet Care</h2>
+        <p>Premium products, just for your pets</p>
+      </div>
+      <div class="m-actions">
+        <button class="m-notif" aria-label="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="m-notif-badge"></span>
+        </button>
+        <a href="cart.html" class="m-cart-btn" aria-label="Cart">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="m-cart-badge" id="mCartBadge">0</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Hero Banner -->
+    <div class="m-hero-wrap">
+      <div class="m-hero">
+        <div class="m-hero-content">
+          <span class="m-hero-badge">NEW ARRIVALS</span>
+          <h2>Give Your Pet<br>The Best Care</h2>
+          <p>Explore our premium pet products collection for your furry friends.</p>
+          <a href="shop.html" class="m-hero-btn">Shop Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80" alt="Happy Dog" class="m-hero-img">
+      </div>
+      <div class="m-hero-dots">
+        <span class="m-dot active"></span>
+        <span class="m-dot"></span>
+        <span class="m-dot"></span>
+        <span class="m-dot"></span>
+      </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="m-search-wrap">
+      <div class="m-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search for products..." id="mSearchInput">
+        <button class="m-filter-btn" aria-label="Filter">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Categories -->
+    <div class="m-categories">
+      <div class="m-cats-scroll">
+        <a href="shop.html?category=Dogs" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F436;</div>
+          <span>Dogs</span>
+        </a>
+        <a href="shop.html?category=Cats" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F431;</div>
+          <span>Cats</span>
+        </a>
+        <a href="shop.html?category=Birds" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F426;</div>
+          <span>Birds</span>
+        </a>
+        <a href="shop.html?category=Fish" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F41F;</div>
+          <span>Fish</span>
+        </a>
+        <a href="shop.html?category=Food" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F356;</div>
+          <span>Food</span>
+        </a>
+        <a href="shop.html?category=Toys" class="m-cat-item">
+          <div class="m-cat-icon">&#x1F3AE;</div>
+          <span>Toys</span>
+        </a>
+        <a href="shop.html?category=Grooming" class="m-cat-item">
+          <div class="m-cat-icon">&#x2702;&#xFE0F;</div>
+          <span>Grooming</span>
+        </a>
+        <a href="shop.html?category=Health" class="m-cat-item">
+          <div class="m-cat-icon">&#x1FA7A;</div>
+          <span>Health</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Best Sellers -->
+    <div class="m-section">
+      <div class="m-section-header">
+        <h3>Best Sellers</h3>
+        <a href="shop.html" class="m-view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="m-products-scroll" id="mBestSellers">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- Mobile Promo Banner -->
+    <div class="m-promo-wrap">
+      <div class="m-promo">
+        <div class="m-promo-content">
+          <span class="m-promo-label">Special Offer</span>
+          <h3>Up to 30% Off</h3>
+          <p>On selected pet essentials</p>
+          <a href="shop.html" class="m-promo-btn">Grab Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="m-promo-badge">30%<small>OFF</small></div>
+      </div>
+    </div>
+
+    <!-- Mobile Featured Products -->
+    <div class="m-section">
+      <div class="m-section-header">
+        <h3>Featured Products</h3>
+        <a href="shop.html" class="m-view-all">View All <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="m-products-scroll" id="mFeaturedProducts">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="m-bottom-nav">
+      <a href="index.html" class="m-nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="categories.html" class="m-nav-item">
+        <i class="fas fa-th-large"></i>
+        <span>Categories</span>
+      </a>
+      <a href="wishlist.html" class="m-nav-item">
+        <i class="fas fa-heart"></i>
+        <span>Wishlist</span>
+        <span class="m-nav-badge" id="mWishBadge">0</span>
+      </a>
+      <a href="shop.html" class="m-nav-item">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Orders</span>
+      </a>
+      <a href="login.html" class="m-nav-item">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="m-drawer-overlay" id="mDrawerOverlay"></div>
+    <div class="m-drawer" id="mDrawer">
+      <div class="m-drawer-header">
+        <h3>Menu</h3>
+        <button class="m-drawer-close" id="mDrawerClose"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="m-drawer-links">
+        <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="shop.html"><i class="fas fa-shopping-bag"></i> Shop</a>
+        <a href="categories.html"><i class="fas fa-th-large"></i> Categories</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a>
+        <a href="blog.html"><i class="fas fa-newspaper"></i> Blog</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+        <a href="login.html"><i class="fas fa-user"></i> Login / Register</a>
+      </div>
+    </div>
+
+    <!-- Mobile Toast -->
+    <div class="m-toast" id="mToast"><i class="fas fa-check-circle"></i><span id="mToastMsg"></span></div>
+
+  </div>
+  <!-- ===== END MOBILE LAYOUT ===== -->
+
+  <script>
+  // Mobile Layout Logic
+  (function() {
+    var DB_KEY = 'fluffyAdmin';
+
+    function getProducts() {
+      try {
+        var raw = localStorage.getItem(DB_KEY);
+        if (raw) {
+          var data = JSON.parse(raw);
+          if (data.storeProducts && data.storeProducts.length) {
+            return data.storeProducts.map(function(p) {
+              return {
+                id: p.id,
+                name: p.name || 'Product',
+                category: p.category || 'General',
+                price: p.price || 0,
+                oldPrice: p.oldPrice || null,
+                image: p.image || 'https://via.placeholder.com/300?text=' + encodeURIComponent(p.name || 'Product'),
+                rating: p.rating || 4.0,
+                reviews: p.reviews || 0,
+                badge: p.badge || null,
+                isNew: p.isNew || false
+              };
+            });
+          }
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function renderStars(r) {
+      var s = '';
+      for (var i = 1; i <= 5; i++) {
+        if (i <= Math.floor(r)) s += '<i class="fas fa-star"></i>';
+        else if (i - 0.5 <= r) s += '<i class="fas fa-star-half-alt"></i>';
+        else s += '<i class="fas fa-star empty"></i>';
+      }
+      return s;
+    }
+
+    function renderProductCard(p) {
+      var badgeHtml = '';
+      if (p.badge === 'offer' && p.oldPrice) badgeHtml = '<span class="m-prod-badge sale">Sale</span>';
+      else if (p.badge === 'new' || p.isNew) badgeHtml = '<span class="m-prod-badge new">New</span>';
+
+      var priceHtml = '<span class="m-prod-price">\u09F3' + p.price.toFixed(2) + '</span>';
+      if (p.oldPrice) priceHtml = '<span class="m-prod-old-price">\u09F3' + p.oldPrice.toFixed(2) + '</span>' + priceHtml;
+
+      return '<div class="m-product-card">' +
+        '<div class="m-prod-img">' +
+          '<a href="product.html?id=' + p.id + '"><img src="' + p.image + '" alt="' + p.name + '" loading="lazy"></a>' +
+          badgeHtml +
+          '<button class="m-prod-wish" data-id="' + p.id + '" aria-label="Wishlist"><i class="far fa-heart"></i></button>' +
+        '</div>' +
+        '<div class="m-prod-info">' +
+          '<h4 class="m-prod-name">' + p.name + '</h4>' +
+          '<div class="m-prod-rating">' +
+            '<div class="m-prod-stars">' + renderStars(p.rating) + '</div>' +
+            '<span class="m-prod-reviews">(' + p.reviews + ')</span>' +
+          '</div>' +
+          '<div class="m-prod-price-row">' +
+            priceHtml +
+            '<button class="m-prod-add" data-id="' + p.id + '" aria-label="Add to cart"><i class="fas fa-plus"></i></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderMobileProducts() {
+      var products = getProducts();
+      if (!products.length) return;
+
+      // Best Sellers (first 6)
+      var bestSellers = products.slice(0, 6);
+      var bsGrid = document.getElementById('mBestSellers');
+      if (bsGrid) {
+        bsGrid.innerHTML = bestSellers.map(renderProductCard).join('');
+      }
+
+      // Featured Products (next 6)
+      var featured = products.slice(0, 6);
+      var fpGrid = document.getElementById('mFeaturedProducts');
+      if (fpGrid) {
+        fpGrid.innerHTML = featured.map(renderProductCard).join('');
+      }
+    }
+
+    // Mobile Drawer
+    var hamburger = document.getElementById('mHamburger');
+    var drawer = document.getElementById('mDrawer');
+    var drawerOverlay = document.getElementById('mDrawerOverlay');
+    var drawerClose = document.getElementById('mDrawerClose');
+
+    function openDrawer() {
+      drawer.classList.add('active');
+      drawerOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('active');
+      drawerOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburger) hamburger.addEventListener('click', openDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+    // Add to Cart (mobile)
+    document.addEventListener('click', function(e) {
+      var addBtn = e.target.closest('.m-prod-add');
+      if (addBtn) {
+        var id = Number(addBtn.dataset.id);
+        var products = getProducts();
+        var p = products.find(function(x) { return x.id === id; });
+        if (p) {
+          try {
+            var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+            var existing = cart.find(function(i) { return i.id === id; });
+            if (existing) { existing.qty += 1; }
+            else { cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, category: p.category, variant: p.category, qty: 1 }); }
+            localStorage.setItem('fluffyCart', JSON.stringify(cart));
+            window.dispatchEvent(new Event('fluffy-cart-updated'));
+            updateMobileBadges();
+            showToast(p.name + ' added to cart!');
+            var icon = addBtn.querySelector('i');
+            if (icon) { icon.className = 'fas fa-check'; addBtn.style.background = '#4CAF50'; }
+            setTimeout(function() { if (icon) icon.className = 'fas fa-plus'; addBtn.style.background = ''; }, 1500);
+          } catch (e) {}
+        }
+      }
+
+      // Wishlist toggle
+      var wishBtn = e.target.closest('.m-prod-wish');
+      if (wishBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var id = Number(wishBtn.dataset.id);
+        try {
+          var wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || [];
+          var idx = wish.indexOf(id);
+          if (idx === -1) { wish.push(id); showToast('Added to wishlist!'); }
+          else { wish.splice(idx, 1); showToast('Removed from wishlist'); }
+          localStorage.setItem('fluffyWishlist', JSON.stringify(wish));
+          var icon = wishBtn.querySelector('i');
+          if (idx === -1) { icon.className = 'fas fa-heart'; wishBtn.classList.add('active'); }
+          else { icon.className = 'far fa-heart'; wishBtn.classList.remove('active'); }
+          updateMobileBadges();
+        } catch (e) {}
+      }
+    });
+
+    function updateMobileBadges() {
+      try {
+        var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+        var wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || [];
+        var cartCount = cart.reduce(function(s, i) { return s + (i.qty || 1); }, 0);
+        var cartBadge = document.getElementById('mCartBadge');
+        var wishBadge = document.getElementById('mWishBadge');
+        if (cartBadge) cartBadge.textContent = cartCount;
+        if (wishBadge) wishBadge.textContent = wish.length;
+      } catch (e) {}
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('mToast');
+      var msgEl = document.getElementById('mToastMsg');
+      if (!toast || !msgEl) return;
+      msgEl.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }
+
+    // Init
+    renderMobileProducts();
+    updateMobileBadges();
+    window.addEventListener('fluffy-cart-updated', updateMobileBadges);
+
+    // Sync wishlist button states
+    try {
+      var wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || [];
+      document.querySelectorAll('.m-prod-wish').forEach(function(btn) {
+        var id = Number(btn.dataset.id);
+        if (wish.indexOf(id) !== -1) {
+          btn.querySelector('i').className = 'fas fa-heart';
+          btn.classList.add('active');
+        }
+      });
+    } catch (e) {}
+  })();
+  </script>
 
 </body>
 </html>
