@@ -110,7 +110,7 @@
         <div class="top-bar-left">
           <span><i class="fas fa-truck"></i> Free Shipping on Orders Over ৳50</span>
           <span class="divider">|</span>
-          <span><i class="fas fa-phone"></i> Call Us: (555) 123-4567</span>
+          <span><i class="fas fa-phone"></i> Call Us: 01740927343</span>
         </div>
         <div class="top-bar-right">
           <a href="#"><i class="fas fa-store"></i> Track Order</a>
@@ -212,7 +212,7 @@
               </div>
               <div class="form-group">
                 <label>Phone Number <span class="required">*</span></label>
-                <input type="tel" class="form-input" id="custPhone" placeholder="(555) 123-4567" required>
+                <input type="tel" class="form-input" id="custPhone" placeholder="01740927343" required>
                 <div class="form-error" id="errPhone">Please enter a valid phone number</div>
               </div>
             </div>
@@ -514,13 +514,17 @@
       <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
     </div>
     <div class="m-section" id="mPageContent">
-      <div style="padding:24px 16px;text-align:center;">
-        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-          <i class="fas fa-desktop" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Use Desktop to Checkout</h3>
-          <p style="font-size:14px;color:#888;margin-bottom:20px;">For a secure and complete checkout experience, please visit us on a desktop device.</p>
-          <a href="cart.html" style="display:inline-block;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;"><i class="fas fa-shopping-cart"></i> Back to Cart</a>
-        </div>
+      <div id="mCheckout"></div>
+    </div>
+    <div class="m-success" id="mSuccess">
+      <div class="m-success-inner">
+        <div class="m-success-check"><i class="fas fa-check"></i></div>
+        <h2 style="font-size:22px;font-weight:800;margin:18px 0 6px;">Order Placed!</h2>
+        <p style="font-size:13px;color:#888;margin:0 0 20px;">Thank you for your purchase. We'll contact you shortly.</p>
+        <div class="m-sum-row total"><span>Order ID</span><strong id="mSuccessId">#---</strong></div>
+        <div class="m-sum-row total"><span>Total Paid</span><strong id="mSuccessTotal">৳0.00</strong></div>
+        <a href="index.html" class="m-submit" style="display:flex;align-items:center;justify-content:center;margin-top:22px;text-decoration:none;"><i class="fas fa-home"></i> Back to Home</a>
+        <a href="shop.html" class="m-btn-secondary" style="margin-top:10px;"><i class="fas fa-shopping-bag"></i> Continue Shopping</a>
       </div>
     </div>
     <nav class="m-bottom-nav">
@@ -548,6 +552,147 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE CHECKOUT ===== */
+  (function() {
+    var area = document.getElementById('mCheckout');
+    if (!area) return;
+
+    var TAX_RATE = 0.08, FREE_SHIP = 50, SHIP_COST = 5.99;
+    try {
+      var ad = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (ad && ad.settings) {
+        if (ad.settings.freeShipping !== undefined) FREE_SHIP = parseFloat(ad.settings.freeShipping);
+        if (ad.settings.standardShipping !== undefined) SHIP_COST = parseFloat(ad.settings.standardShipping);
+      }
+    } catch (e) {}
+
+    var session = null;
+    try { session = JSON.parse(localStorage.getItem('fluffyUser')); } catch (e) {}
+
+    var items = window.FluffyCart ? window.FluffyCart.get() : [];
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function money(n) { return '৳' + n.toFixed(2); }
+
+    if (!items.length) {
+      area.innerHTML =
+        '<div class="m-card" style="text-align:center;padding:44px 20px;">' +
+          '<i class="fas fa-shopping-cart" style="font-size:42px;color:#ddd;margin-bottom:14px;display:block;"></i>' +
+          '<h3 style="font-size:17px;font-weight:700;margin:0 0 6px;">Your Cart is Empty</h3>' +
+          '<p style="font-size:13px;color:#888;margin:0 0 18px;">Add some products before checking out.</p>' +
+          '<a href="shop.html" style="display:inline-block;padding:12px 28px;background:#E8833A;color:#fff;border-radius:50px;text-decoration:none;font-weight:600;font-size:13px;"><i class="fas fa-shopping-bag"></i> Go to Shop</a>' +
+        '</div>';
+      return;
+    }
+
+    var subtotal = items.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+    var shipping = subtotal >= FREE_SHIP ? 0 : SHIP_COST;
+    var tax = subtotal * TAX_RATE;
+    var total = subtotal + tax + shipping;
+
+    var summary =
+      '<div class="m-section-header" style="padding:0;"><h3>Order Summary</h3></div>' +
+      '<div class="m-card">' +
+        items.map(function(i) {
+          return '<div class="m-order-item">' +
+            '<img src="' + (i.image || 'https://via.placeholder.com/100?text=Product') + '" alt="' + esc(i.name) + '">' +
+            '<div class="m-order-info"><h4>' + esc(i.name) + '</h4><span>Qty: ' + i.qty + '</span></div>' +
+            '<div class="m-order-price">' + money(i.price * i.qty) + '</div>' +
+          '</div>';
+        }).join('') +
+        '<div class="m-sum-rows">' +
+          '<div class="m-sum-row"><span>Subtotal</span><span>' + money(subtotal) + '</span></div>' +
+          '<div class="m-sum-row"><span>Shipping</span><span>' + (shipping === 0 ? 'Free' : money(shipping)) + '</span></div>' +
+          '<div class="m-sum-row"><span>Tax (8%)</span><span>' + money(tax) + '</span></div>' +
+          '<div class="m-sum-row total"><span>Total</span><span>' + money(total) + '</span></div>' +
+        '</div>' +
+      '</div>';
+
+    var formHtml =
+      '<div class="m-section-header" style="padding:0;margin-top:22px;"><h3>Delivery Details</h3></div>' +
+      '<form id="mCkForm" novalidate>' +
+        '<div class="m-card">' +
+          '<div class="m-field"><label>Full Name *</label><input type="text" id="mkName" placeholder="John Doe" autocomplete="name" value="' + (session ? esc(session.name || '') : '') + '"><div class="err">Please enter your name</div></div>' +
+          '<div class="m-field"><label>Phone Number *</label><input type="tel" id="mkPhone" placeholder="01740927343" autocomplete="tel"><div class="err">Enter a valid phone number</div></div>' +
+          '<div class="m-field"><label>Email Address</label><input type="email" id="mkEmail" placeholder="you@example.com" autocomplete="email" value="' + (session ? esc(session.email || '') : '') + '"><div class="err">Enter a valid email</div></div>' +
+          '<div class="m-field"><label>Delivery Address *</label><input type="text" id="mkAddress" placeholder="123 Main Street, Apt 4B" autocomplete="street-address"><div class="err">Please enter your address</div></div>' +
+          '<div class="m-field"><label>City *</label><input type="text" id="mkCity" placeholder="New York" autocomplete="address-level2"><div class="err">Please enter your city</div></div>' +
+          '<div class="m-field"><label>Order Notes (optional)</label><textarea id="mkNotes" rows="3" placeholder="Special delivery instructions..."></textarea></div>' +
+        '</div>' +
+
+        '<div class="m-section-header" style="padding:0;margin-top:22px;"><h3>Payment Method</h3></div>' +
+        '<div class="m-card">' +
+          '<label class="m-pay-option selected" data-v="cod"><input type="radio" name="mpay" value="cod" checked><i class="fas fa-money-bill-wave"></i><div><strong>Cash on Delivery</strong><span>Pay when you receive your order</span></div></label>' +
+          '<label class="m-pay-option" data-v="card"><input type="radio" name="mpay" value="card"><i class="fas fa-credit-card"></i><div><strong>Credit / Debit Card</strong><span>Visa, Mastercard, AMEX</span></div></label>' +
+          '<label class="m-pay-option" data-v="bkash"><input type="radio" name="mpay" value="bkash"><i class="fas fa-mobile-alt"></i><div><strong>bKash / Nagad</strong><span>Mobile financial service</span></div></label>' +
+        '</div>' +
+        '<button type="submit" class="m-submit" id="mPlaceOrder" style="margin-top:6px;"><i class="fas fa-lock"></i> Place Order — ' + money(total) + '</button>' +
+        '<a href="cart.html" style="display:block;text-align:center;margin-top:14px;font-size:13px;color:#999;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to Cart</a>' +
+      '</form>';
+
+    area.innerHTML = summary + formHtml;
+
+    /* Payment selection */
+    area.querySelectorAll('.m-pay-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        area.querySelectorAll('.m-pay-option').forEach(function(o) { o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        opt.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+
+    function mark(id, bad) {
+      var f = document.getElementById(id).closest('.m-field');
+      if (f) f.classList.toggle('invalid', bad);
+      return !bad;
+    }
+
+    document.getElementById('mCkForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('mkName').value.trim();
+      var phone = document.getElementById('mkPhone').value.trim();
+      var email = document.getElementById('mkEmail').value.trim();
+      var address = document.getElementById('mkAddress').value.trim();
+      var city = document.getElementById('mkCity').value.trim();
+      var notes = document.getElementById('mkNotes').value.trim();
+
+      var ok = true;
+      ok = mark('mkName', name.length < 2) && ok;
+      ok = mark('mkPhone', phone.replace(/\D/g, '').length < 7) && ok;
+      ok = mark('mkEmail', !!email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok;
+      ok = mark('mkAddress', address.length < 5) && ok;
+      ok = mark('mkCity', city.length < 2) && ok;
+      if (!ok) return;
+
+      var btn = document.getElementById('mPlaceOrder');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+      var payment = document.querySelector('input[name="mpay"]:checked').value;
+      var result = window.FluffyOrders.create({
+        name: name, phone: phone, email: email,
+        address: address, city: city, payment: payment, notes: notes
+      });
+
+      if (result.success) {
+        document.getElementById('mSuccessId').textContent = '#' + result.orderId;
+        document.getElementById('mSuccessTotal').textContent = money(result.total || total);
+        var sb = document.getElementById('mCartBadge');
+        if (sb) sb.textContent = '0';
+        try { window.FluffyOrders.playSound(); } catch (err) {}
+        document.getElementById('mSuccess').classList.add('open');
+        window.scrollTo(0, 0);
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-lock"></i> Place Order — ' + money(total);
+        alert(result.message || 'Could not place order.');
+      }
+    });
   })();
   </script>
 </body>

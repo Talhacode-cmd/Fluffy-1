@@ -161,7 +161,7 @@
         <div class="container">
             <div class="top-bar-left">
                 <span><i class="fas fa-truck"></i> Free shipping on orders over ৳50</span>
-                <span><i class="fas fa-phone"></i> +1 (555) 123-4567</span>
+                <span><i class="fas fa-phone"></i> 01740927343</span>
             </div>
             <div class="top-bar-right">
                 <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
@@ -298,8 +298,8 @@
                     <div class="footer-col">
                         <h4>Contact Us</h4>
                         <ul class="footer-contact">
-                            <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
-                            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chattogram</li>
+                            <li><i class="fas fa-phone"></i> 01740927343</li>
                             <li><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
                             <li><i class="fas fa-clock"></i> Mon - Sat: 9:00 AM - 8:00 PM</li>
                         </ul>
@@ -459,13 +459,15 @@
       <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
     </div>
     <div class="m-section" id="mPageContent">
-      <div style="padding:24px 16px;text-align:center;">
-        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-          <i class="fas fa-newspaper" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Blog Coming Soon</h3>
-          <p style="font-size:14px;color:#888;">We're working on great content for you. Check back soon for pet care tips, guides, and more!</p>
-        </div>
+      <div id="mBlogList"></div>
+    </div>
+    <div class="m-article" id="mArticle">
+      <div class="m-article-topbar">
+        <button type="button" class="m-drawer-close" id="mArticleClose" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
+        <span style="font-size:14px;font-weight:700;">Article</span>
+        <span style="width:36px;"></span>
       </div>
+      <div id="mArticleBody"></div>
     </div>
     <nav class="m-bottom-nav">
       <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
@@ -492,6 +494,88 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE BLOG RENDERER ===== */
+  (function() {
+    var allBlogs = [];
+    try {
+      var raw = localStorage.getItem('fluffyAdmin');
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.blogs && Array.isArray(data.blogs)) {
+          allBlogs = data.blogs.filter(function(x) { return x.published !== false; });
+        }
+      }
+    } catch (e) {}
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function fmtDate(d) {
+      try { return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+      catch (e) { return ''; }
+    }
+
+    var box = document.getElementById('mBlogList');
+    var overlay = document.getElementById('mArticle');
+    var body = document.getElementById('mArticleBody');
+
+    if (!allBlogs.length) {
+      box.innerHTML =
+        '<div class="m-card" style="text-align:center;padding:44px 20px;">' +
+          '<i class="fas fa-newspaper" style="font-size:42px;color:#ddd;margin-bottom:14px;display:block;"></i>' +
+          '<h3 style="font-size:17px;font-weight:700;margin:0 0 6px;">No Posts Yet</h3>' +
+          '<p style="font-size:13px;color:#888;margin:0;">Check back soon for pet care tips, guides, and more!</p>' +
+        '</div>';
+      return;
+    }
+
+    box.innerHTML =
+      '<div class="m-section-header" style="padding:0;"><h3>Latest Posts</h3></div>' +
+      allBlogs.map(function(b) {
+        return '<article class="m-post" data-id="' + esc(b.id) + '">' +
+          '<div class="m-post-img"><img src="' + (b.image || 'https://via.placeholder.com/600x300?text=Blog') + '" alt="' + esc(b.title) + '" loading="lazy"></div>' +
+          '<div class="m-post-body">' +
+            '<span class="m-pd-cat">' + esc(b.category || 'General') + '</span>' +
+            '<h4 class="m-post-title">' + esc(b.title) + '</h4>' +
+            '<p class="m-post-excerpt">' + esc(b.excerpt || '') + '</p>' +
+            '<div class="m-post-meta">' +
+              '<img src="' + (b.authorAvatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80') + '" alt="" class="m-post-avatar">' +
+              '<span>' + esc(b.author || 'Admin') + ' · ' + fmtDate(b.date) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+
+    box.querySelectorAll('.m-post').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var blog = allBlogs.find(function(x) { return String(x.id) === card.getAttribute('data-id'); });
+        if (!blog) return;
+        body.innerHTML =
+          '<div class="m-article-hero"><img src="' + (blog.image || 'https://via.placeholder.com/800x400?text=Blog') + '" alt="' + esc(blog.title) + '"></div>' +
+          '<div style="padding:20px 18px 40px;">' +
+            '<span class="m-pd-cat">' + esc(blog.category || 'General') + '</span>' +
+            '<h1 style="font-size:22px;font-weight:800;line-height:1.3;margin:8px 0 14px;color:#1A1A1A;">' + esc(blog.title) + '</h1>' +
+            '<div class="m-post-meta" style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #EDE5DB;">' +
+              '<img src="' + (blog.authorAvatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80') + '" alt="" class="m-post-avatar">' +
+              '<div><div style="font-weight:700;font-size:13px;color:#1A1A1A;">' + esc(blog.author || 'Admin') + '</div>' +
+              '<div style="font-size:11px;color:#999;"><i class="far fa-calendar-alt"></i> ' + fmtDate(blog.date) + '</div></div>' +
+            '</div>' +
+            (blog.excerpt ? '<p style="font-size:14px;font-style:italic;color:#666;line-height:1.7;margin-bottom:16px;">' + esc(blog.excerpt) + '</p>' : '') +
+            '<div style="font-size:14px;color:#444;line-height:1.8;white-space:pre-wrap;">' + esc(blog.content || 'No content available.') + '</div>' +
+          '</div>';
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeArticle() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('mArticleClose').addEventListener('click', closeArticle);
   })();
   </script>
 </body>

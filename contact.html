@@ -19,7 +19,7 @@
             <div class="top-bar-content">
                 <div class="top-bar-left">
                     <span><i class="fas fa-truck"></i> Free shipping on orders over ৳50</span>
-                    <span><i class="fas fa-phone"></i> Call us: (555) 123-4567</span>
+                    <span><i class="fas fa-phone"></i> Call us: 01740927343</span>
                 </div>
                 <div class="top-bar-right">
                     <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="card-content">
                                 <h3>Our Address</h3>
-                                <p class="ci-address">Agrabad, Chittagong</p>
+                                <p class="ci-address">Agrabad, Chattogram</p>
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
                             </div>
                             <div class="card-content">
                                 <h3>Phone Number</h3>
-                                <div class="ci-phone">(555) 123-4567</div>
+                                <div class="ci-phone">01740927343</div>
                             </div>
                         </div>
 
@@ -272,11 +272,11 @@
                     <ul class="footer-contact">
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Agrabad, Chittagong</span>
+                            <span>Agrabad, Chattogram</span>
                         </li>
                         <li>
                             <i class="fas fa-phone-alt"></i>
-                            <span>(555) 123-4567</span>
+                            <span>01740927343</span>
                         </li>
                         <li>
                             <i class="fas fa-envelope"></i>
@@ -351,15 +351,20 @@
     <div class="m-section" id="mPageContent">
       <div style="padding:24px 16px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-          <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-map-marker-alt" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Address</div><div style="font-size:12px;color:#888;">Agrabad, Chittagong</div></div>
-          <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-phone-alt" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Phone</div><div style="font-size:12px;color:#888;">(555) 123-4567</div></div>
+          <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-map-marker-alt" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Address</div><div style="font-size:12px;color:#888;">Agrabad, Chattogram</div></div>
+          <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-phone-alt" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Phone</div><div style="font-size:12px;color:#888;">01740927343</div></div>
           <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-envelope" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Email</div><div style="font-size:12px;color:#888;">info@fluffypetshop.com</div></div>
           <div style="background:var(--white);border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);"><i class="fas fa-clock" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i><div style="font-size:13px;font-weight:600;margin-bottom:4px;">Hours</div><div style="font-size:12px;color:#888;">Mon-Sat: 9AM-8PM</div></div>
         </div>
-        <div style="background:var(--white);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-align:center;">
-          <i class="fas fa-desktop" style="font-size:36px;color:#ddd;margin-bottom:12px;display:block;"></i>
-          <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">Use Desktop for Full Form</h3>
-          <p style="font-size:13px;color:#888;">For the best experience filling out our contact form, please visit us on a desktop device.</p>
+        <div class="m-card">
+          <h3 style="font-size:15px;font-weight:700;margin:0 0 14px;">Send us a Message</h3>
+          <form id="mContactForm" novalidate>
+            <div class="m-field"><label>Your Name</label><input type="text" id="mcName" placeholder="John Doe"><div class="err">Please enter your name</div></div>
+            <div class="m-field"><label>Email Address</label><input type="email" id="mcEmail" placeholder="you@example.com"><div class="err">Please enter a valid email</div></div>
+            <div class="m-field"><label>Subject</label><input type="text" id="mcSubject" placeholder="How can we help?"></div>
+            <div class="m-field"><label>Message</label><textarea id="mcMsg" rows="4" placeholder="Write your message here..."></textarea><div class="err">Please enter your message</div></div>
+            <button type="submit" class="m-submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+          </form>
         </div>
       </div>
     </div>
@@ -388,6 +393,46 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE CONTACT FORM ===== */
+  (function() {
+    var form = document.getElementById('mContactForm');
+    if (!form) return;
+
+    function mark(id, bad) {
+      var f = document.getElementById(id).closest('.m-field');
+      if (f) f.classList.toggle('invalid', bad);
+      return !bad;
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('mcName').value.trim();
+      var email = document.getElementById('mcEmail').value.trim();
+      var subject = document.getElementById('mcSubject').value.trim();
+      var msg = document.getElementById('mcMsg').value.trim();
+
+      var ok = true;
+      ok = mark('mcName', name.length < 2) && ok;
+      ok = mark('mcEmail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok;
+      ok = mark('mcMsg', msg.length < 5) && ok;
+      if (!ok) return;
+
+      var messages = [];
+      try { messages = JSON.parse(localStorage.getItem('fluffyMessages')) || []; } catch (err) {}
+      messages.unshift({ name: name, email: email, subject: subject || '(no subject)', message: msg, date: new Date().toISOString() });
+      try { localStorage.setItem('fluffyMessages', JSON.stringify(messages)); } catch (err) {}
+
+      form.reset();
+      var t = document.getElementById('mToast');
+      if (t) {
+        document.getElementById('mToastMsg').textContent = 'Message sent! We will get back to you soon.';
+        t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2600);
+      }
+    });
   })();
   </script>
 </body>

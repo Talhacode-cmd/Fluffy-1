@@ -390,7 +390,7 @@
             <h3 style="font-size:16px;font-weight:700;margin-bottom:20px;"><i class="fas fa-edit" style="color:var(--accent);margin-right:8px;"></i> Edit Contact Details</h3>
             <div class="form-group">
               <label><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:6px;"></i> Store Address</label>
-              <input type="text" class="form-input" id="ciAddress" placeholder="Agrabad, Chittagong">
+              <input type="text" class="form-input" id="ciAddress" placeholder="Agrabad, Chattogram">
             </div>
             <div class="form-group">
               <label style="display:flex;align-items:center;justify-content:space-between;">
@@ -1518,7 +1518,7 @@
       }
       list.innerHTML = ciPhones.map((phone, i) => `
         <div style="display:flex;gap:8px;align-items:center;">
-          <input type="tel" class="form-input ci-phone-input" data-index="${i}" value="${phone}" placeholder="e.g. +1 (555) 123-4567" style="flex:1;">
+          <input type="tel" class="form-input ci-phone-input" data-index="${i}" value="${phone}" placeholder="e.g. 01740927343" style="flex:1;">
           <button type="button" onclick="window.A.removePhone(${i})" style="width:36px;height:36px;border-radius:var(--radius-xs);border:1px solid var(--border);background:var(--white);color:var(--danger);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:var(--transition);" onmouseover="this.style.background='#FEF2F2';this.style.borderColor='var(--danger)'" onmouseout="this.style.background='var(--white)';this.style.borderColor='var(--border)'"><i class="fas fa-times"></i></button>
         </div>
       `).join('');

@@ -331,8 +331,8 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <ul class="contact-list">
-            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
-            <li id="contactPhone"><i class="fas fa-phone-alt"></i> (555) 123-4567</li>
+            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> Agrabad, Chattogram</li>
+            <li id="contactPhone"><i class="fas fa-phone-alt"></i> 01740927343</li>
             <li id="contactEmail"><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 8PM</li>
           </ul>
@@ -518,14 +518,8 @@
       <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
     </div>
     <div class="m-section" id="mPageContent">
-      <div style="padding:24px 16px;text-align:center;">
-        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-          <i class="fas fa-heart" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Your Wishlist</h3>
-          <p style="font-size:14px;color:#888;margin-bottom:20px;">Save your favorite items here. Browse our shop to find products you love!</p>
-          <a href="shop.html" style="display:inline-block;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;"><i class="fas fa-shopping-bag"></i> Browse Products</a>
-        </div>
-      </div>
+      <div id="mWishCount" style="font-size:12px;color:#999;margin-bottom:14px;"></div>
+      <div id="mWishList"></div>
     </div>
     <nav class="m-bottom-nav">
       <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
@@ -552,6 +546,86 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE WISHLIST RENDERER ===== */
+  (function() {
+    var products = [];
+    try {
+      var adminData = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (adminData && adminData.storeProducts && adminData.storeProducts.length) {
+        products = adminData.storeProducts.map(function(p) {
+          return {
+            id: p.id, name: p.name || 'Product', category: p.category || 'General',
+            price: p.price || 0, oldPrice: p.oldPrice || null,
+            image: p.image || 'https://via.placeholder.com/400?text=' + encodeURIComponent(p.name || 'Product'),
+            rating: p.rating || 4.0
+          };
+        });
+        if (adminData.customizations) {
+          var cust = adminData.customizations;
+          products.forEach(function(p) {
+            if (cust[p.id]) {
+              if (cust[p.id].name) p.name = cust[p.id].name;
+              if (cust[p.id].image) p.image = cust[p.id].image;
+            }
+          });
+        }
+      }
+    } catch (e) {}
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderM() {
+      var box = document.getElementById('mWishList');
+      var count = document.getElementById('mWishCount');
+      if (!box) return;
+      var wish = [];
+      try { wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || []; } catch (e) {}
+      var items = wish.map(function(id) {
+        return products.find(function(p) { return p.id === id; });
+      }).filter(Boolean);
+
+      if (count) count.textContent = items.length ? items.length + ' item' + (items.length > 1 ? 's' : '') + ' saved' : '';
+
+      if (!items.length) {
+        box.innerHTML =
+          '<div class="m-card" style="text-align:center;padding:44px 20px;">' +
+            '<i class="far fa-heart" style="font-size:42px;color:#ddd;margin-bottom:14px;display:block;"></i>' +
+            '<h3 style="font-size:17px;font-weight:700;margin:0 0 6px;">Your Wishlist is Empty</h3>' +
+            '<p style="font-size:13px;color:#888;margin:0 0 18px;">Tap the heart on any product to save it here.</p>' +
+            '<a href="shop.html" style="display:inline-block;padding:12px 28px;background:#E8833A;color:#fff;border-radius:50px;text-decoration:none;font-weight:600;font-size:13px;"><i class="fas fa-shopping-bag"></i> Browse Products</a>' +
+          '</div>';
+        return;
+      }
+
+      box.innerHTML = items.map(function(p) {
+        return '<div class="m-card m-wish-item">' +
+          '<a href="product.html?id=' + p.id + '" class="m-wish-thumb"><img src="' + p.image + '" alt="' + esc(p.name) + '" loading="lazy"></a>' +
+          '<div class="m-wish-body">' +
+            '<span class="m-pd-cat">' + esc(p.category) + '</span>' +
+            '<a href="product.html?id=' + p.id + '" style="text-decoration:none;color:inherit;"><h4 class="m-wish-name">' + esc(p.name) + '</h4></a>' +
+            '<div class="m-wish-price">৳' + p.price.toFixed(2) + (p.oldPrice ? ' <s>৳' + p.oldPrice.toFixed(2) + '</s>' : '') + '</div>' +
+          '</div>' +
+          '<div class="m-wish-acts">' +
+            '<button type="button" class="m-icon-btn" onclick="addToCartFromWish(' + p.id + ')" aria-label="Add to cart"><i class="fas fa-shopping-cart"></i></button>' +
+            '<button type="button" class="m-icon-btn danger" onclick="removeFromWish(' + p.id + ')" aria-label="Remove"><i class="fas fa-trash-alt"></i></button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    renderM();
+    window.addEventListener('fluffy-wishlist-updated', renderM);
+    window.addEventListener('fluffy-cart-updated', function() {
+      var cart = [];
+      try { cart = JSON.parse(localStorage.getItem('fluffyCart')) || []; } catch (e) {}
+      var b = document.getElementById('mCartBadge');
+      if (b) b.textContent = cart.reduce(function(s, i) { return s + (i.qty || 1); }, 0);
+    });
   })();
   </script>
 </body>

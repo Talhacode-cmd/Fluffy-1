@@ -405,8 +405,8 @@
         <div class="footer-col">
           <h4 class="footer-heading">Contact Us</h4>
           <ul class="footer-contact">
-            <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
-            <li><i class="fas fa-phone-alt"></i> +1 (800) 555-FLUFF</li>
+            <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chattogram</li>
+            <li><i class="fas fa-phone-alt"></i> 01740927343</li>
             <li><i class="fas fa-envelope"></i> hello@fluffy.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sun: 8AM - 10PM</li>
           </ul>
@@ -1054,18 +1054,23 @@
       var products = getProducts();
       if (!products.length) return;
 
-      // Best Sellers (first 6)
-      var bestSellers = products.slice(0, 6);
+      // Best Sellers (top rated 6)
+      var bestSellers = products.slice().sort(function(a, b) { return (b.rating || 0) - (a.rating || 0); }).slice(0, 6);
       var bsGrid = document.getElementById('mBestSellers');
       if (bsGrid) {
         bsGrid.innerHTML = bestSellers.map(renderProductCard).join('');
       }
 
-      // Featured Products (next 6)
-      var featured = products.slice(0, 6);
+      // Featured Products (next items not already shown above)
+      var featured = products.filter(function(p) { return bestSellers.indexOf(p) === -1; }).slice(0, 6);
       var fpGrid = document.getElementById('mFeaturedProducts');
       if (fpGrid) {
-        fpGrid.innerHTML = featured.map(renderProductCard).join('');
+        if (featured.length) {
+          fpGrid.innerHTML = featured.map(renderProductCard).join('');
+        } else {
+          var fpSec = fpGrid.closest('.m-section');
+          if (fpSec) fpSec.style.display = 'none';
+        }
       }
     }
 

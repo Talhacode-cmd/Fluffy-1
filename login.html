@@ -16,7 +16,7 @@
         <div class="container top-bar-inner">
             <div class="top-bar-left">
                 <span><i class="fas fa-truck"></i> Free shipping on orders over ৳50</span>
-                <span><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</span>
+                <span><i class="fas fa-phone-alt"></i> 01740927343</span>
             </div>
             <div class="top-bar-right">
                 <a href="#"><i class="fas fa-map-marker-alt"></i> Store Locator</a>
@@ -215,8 +215,8 @@
                 <div class="footer-col">
                     <h3>Contact Us</h3>
                     <ul class="contact-list">
-                        <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
-                        <li><i class="fas fa-phone-alt"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Agrabad, Chattogram</li>
+                        <li><i class="fas fa-phone-alt"></i> 01740927343</li>
                         <li><i class="fas fa-envelope"></i> support@fluffypetshop.com</li>
                         <li><i class="fas fa-clock"></i> Mon - Sat: 9AM - 8PM</li>
                     </ul>
@@ -277,14 +277,7 @@
       <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
     </div>
     <div class="m-section" id="mPageContent">
-      <div style="padding:24px 16px;text-align:center;">
-        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-          <i class="fas fa-desktop" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Use Desktop to Login</h3>
-          <p style="font-size:14px;color:#888;margin-bottom:20px;">For the best experience signing in to your account, please visit us on a desktop device.</p>
-          <a href="shop.html" style="display:inline-block;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;"><i class="fas fa-shopping-bag"></i> Browse Shop</a>
-        </div>
-      </div>
+      <div id="mAuthArea"></div>
     </div>
     <nav class="m-bottom-nav">
       <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
@@ -311,6 +304,144 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE AUTH ===== */
+  (function() {
+    var USERS_KEY = 'fluffyUsers';
+    var SESSION_KEY = 'fluffyUser';
+    var area = document.getElementById('mAuthArea');
+    if (!area) return;
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch (e) { return []; }
+    }
+    function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch (e) { return null; }
+    }
+    function showToast(msg) {
+      var t = document.getElementById('mToast');
+      if (!t) return;
+      document.getElementById('mToastMsg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2400);
+    }
+
+    function renderProfile(user) {
+      var initial = (user.name || user.email || 'U').trim().charAt(0).toUpperCase();
+      area.innerHTML =
+        '<div class="m-card" style="text-align:center;padding:28px 20px;">' +
+          '<div class="m-avatar">' + esc(initial) + '</div>' +
+          '<h3 style="font-size:18px;font-weight:700;margin:12px 0 2px;">' + esc(user.name) + '</h3>' +
+          '<p style="font-size:13px;color:#999;margin:0 0 20px;">' + esc(user.email) + '</p>' +
+          '<a href="index.html" class="m-submit" style="display:flex;align-items:center;justify-content:center;text-decoration:none;"><i class="fas fa-shopping-bag"></i> Continue Shopping</a>' +
+          '<button type="button" class="m-btn-secondary" id="mLogout" style="margin-top:10px;"><i class="fas fa-sign-out-alt"></i> Log Out</button>' +
+        '</div>';
+      document.getElementById('mLogout').addEventListener('click', function() {
+        localStorage.removeItem(SESSION_KEY);
+        showToast('Logged out');
+        renderAuth();
+      });
+      var g = document.querySelector('.mobile-layout .m-greeting h2');
+      if (g) g.textContent = 'My Account';
+    }
+
+    function renderAuth() {
+      area.innerHTML =
+        '<div class="m-auth-tabs">' +
+          '<button type="button" class="m-auth-tab active" id="mTabLogin">Login</button>' +
+          '<button type="button" class="m-auth-tab" id="mTabRegister">Register</button>' +
+        '</div>' +
+
+        '<form id="mLoginForm" novalidate>' +
+          '<div class="m-card">' +
+            '<h3 style="font-size:16px;font-weight:700;margin:0 0 4px;">Welcome Back!</h3>' +
+            '<p style="font-size:12px;color:#999;margin:0 0 16px;">Sign in to continue shopping</p>' +
+            '<div class="m-field"><label>Email Address</label><input type="email" id="mLEmail" placeholder="you@example.com" autocomplete="email"><div class="err">Enter a valid email</div></div>' +
+            '<div class="m-field"><label>Password</label><input type="password" id="mLPass" placeholder="Your password" autocomplete="current-password"><div class="err">Password is required</div></div>' +
+            '<button type="submit" class="m-submit"><i class="fas fa-sign-in-alt"></i> Sign In</button>' +
+          '</div>' +
+        '</form>' +
+
+        '<form id="mRegisterForm" style="display:none;" novalidate>' +
+          '<div class="m-card">' +
+            '<h3 style="font-size:16px;font-weight:700;margin:0 0 4px;">Create Account</h3>' +
+            '<p style="font-size:12px;color:#999;margin:0 0 16px;">Join us and discover products for your pets</p>' +
+            '<div class="m-field"><label>Full Name</label><input type="text" id="mRName" placeholder="John Doe" autocomplete="name"><div class="err">Please enter your name</div></div>' +
+            '<div class="m-field"><label>Email Address</label><input type="email" id="mREmail" placeholder="you@example.com" autocomplete="email"><div class="err">Enter a valid email</div></div>' +
+            '<div class="m-field"><label>Password</label><input type="password" id="mRPass" placeholder="Create a password (min 6 chars)" autocomplete="new-password"><div class="err">Minimum 6 characters</div></div>' +
+            '<div class="m-field"><label>Confirm Password</label><input type="password" id="mRPass2" placeholder="Repeat your password" autocomplete="new-password"><div class="err">Passwords do not match</div></div>' +
+            '<button type="submit" class="m-submit"><i class="fas fa-user-plus"></i> Create Account</button>' +
+          '</div>' +
+        '</form>';
+
+      var tabL = document.getElementById('mTabLogin');
+      var tabR = document.getElementById('mTabRegister');
+      var formL = document.getElementById('mLoginForm');
+      var formR = document.getElementById('mRegisterForm');
+
+      function setTab(login) {
+        tabL.classList.toggle('active', login);
+        tabR.classList.toggle('active', !login);
+        formL.style.display = login ? '' : 'none';
+        formR.style.display = login ? 'none' : '';
+      }
+      tabL.addEventListener('click', function() { setTab(true); });
+      tabR.addEventListener('click', function() { setTab(false); });
+
+      function mark(id, bad) {
+        var f = document.getElementById(id).closest('.m-field');
+        if (f) f.classList.toggle('invalid', bad);
+        return !bad;
+      }
+
+      formL.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('mLEmail').value.trim().toLowerCase();
+        var pass = document.getElementById('mLPass').value;
+        var ok = true;
+        ok = mark('mLEmail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok;
+        ok = mark('mLPass', pass.length === 0) && ok;
+        if (!ok) return;
+        var user = getUsers().find(function(u) { return u.email === email && u.pass === pass; });
+        if (!user) { showToast('Invalid email or password'); return; }
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name: user.name, email: user.email }));
+        showToast('Welcome back, ' + user.name.split(' ')[0] + '!');
+        renderProfile({ name: user.name, email: user.email });
+      });
+
+      formR.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('mRName').value.trim();
+        var email = document.getElementById('mREmail').value.trim().toLowerCase();
+        var pass = document.getElementById('mRPass').value;
+        var pass2 = document.getElementById('mRPass2').value;
+        var ok = true;
+        ok = mark('mRName', name.length < 2) && ok;
+        ok = mark('mREmail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok;
+        ok = mark('mRPass', pass.length < 6) && ok;
+        ok = mark('mRPass2', pass !== pass2) && ok;
+        if (!ok) return;
+        var users = getUsers();
+        if (users.find(function(u) { return u.email === email; })) { showToast('An account with this email already exists'); return; }
+        users.push({ name: name, email: email, pass: pass, joined: new Date().toISOString() });
+        saveUsers(users);
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ name: name, email: email }));
+        showToast('Account created. Welcome!');
+        renderProfile({ name: name, email: email });
+      });
+    }
+
+    var current = getUser();
+    if (current && current.email) renderProfile(current);
+    else renderAuth();
+
+    /* Prefill checkout name/email from session on other pages is handled there */
   })();
   </script>
 </body>

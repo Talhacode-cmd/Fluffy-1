@@ -443,8 +443,8 @@
         <div class="footer-col">
           <h4>Contact Us</h4>
           <ul class="contact-list">
-            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> Agrabad, Chittagong</li>
-            <li id="contactPhone"><i class="fas fa-phone-alt"></i> (555) 123-4567</li>
+            <li id="contactAddress"><i class="fas fa-map-marker-alt"></i> Agrabad, Chattogram</li>
+            <li id="contactPhone"><i class="fas fa-phone-alt"></i> 01740927343</li>
             <li id="contactEmail"><i class="fas fa-envelope"></i> info@fluffypetshop.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 8PM</li>
           </ul>
@@ -721,14 +721,7 @@
       <div class="m-actions"><a href="cart.html" class="m-cart-btn"><i class="fas fa-shopping-bag"></i><span class="m-cart-badge" id="mCartBadge">0</span></a></div>
     </div>
     <div class="m-section" id="mPageContent">
-      <div style="padding:24px 16px;text-align:center;">
-        <div style="background:var(--white);border-radius:14px;padding:40px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-          <i class="fas fa-desktop" style="font-size:48px;color:#ddd;margin-bottom:16px;display:block;"></i>
-          <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">Use Desktop for Full Details</h3>
-          <p style="font-size:14px;color:#888;margin-bottom:20px;">For the best product browsing experience with images, descriptions, and reviews, please visit us on a desktop device.</p>
-          <a href="shop.html" style="display:inline-block;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;"><i class="fas fa-shopping-bag"></i> Browse Shop</a>
-        </div>
-      </div>
+      <div id="mProductContent"></div>
     </div>
     <nav class="m-bottom-nav">
       <a href="index.html" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
@@ -755,6 +748,171 @@
     var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
     var b = document.getElementById('mCartBadge');
     if (b) b.textContent = cart.reduce(function(s,i){return s+(i.qty||1);},0);
+  })();
+  </script>
+  <script>
+  /* ===== MOBILE PRODUCT RENDERER ===== */
+  (function() {
+    var products = [];
+    try {
+      var adminData = JSON.parse(localStorage.getItem('fluffyAdmin'));
+      if (adminData && adminData.storeProducts && adminData.storeProducts.length) {
+        products = adminData.storeProducts.map(function(p) {
+          return {
+            id: p.id, name: p.name || 'Product', category: p.category || 'General',
+            desc: p.desc || '', price: p.price || 0, oldPrice: p.oldPrice || null,
+            image: p.image || 'https://via.placeholder.com/600?text=' + encodeURIComponent(p.name || 'Product'),
+            rating: p.rating || 4.0, reviews: p.reviews || 0, badge: p.badge || null,
+            brand: p.brand || 'General', isNew: p.isNew || false,
+            health: p.health || [], flavor: p.flavor || []
+          };
+        });
+        if (adminData.customizations) {
+          var cust = adminData.customizations;
+          products.forEach(function(p) {
+            if (cust[p.id]) {
+              if (cust[p.id].name) p.name = cust[p.id].name;
+              if (cust[p.id].image) p.image = cust[p.id].image;
+            }
+          });
+        }
+      }
+    } catch (e) {}
+
+    var params = new URLSearchParams(window.location.search);
+    var product = null;
+    var pid = parseInt(params.get('id'), 10);
+    if (!isNaN(pid)) product = products.find(function(p) { return p.id === pid; });
+
+    var box = document.getElementById('mProductContent');
+    if (!box) return;
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function stars(r) {
+      var s = '';
+      for (var i = 1; i <= 5; i++) {
+        if (i <= Math.floor(r)) s += '<i class="fas fa-star"></i>';
+        else if (i - 0.5 <= r) s += '<i class="fas fa-star-half-alt"></i>';
+        else s += '<i class="far fa-star"></i>';
+      }
+      return s;
+    }
+    function showToast(msg) {
+      var t = document.getElementById('mToast');
+      if (!t) return;
+      document.getElementById('mToastMsg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, 2200);
+    }
+
+    if (!product) {
+      box.innerHTML =
+        '<div class="m-card" style="text-align:center;padding:44px 20px;">' +
+          '<i class="fas fa-box-open" style="font-size:42px;color:#ddd;margin-bottom:14px;display:block;"></i>' +
+          '<h3 style="font-size:17px;font-weight:700;margin:0 0 6px;">Product Not Found</h3>' +
+          '<p style="font-size:13px;color:#888;margin:0 0 18px;">This product does not exist or has been removed.</p>' +
+          '<a href="shop.html" style="display:inline-block;padding:12px 28px;background:#1A1A1A;color:#fff;border-radius:50px;text-decoration:none;font-weight:600;font-size:13px;"><i class="fas fa-shopping-bag"></i> Browse Shop</a>' +
+        '</div>';
+      return;
+    }
+
+    var greeting = document.querySelector('.mobile-layout .m-greeting h2');
+    if (greeting) greeting.textContent = product.name.length > 24 ? product.name.slice(0, 24) + '…' : product.name;
+
+    var badgeHtml = '';
+    if (product.badge === 'offer') badgeHtml = '<span class="m-prod-badge sale">Offer</span>';
+    else if (product.badge === 'hot-sale') badgeHtml = '<span class="m-prod-badge sale">Hot Sale</span>';
+    else if (product.badge === 'new-badge' || product.isNew) badgeHtml = '<span class="m-prod-badge new">New</span>';
+    else if (product.badge === 'sold-out') badgeHtml = '<span class="m-prod-badge" style="background:#95a5a6;color:#fff;">Sold Out</span>';
+
+    var chips = '<span class="m-pd-chip"><i class="fas fa-th-large"></i> ' + esc(product.category) + '</span>';
+    if (product.brand && product.brand !== 'General') chips += '<span class="m-pd-chip"><i class="fas fa-tag"></i> ' + esc(product.brand) + '</span>';
+
+    var related = products.filter(function(p) { return p.category === product.category && p.id !== product.id; }).slice(0, 6);
+    var soldOut = product.badge === 'sold-out';
+
+    box.innerHTML =
+      '<div class="m-pd-img-wrap">' +
+        '<img src="' + product.image + '" alt="' + esc(product.name) + '">' + badgeHtml +
+      '</div>' +
+      '<div class="m-pd-head">' +
+        '<span class="m-pd-cat">' + esc(product.category) + '</span>' +
+        '<h2 class="m-pd-name">' + esc(product.name) + '</h2>' +
+        '<div class="m-pd-rating"><span class="m-prod-stars">' + stars(product.rating) + '</span><span>' + Number(product.rating).toFixed(1) + '</span><span class="m-pd-reviews">(' + product.reviews + ' reviews)</span></div>' +
+        '<div class="m-pd-price-row"><span class="m-pd-price">৳' + product.price.toFixed(2) + '</span>' + (product.oldPrice ? '<span class="m-pd-old">৳' + product.oldPrice.toFixed(2) + '</span>' : '') + '</div>' +
+        '<p class="m-pd-desc">' + esc(product.desc || 'No description available for this product.') + '</p>' +
+        '<div class="m-pd-meta">' + chips + '</div>' +
+      '</div>' +
+      '<div class="m-pd-actions">' +
+        '<div class="m-qty">' +
+          '<button type="button" id="mQtyMinus" aria-label="Decrease">−</button>' +
+          '<span id="mQtyVal">1</span>' +
+          '<button type="button" id="mQtyPlus" aria-label="Increase">+</button>' +
+        '</div>' +
+        '<button type="button" class="m-add-btn" id="mAddCart"' + (soldOut ? ' disabled style="opacity:.55;"' : '') + '><i class="fas fa-shopping-cart"></i> ' + (soldOut ? 'Sold Out' : 'Add to Cart') + '</button>' +
+        '<button type="button" class="m-wish-btn" id="mWishBtn" aria-label="Wishlist"><i class="far fa-heart"></i></button>' +
+      '</div>' +
+      (related.length ?
+        '<div class="m-section-header" style="padding:0;margin-top:26px;"><h3>Related Products</h3><a href="shop.html" class="m-view-all">See All <i class="fas fa-chevron-right"></i></a></div>' +
+        '<div class="m-products-scroll">' +
+        related.map(function(p) {
+          return '<a href="product.html?id=' + p.id + '" class="m-product-card">' +
+            '<div class="m-prod-img"><img src="' + p.image + '" alt="' + esc(p.name) + '" loading="lazy"></div>' +
+            '<div class="m-prod-info">' +
+              '<h4 class="m-prod-name">' + esc(p.name) + '</h4>' +
+              '<div class="m-prod-price-row"><span class="m-prod-price">৳' + p.price.toFixed(2) + '</span></div>' +
+            '</div></a>';
+        }).join('') +
+        '</div>' : '');
+
+    /* Quantity stepper */
+    var qty = 1;
+    var qv = document.getElementById('mQtyVal');
+    document.getElementById('mQtyMinus').addEventListener('click', function() { if (qty > 1) { qty--; qv.textContent = qty; } });
+    document.getElementById('mQtyPlus').addEventListener('click', function() { if (qty < 10) { qty++; qv.textContent = qty; } });
+
+    /* Add to cart */
+    if (!soldOut) {
+      document.getElementById('mAddCart').addEventListener('click', function() {
+        var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+        var existing = cart.find(function(i) { return i.id === product.id; });
+        if (existing) existing.qty += qty;
+        else cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, category: product.category, variant: product.category, qty: qty });
+        localStorage.setItem('fluffyCart', JSON.stringify(cart));
+        window.dispatchEvent(new Event('fluffy-cart-updated'));
+        var b = document.getElementById('mCartBadge');
+        if (b) b.textContent = cart.reduce(function(s, i) { return s + (i.qty || 1); }, 0);
+        showToast(product.name + ' added to cart!');
+      });
+    }
+
+    /* Wishlist toggle */
+    var wb = document.getElementById('mWishBtn');
+    function syncWish() {
+      var wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || [];
+      var icon = wb.querySelector('i');
+      if (wish.indexOf(product.id) !== -1) { icon.className = 'fas fa-heart'; wb.classList.add('active'); }
+      else { icon.className = 'far fa-heart'; wb.classList.remove('active'); }
+    }
+    syncWish();
+    wb.addEventListener('click', function() {
+      var wish = JSON.parse(localStorage.getItem('fluffyWishlist')) || [];
+      var idx = wish.indexOf(product.id);
+      if (idx === -1) { wish.push(product.id); showToast('Added to wishlist!'); }
+      else { wish.splice(idx, 1); showToast('Removed from wishlist'); }
+      localStorage.setItem('fluffyWishlist', JSON.stringify(wish));
+      window.dispatchEvent(new Event('fluffy-wishlist-updated'));
+      syncWish();
+    });
+
+    /* Live cart badge */
+    window.addEventListener('fluffy-cart-updated', function() {
+      var cart = JSON.parse(localStorage.getItem('fluffyCart')) || [];
+      var b = document.getElementById('mCartBadge');
+      if (b) b.textContent = cart.reduce(function(s, i) { return s + (i.qty || 1); }, 0);
+    });
   })();
   </script>
 </body>
