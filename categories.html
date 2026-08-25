@@ -104,7 +104,42 @@
   <!-- Categories Grid -->
   <section class="categories-section">
     <div class="container">
-      <div class="categories-grid" id="categoriesGrid"></div>
+      <div class="m-categories" style="padding:0;">
+        <div class="m-cats-scroll" style="justify-content:center;flex-wrap:wrap;overflow-x:auto;gap:32px;">
+          <a href="shop.html?category=Dogs" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F436;</div>
+            <span>Dogs</span>
+          </a>
+          <a href="shop.html?category=Cats" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F431;</div>
+            <span>Cats</span>
+          </a>
+          <a href="shop.html?category=Birds" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F426;</div>
+            <span>Birds</span>
+          </a>
+          <a href="shop.html?category=Fish" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F41F;</div>
+            <span>Fish</span>
+          </a>
+          <a href="shop.html?category=Food" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F356;</div>
+            <span>Food</span>
+          </a>
+          <a href="shop.html?category=Toys" class="m-cat-item">
+            <div class="m-cat-icon">&#x1F3AE;</div>
+            <span>Toys</span>
+          </a>
+          <a href="shop.html?category=Grooming" class="m-cat-item">
+            <div class="m-cat-icon">&#x2702;&#xFE0F;</div>
+            <span>Grooming</span>
+          </a>
+          <a href="shop.html?category=Health" class="m-cat-item">
+            <div class="m-cat-icon">&#x1FA7A;</div>
+            <span>Health</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -190,56 +225,8 @@
 
   <script>
   (function() {
-    var DB_KEY = 'fluffyAdmin';
-
-    var defaultCategories = [
-      { id: 1, name: 'Dogs', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=400&fit=crop' },
-      { id: 2, name: 'Cats', image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&h=400&fit=crop' },
-      { id: 3, name: 'Rabbits', image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=600&h=400&fit=crop' },
-      { id: 4, name: 'Birds', image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=600&h=400&fit=crop' },
-      { id: 5, name: 'Fish & Aquariums', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=400&fit=crop' },
-      { id: 6, name: 'Reptiles', image: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=600&h=400&fit=crop' },
-      { id: 7, name: 'Small Pets', image: 'https://images.unsplash.com/photo-1612536057832-2ff7ead58194?w=600&h=400&fit=crop' },
-      { id: 8, name: 'Food & Treats', image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=600&h=400&fit=crop' },
-      { id: 9, name: 'Health & Wellness', image: 'https://images.unsplash.com/photo-1535294435445-d7249b8f7b2f?w=600&h=400&fit=crop' },
-      { id: 10, name: 'Toys & Entertainment', image: 'https://images.unsplash.com/photo-1544568100-847a948585b9?w=600&h=400&fit=crop' },
-      { id: 11, name: 'Beds & Furniture', image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop' },
-      { id: 12, name: 'Grooming', image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=400&fit=crop' }
-    ];
-
-    function getAdminData() {
-      try {
-        var raw = localStorage.getItem(DB_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return null;
-    }
-
-    function renderCategories() {
-      var adminData = getAdminData();
-      var cats = (adminData && adminData.categories && adminData.categories.length > 0) ? adminData.categories : defaultCategories;
-      var products = (adminData && adminData.storeProducts) || [];
-      var grid = document.getElementById('categoriesGrid');
-      grid.innerHTML = cats.map(function(c) {
-        var img = c.image || 'https://via.placeholder.com/600x400?text=' + encodeURIComponent(c.name);
-        var count = products.filter(function(p) { return p.category === c.name; }).length;
-        return '<a href="shop.html?category=' + encodeURIComponent(c.name) + '" class="category-card">' +
-          '<div class="category-img">' +
-            '<img src="' + img + '" alt="' + c.name + '">' +
-          '</div>' +
-          '<div class="category-info">' +
-            '<h3>' + c.name + '</h3>' +
-            '<p>' + count + ' Products</p>' +
-            '<span class="category-link">Shop Now <i class="fas fa-arrow-right"></i></span>' +
-          '</div>' +
-        '</a>';
-      }).join('');
-    }
-
-    renderCategories();
-
     try {
-      var raw = localStorage.getItem(DB_KEY);
+      var raw = localStorage.getItem('fluffyAdmin');
       if (raw) {
         var adminData = JSON.parse(raw);
         var s = adminData.settings || {};
