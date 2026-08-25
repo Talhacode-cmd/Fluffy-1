@@ -684,13 +684,13 @@ button {
 }
 
 .categories-section .m-cat-icon {
-  width: 70px;
-  height: 70px;
-  font-size: 30px;
+  width: 80px;
+  height: 80px;
+  font-size: 34px;
 }
 
 .categories-section .m-cat-item {
-  min-width: 85px;
+  min-width: 95px;
 }
 
 .categories-grid {
