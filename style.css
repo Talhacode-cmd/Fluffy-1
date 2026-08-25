@@ -683,6 +683,16 @@ button {
   background: var(--bg);
 }
 
+.categories-section .m-cat-icon {
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+}
+
+.categories-section .m-cat-item {
+  min-width: 75px;
+}
+
 .categories-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
